@@ -33,12 +33,13 @@ function HomePage() {
 
     var navBarRow ={
         backgroundColor: 'white',
-        height: '15vh',
+        height: 'auto',
         diplay: 'flex',
         flexDirection: 'row',
         justifySelf: 'flex-start',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'center',
+        padding: '2vh'
     }
 
     var nameWhiteBlock = {
@@ -129,30 +130,30 @@ function HomePage() {
             
         <Row style={navBarRow}>
 
-            <Col xs='1' lg='2' style={{paddingLeft: '0.6vh'}}>
-                <img src={logo} alt='logo' style={{width: '70%'}}/>
+            <Col xs='12' lg='2' style={{paddingLeft: '0.6vh', display: 'flex', justifyContent: 'center'}}>
+                <img src={logo} alt='logo' style={{width: '20vh'}}/>
             </Col>
-            <Col xs='1' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '90%'}}>
+            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
+                <span style={{color: '#206A37', fontSize: '3vh'}}>
                     <Link to='/quisommesnous' style={{color: '#206A37'}}>QUI SOMMES NOUS</Link>
                 </span>
             </Col>
-            <Col xs='1' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '90%'}}>
+            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
+                <span style={{color: '#206A37', fontSize: '3vh'}}>
                     <Link to='/nosagences' style={{color: '#206A37'}}>NOS AGENCES</Link>
                 </span>
             </Col>
-            <Col xs='1' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '90%'}}>
+            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
+                <span style={{color: '#206A37', fontSize: '3vh'}}>
                     <Link to='/outils' style={{color: '#206A37'}}>OUTILS</Link>
                 </span>
             </Col>
-            <Col xs='1' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '90%'}}>
+            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
+                <span style={{color: '#206A37', fontSize: '3vh'}}>
                     <Link to='/contact' style={{color: '#206A37'}}>CONTACT</Link>
                 </span>
             </Col>
-            <Col xs='1' lg='2' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
+            <Col xs='12' lg='2' style={{ paddingRight: '5vh', display: 'flex', justifyContent: 'center'}}>
                 <FontAwesomeIcon style={{display: 'flex', color: '#206A37' }} icon={faUser} size='lg' id="Popover1" type="button" />
                 <Popover placement="auto" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
                     <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
