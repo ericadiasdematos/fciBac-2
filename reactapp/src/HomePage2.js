@@ -130,31 +130,31 @@ function HomePage() {
         <Row style={navBarRow}>
 
             <Col xs='1' lg='2' style={{paddingLeft: '0.6vh'}}>
-                <img src={logo} alt='logo' style={{width: '20vh'}}/>
+                <img src={logo} alt='logo' style={{width: '70%'}}/>
             </Col>
             <Col xs='1' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '3vh'}}>
+                <span style={{color: '#206A37', fontSize: '90%'}}>
                     <Link to='/quisommesnous' style={{color: '#206A37'}}>QUI SOMMES NOUS</Link>
                 </span>
             </Col>
             <Col xs='1' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '3vh'}}>
+                <span style={{color: '#206A37', fontSize: '90%'}}>
                     <Link to='/nosagences' style={{color: '#206A37'}}>NOS AGENCES</Link>
                 </span>
             </Col>
             <Col xs='1' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '3vh'}}>
+                <span style={{color: '#206A37', fontSize: '90%'}}>
                     <Link to='/outils' style={{color: '#206A37'}}>OUTILS</Link>
                 </span>
             </Col>
             <Col xs='1' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '3vh'}}>
+                <span style={{color: '#206A37', fontSize: '90%'}}>
                     <Link to='/contact' style={{color: '#206A37'}}>CONTACT</Link>
                 </span>
             </Col>
             <Col xs='1' lg='2' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
                 <FontAwesomeIcon style={{display: 'flex', color: '#206A37' }} icon={faUser} size='lg' id="Popover1" type="button" />
-                <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
+                <Popover placement="auto" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
                     <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                         <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Sign In</span>
                         <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}}></Input>
@@ -164,7 +164,6 @@ function HomePage() {
                     </PopoverBody>
                 </Popover>
             </Col>
-
         </Row>
         
 
