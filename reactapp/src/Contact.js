@@ -67,6 +67,11 @@ function Contact() {
 
       </Row>
 
+      <Row>
+        <Col>
+        </Col>
+      </Row>
+
     </Container>
   );
 }
