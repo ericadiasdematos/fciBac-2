@@ -39,7 +39,8 @@ function HomePage() {
         justifySelf: 'flex-start',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '1vw'
+        padding: '1vw',
+        opacity: '90%'
     }
 
     var nameWhiteBlock = {
@@ -57,19 +58,22 @@ function HomePage() {
 
     var littlewhiteboxes = {
         backgroundColor: 'white',
-        width: '13vw',
+        width: 'calc(7em + 9vw)',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         margin: '0.5vw',
         padding: '0.5vw',
-        fontSize: '1.1vw',
+        fontSize: '2vh',
         opacity: '80%',
         borderRadius: 10,
         color: '#206A37'
     }
 
     var barContacts = {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         marginBottom: '1vh',
         opacity: '70%'
 
@@ -86,7 +90,7 @@ function HomePage() {
 
     var spanContacts = {
         backgroundColor: '#206A37',
-        width: '15vw',
+        width: 'calc(7em + 9vw)',
         color: 'white',
         padding: '1vh',
         borderRadius: 100,
@@ -94,7 +98,7 @@ function HomePage() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        fontSize: '0.6vw'
+        fontSize: 'calc(0.3em + 0.3vw)'
     }
 
     var BackgroundImage2 = {
@@ -115,12 +119,12 @@ function HomePage() {
         flexDirection: 'row',
         padding: 0, 
         alignItems: 'center', 
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignSelf: 'center',
         justifySelf: 'center',
         opacity: '80%',
         borderRadius: 10,
-        marginBottom: '5vh',
+        marginBottom: 'calc(0.3em + 0.3vw)',
         
     }
 
@@ -133,31 +137,31 @@ function HomePage() {
             
         <Row style={navBarRow}>
 
-            <Col xs='2' lg='2' style={{paddingLeft: '0.6vh', display: 'flex', justifyContent: 'center'}}>
+            <Col xs='12' lg='2' style={{paddingLeft: '0.6vh', display: 'flex', justifyContent: 'center'}}>
                 <img src={logo} alt='logo' style={{width: '10vw'}}/>
             </Col>
-            <Col xs='2' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '1.5vw'}}>
+            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
+                <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
                     <Link to='/quisommesnous' style={{color: '#206A37'}}>QUI SOMMES NOUS</Link>
                 </span>
             </Col>
-            <Col xs='2' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '1.5vw'}}>
+            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
+                <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
                     <Link to='/nosagences' style={{color: '#206A37'}}>NOS AGENCES</Link>
                 </span>
             </Col>
-            <Col xs='2' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '1.5vw'}}>
+            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
+                <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
                     <Link to='/outils' style={{color: '#206A37'}}>OUTILS</Link>
                 </span>
             </Col>
-            <Col xs='2' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: '1.5vw'}}>
+            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
+                <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
                     <Link to='/contact' style={{color: '#206A37'}}>CONTACT</Link>
                 </span>
             </Col>
-            <Col xs='2' lg='2' style={{ paddingRight: '5vh', display: 'flex', justifyContent: 'center', fontSize: '1vw'}}>
-                <FontAwesomeIcon style={{display: 'flex', color: '#206A37', width: '15vw' }} icon={faUser} size='lg' id="Popover1" type="button" />
+            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', fontSize: '1vw'}}>
+                <FontAwesomeIcon style={{display: 'flex', color: '#206A37', width: '15vw' }} icon={faUser} size='2x' id="Popover1" type="button" />
                 <Popover placement="auto" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
                     <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                         <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Sign In</span>
@@ -173,13 +177,13 @@ function HomePage() {
 
         <Row style={nameWhiteBlock}>
             <Col xs='12' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                <h1 style={{color: '#206A37', fontSize: '3vw'}}>Agence Immobiliere FCI</h1>
-                <h5 style={{color: '#206A37', fontSize: '1.5vw'}}>Françoise Combes Immobilier</h5>
+                <h1 style={{color: '#206A37', fontSize: 'calc(1em + 2vw)'}}>Agence Immobiliere FCI</h1>
+                <h5 style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>Françoise Combes Immobilier</h5>
             </Col>
         </Row>
 
         <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <Col xs='4' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
                 <span style={littlewhiteboxes}>
                     <span>
                         <Link to='/estimer' style={{color: '#206A37'}}>Mettre en Location</Link>
@@ -191,7 +195,7 @@ function HomePage() {
                     </span>
                 </span>
             </Col>
-            <Col  xs='4' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+            <Col  xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
                 <span style={littlewhiteboxes}>
                     <span>
                         <Link to='/recherche' style={{color: '#206A37'}}>Acheter</Link>
@@ -213,7 +217,7 @@ function HomePage() {
                     </span>
                 </span>
             </Col>
-            <Col  xs='4' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+            <Col  xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
                 <span style={littlewhiteboxes}>
                     <span>
                         <Link to='/estimer' style={{color: '#206A37'}}>Changer de Syndic</Link>
@@ -224,7 +228,7 @@ function HomePage() {
         </Row>
 
         <Row style={barContacts}>
-            <Col xs='3' style={colContacts}>
+            <Col xs='3' lg='3' style={colContacts}>
                 <span style={spanContacts}>
                     <span>FCI Houdan</span>
                     <span>17 Grande rue</span>
@@ -232,7 +236,7 @@ function HomePage() {
                     <span>Tél. : 01.78.90.51.51</span>
                 </span>
             </Col>
-            <Col xs='3' style={colContacts}>
+            <Col xs='3' lg='3' style={colContacts}>
                 <span style={spanContacts}>
                     <span>FCI Paris</span>
                     <span>53 avenue Mozart</span>
@@ -240,7 +244,7 @@ function HomePage() {
                     <span>Tél. : 01.40.50.20.20</span>
                 </span>
             </Col>
-            <Col xs='3' style={colContacts}>
+            <Col xs='3' lg='3' style={colContacts}>
                 <span style={spanContacts}>
                     <span>FCI Syndic</span>
                     <span>53 avenue Mozart</span>
@@ -248,7 +252,7 @@ function HomePage() {
                     <span>Tél. : 01.86.22.96.96</span>
                 </span>
             </Col>
-            <Col xs='3' style={colContacts}>
+            <Col xs='3' lg='3' style={colContacts}>
                 <span style={spanContacts}>
                     <span>FCI Maule</span>
                     <span>2 place de la mairie</span>
@@ -273,28 +277,42 @@ function HomePage() {
         </Row>
 
         <Row style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center'}}>
-            <Col xs='10' lg='6' style={newsRow}>
-                <Col>
-                    <img src={photo2} style={{width: '100%', height: 'auto'}} fluid />
+            <Col xs='11' lg='6' style={newsRow}>
+                <Col xs='3'>
+                    <img src={photo2} style={{width: 'calc(1em + 15vw)', height: 'calc(1em + 10vw)'}} fluid />
                 </Col>
-                <Col style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <span style={{width: '100%', height: 'auto', fontSize: '2vw'}}>Title of the news!</span>
-                    <span style={{width: '100%', height: 'auto', textAlign: 'justify', fontSize: '1vw'}}>Lorem ipsum quis non adipiscing id arcu porta nisl, consectetur non class suscipit et in fusce risus aenean, cras scelerisque ultricies purus eget nulla nisl. tristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandittristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandit</span>
+                <Col xs='8'  style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <span style={{fontSize: 'calc(1em + 0.5vw)'}}>Title of the news!</span>
+                    <span style={{textAlign: 'justify', fontSize: 'calc(0.5em + 0.2vw)'}}>Lorem ipsum quis non adipiscing id arcu porta nisl, consectetur non class suscipit et in fusce risus aenean, cras scelerisque ultricies purus eget nulla nisl. tristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandittristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandit</span>
                 </Col>
             </Col>
         </Row>
 
         <Row style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center'}}>
-            <Col xs='10' lg='6' style={newsRow}>
-                <Col>
-                    <img src={photo2} style={{width: '100%', height: 'auto'}} fluid />
+            <Col xs='11' lg='6' style={newsRow}>
+                <Col xs='3'>
+                    <img src={photo2} style={{width: 'calc(1em + 15vw)', height: 'calc(1em + 10vw)'}} fluid />
                 </Col>
-                <Col style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                    <span style={{width: '100%', height: 'auto', fontSize: '2vw'}}>Title of the news!</span>
-                    <span style={{textAlign: 'justify', width: '100%', height: 'auto', fontSize: '1vw'}}>Lorem ipsum quis non adipiscing id arcu porta nisl, consectetur non class suscipit et in fusce risus aenean, cras scelerisque ultricies purus eget nulla nisl. tristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandittristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandit</span>
+                <Col xs='8' style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <span style={{fontSize: 'calc(1em + 0.5vw)'}}>Title of the news!</span>
+                    <span style={{textAlign: 'justify', fontSize: 'calc(0.5em + 0.2vw)'}}>Lorem ipsum quis non adipiscing id arcu porta nisl, consectetur non class suscipit et in fusce risus aenean, cras scelerisque ultricies purus eget nulla nisl. tristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandittristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandit</span>
                 </Col>
             </Col>
         </Row>
+
+        <Row style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center'}}>
+            <Col xs='11' lg='6' style={newsRow}>
+                <Col xs='3' >
+                    <img src={photo2} style={{width: 'calc(1em + 15vw)', height: 'calc(1em + 10vw)'}} fluid />
+                </Col>
+                <Col xs='8' style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <span style={{fontSize: 'calc(1em + 0.5vw)'}}>Title of the news!</span>
+                    <span style={{textAlign: 'justify',fontSize: 'calc(0.5em + 0.2vw)'}}>Lorem ipsum quis non adipiscing id arcu porta nisl, consectetur non class suscipit et in fusce risus aenean, cras scelerisque ultricies purus eget nulla nisl. tristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandittristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandit</span>
+                </Col>
+            </Col>
+        </Row>
+
+        
 
     </Container>
 
