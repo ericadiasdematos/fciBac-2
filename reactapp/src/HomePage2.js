@@ -4,9 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons'
 import photo from './images/HomePageFond.png'
 import photo2 from './images/ActualitéesFonds.png'
-import { Container, Row, Col, Popover, Input, PopoverBody, Button } from 'reactstrap';
+import { Container, Row, Col, Popover, Input, PopoverBody, Button, Media } from 'reactstrap';
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
+import user from './images/user.png'
  
 
 
@@ -138,7 +139,7 @@ function HomePage() {
         <Row style={navBarRow}>
 
             <Col xs='12' lg='2' style={{paddingLeft: '0.6vh', display: 'flex', justifyContent: 'center'}}>
-                <img src={logo} alt='logo' style={{width: '10vw'}}/>
+                <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
             </Col>
             <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
                 <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
@@ -161,7 +162,8 @@ function HomePage() {
                 </span>
             </Col>
             <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', fontSize: '1vw'}}>
-                <FontAwesomeIcon style={{display: 'flex', color: '#206A37', width: '15vw' }} icon={faUser} size='2x' id="Popover1" type="button" />
+                {/* <FontAwesomeIcon style={{display: 'flex', color: '#206A37', width: '15vw' }} icon={faUser} size='2x' id="Popover1" type="button" /> */}
+                <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
                 <Popover placement="auto" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
                     <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                         <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Sign In</span>
@@ -276,12 +278,13 @@ function HomePage() {
             </Col>
         </Row>
 
+
         <Row style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center'}}>
             <Col xs='11' lg='6' style={newsRow}>
-                <Col xs='3'>
-                    <img src={photo2} style={{width: 'calc(1em + 15vw)', height: 'calc(1em + 10vw)'}} fluid />
+                <Col xs='4' lg='3'>
+                    <img src={photo2} style={{width: 'calc(1em + 15vw)', height: 'auto'}} fluid />
                 </Col>
-                <Col xs='8'  style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                <Col xs='7' lg='8'  style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <span style={{fontSize: 'calc(1em + 0.5vw)'}}>Title of the news!</span>
                     <span style={{textAlign: 'justify', fontSize: 'calc(0.5em + 0.2vw)'}}>Lorem ipsum quis non adipiscing id arcu porta nisl, consectetur non class suscipit et in fusce risus aenean, cras scelerisque ultricies purus eget nulla nisl. tristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandittristique euismod eget orci tincidunt non porttitor cras vestibulum porttitor hac blandit</span>
                 </Col>
@@ -291,7 +294,7 @@ function HomePage() {
         <Row style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center'}}>
             <Col xs='11' lg='6' style={newsRow}>
                 <Col xs='3'>
-                    <img src={photo2} style={{width: 'calc(1em + 15vw)', height: 'calc(1em + 10vw)'}} fluid />
+                    <img src={photo2} style={{width: 'calc(1em + 15vw)', height: 'auto'}} fluid />
                 </Col>
                 <Col xs='8' style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <span style={{fontSize: 'calc(1em + 0.5vw)'}}>Title of the news!</span>
@@ -303,7 +306,7 @@ function HomePage() {
         <Row style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center'}}>
             <Col xs='11' lg='6' style={newsRow}>
                 <Col xs='3' >
-                    <img src={photo2} style={{width: 'calc(1em + 15vw)', height: 'calc(1em + 10vw)'}} fluid />
+                    <img src={photo2} style={{width: 'calc(1em + 15vw)', height: 'auto'}} fluid />
                 </Col>
                 <Col xs='8' style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <span style={{fontSize: 'calc(1em + 0.5vw)'}}>Title of the news!</span>
@@ -313,7 +316,6 @@ function HomePage() {
         </Row>
 
         
-
     </Container>
 
 
