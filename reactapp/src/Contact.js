@@ -177,7 +177,7 @@ var contactezNous = {
             <Input size="sm" placeholder='Téléphone'></Input>
           </Col>
           <Col xs='6'>
-            <Input size="sm" placeholder='Message' type="textarea" style={{height: '12vw'}}></Input>
+            <Input size="sm" placeholder='Message' type="textarea" style={{height: 'calc(2em + 12vw)'}}></Input>
           </Col>
         </Row>
 
