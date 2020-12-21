@@ -65,6 +65,8 @@ var contactezNous = {
   return (
     <Container style={BackgroundImage}>
 
+      <p>hey i am testing</p>
+
       <Row id='navBarRow'>
 
         <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
