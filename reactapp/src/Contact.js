@@ -23,7 +23,7 @@ function Contact() {
     display: 'flex',
     flexDirection: 'column',
     height:'100vh',
-    // backgroundImage: `url(${photo})`,
+    backgroundImage: `url(${photo})`,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
