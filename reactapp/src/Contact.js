@@ -19,42 +19,7 @@ function Contact() {
   const toggle = () => setPopoverOpen(!popoverOpen);
 
 
-  var BackgroundImage = {
-    display: 'flex',
-    flexDirection: 'column',
-    height:'100vh',
-    backgroundImage: `url(${photo})`,
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    maxWidth: '100%',
-  }
-
   
-
-var contactezNous = {
-    display: 'flex', 
-    justifySelf: 'center',
-    alignSelf: 'center',
-    flexDirection: 'column', 
-    justifyContent: 'center', 
-    alignItems: 'center',
-    marginTop: '0.5vw'
-    
- }
-
- var contactBoxes = {
-  display: 'flex', 
-  flexDirection: 'column', 
-  justifyContent: 'center', 
-  alignItems: 'center', 
-  textAlign: 'center',
-  border: 'solid 1px #206A37',
-  borderRadius: 10,
-  margin: 3,
-  padding: 1,
-  fontSize: 'calc(0.4em + 0.5vw)'
- }
 
  const [value,setValue]=useState('Raison');
   const handleSelect=(e)=>{
@@ -65,9 +30,7 @@ var contactezNous = {
   return (
     <Container style={BackgroundImage}>
 
-      <p>hey i am testing</p>
-
-      <Row id='navBarRow'>
+      <Row style={navBarRow}>
 
         <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
           <Link to='/'>
@@ -96,11 +59,11 @@ var contactezNous = {
 
       </Row>
 
-      <Row className='firstRow'>
+      <Row style={firstRow}>
 
-        <Row className='rowContactezNous'>
+        <Row style={rowContactezNous}>
           <Col xs='12' id='contactezNous'>
-            <span id='spanContactezNous'>CONTACTEZ NOUS</span>
+            <span style={spanContactezNous}>CONTACTEZ NOUS</span>
           </Col>
         </Row>
 
@@ -130,7 +93,7 @@ var contactezNous = {
         
       </Row>
 
-      <Row className='firstRow'>
+      <Row style={firstRow}>
 
         <Row>
           <Col xs='12' style={contactezNous}>
@@ -178,7 +141,7 @@ var contactezNous = {
 
         <Row style={{width: '100%', margin:'1vw'}}>
           <Col xs='1'>
-            <Button size="sm" >Envoyer</Button>
+            <Button size="sm">Envoyer</Button>
           </Col>
         </Row>
         
@@ -188,6 +151,90 @@ var contactezNous = {
 
     </Container>
   );
+}
+
+var BackgroundImage = {
+  display: 'flex',
+  flexDirection: 'column',
+  height:'100vh',
+  backgroundImage: `url(${photo})`,
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  maxWidth: '100%',
+}
+
+ var navBarRow = {
+  backgroundColor: 'white',
+  height: 'auto',
+  display: 'flex',
+  flexDirection: 'row',
+  justifySelf: 'flex-start',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '1vw',
+  opacity: '90%',
+}
+
+var firstRow = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'white',
+  width: 'auto',
+  opacity: '80%',
+  padding: '15px',
+  width: '80%',
+  justifySelf: 'center',
+  alignSelf: 'center',
+  margin: '5px',
+  borderRadius: '10px'
+}
+
+ var rowContactezNous = {
+  width: '100%',
+  justifyContent: 'center',
+  alignItems: 'center'
+}
+
+ var spanContactezNous = {
+  color: '#206A37',
+  fontSize: 'calc(1em + 0.5vw)',
+  marginBottom: '5px',
+}
+
+var contactezNous = {
+  display: 'flex',
+  justifySelf: 'center',
+  alignSelf: 'center',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: '1vw'
+}
+
+var contactezNous = {
+  display: 'flex', 
+  justifySelf: 'center',
+  alignSelf: 'center',
+  flexDirection: 'column', 
+  justifyContent: 'center', 
+  alignItems: 'center',
+  marginTop: '0.5vw'
+  
+}
+
+var contactBoxes = {
+display: 'flex', 
+flexDirection: 'column', 
+justifyContent: 'center', 
+alignItems: 'center', 
+textAlign: 'center',
+border: 'solid 1px #206A37',
+borderRadius: 10,
+margin: 3,
+padding: 1,
+fontSize: 'calc(0.4em + 0.5vw)'
 }
 
 
