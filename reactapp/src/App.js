@@ -36,17 +36,6 @@ function App() {
         <Route path="/wishlist" exact component={Wishlist}/>
         <Route path="/quisommesnous" exact component={QuiSommesNous}/>
       </Switch>
-      {/* <Link to="/" >Home</Link>
-      <Link to="/nosagences" >NosAgences</Link>
-      <Link to="/contact" >contact</Link>
-      <Link to="/estimer" >estimer</Link>
-      <Link to="/recherche" >recherche</Link>
-      <Link to="/map" >map</Link>
-      <Link to="/rechercheavances" >rechercheavances</Link>
-      <Link to="/resultats" >resultats</Link>
-      <Link to="/outils" >outils</Link>
-      <Link to="/mesrecherches" >mesrecherches</Link>
-      <Link to="/wishlist" >wishlist</Link> */}
     </Router>
   );
 }
