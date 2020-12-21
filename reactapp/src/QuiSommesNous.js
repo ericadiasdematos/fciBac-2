@@ -41,7 +41,6 @@ function QuiSommesNous() {
 }
 
   var descRow = {
-    backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column',
     justifySelf: 'center',
@@ -49,9 +48,7 @@ function QuiSommesNous() {
     justifyContent: 'center',
     alignItems: 'center',
     opacity: '80%',
-    borderRadius: 10,
-    width: 'auto',
-    margin: 'calc(1em + 5vw)'
+    marginTop: 'calc(1em + 5vw)'
   }
 
   return (
@@ -88,7 +85,7 @@ function QuiSommesNous() {
 
       <Row style={descRow}>
 
-        <Col xs='12' style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column'}}>
+        <Col xs='11' lg='6' style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', borderRadius: 10,}}>
           <h2 style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', padding: '2vh', color: '#206A37', paddingTop: '4vh', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>Agence Immobiliere FCI</h2>
           <span style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', padding: '2vh', textAlign: 'justify', fontSize: 'calc(0.4em + 0.5vw)'}}>F.C.I  Françoise Combes Immobilier est une histoire de famille depuis plus de 25 ans.
                 Notre réputation depuis 1995 est l’assurance de la réussite de vos projets immobiliers qu’il soit personnel ou d’investissements. 

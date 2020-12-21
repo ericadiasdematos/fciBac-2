@@ -1,0 +1,48 @@
+#navBarRow {
+  background-color: white;
+  height: auto;
+  display: flex;
+  flex-Direction: row;
+  justify-self: flex-start;
+  align-items: center;
+  justify-content: center;
+  padding: 1vw;
+  opacity: 90%;
+}
+
+.firstRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  width: auto;
+  opacity: 80%;
+  padding: 15px;
+  width: 80%;
+  justify-self: center;
+  align-self: center;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+#rowContactezNous {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#spanContactezNous {
+  color: #206A37;
+  font-size: calc(1em + 0.5vw);
+  margin-bottom: 5px;
+}
+
+.contactezNous {
+  display: flex; 
+  justify-self: center;
+  align-self: center;
+  flex-direction: 'column';
+  justify-content: center;
+  align-items: center;
+  margin-top: 1vw;
+}
