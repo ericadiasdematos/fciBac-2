@@ -14,13 +14,6 @@ import './PageContactStyle.css'
 
 function Contact() {
 
-  const [raison, setRaison] = useState("Raison");
-
-  function handleRaisonClick(e) {
-    setRaison(e)
-    console.log(raison)
-  }
-
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const toggle = () => setPopoverOpen(!popoverOpen);
@@ -30,7 +23,7 @@ function Contact() {
     display: 'flex',
     flexDirection: 'column',
     height:'100vh',
-    backgroundImage: `url(${photo})`,
+    // backgroundImage: `url(${photo})`,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
