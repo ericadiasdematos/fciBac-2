@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons'
-import { Container, Row, Col, Popover, Input, PopoverBody, Button  } from 'reactstrap';
+import { Container, Row, Col, Popover, Input, PopoverBody, Button,  } from 'reactstrap';
 import photo from './images/PageQuiSommesNous.png'
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
@@ -17,39 +17,7 @@ function QuiSommesNous() {
   const toggle = () => setPopoverOpen(!popoverOpen);
 
 
-  var BackgroundImage = {
-    display: 'flex',
-    flexDirection: 'column',
-    height:'100vh',
-    backgroundImage: `url(${photo})`,
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    maxWidth: '100%',
-  }
-
-  var navBarRow ={
-    backgroundColor: 'white',
-    height: 'auto',
-    diplay: 'flex',
-    flexDirection: 'row',
-    justifySelf: 'flex-start',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '1vw',
-    opacity: '90%'
-}
-
-  var descRow = {
-    display: 'flex',
-    flexDirection: 'column',
-    justifySelf: 'center',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    opacity: '80%',
-    marginTop: 'calc(1em + 5vw)'
-  }
+  
 
   return (
     <Container style={BackgroundImage}>
@@ -63,8 +31,8 @@ function QuiSommesNous() {
         </Col>
 
         <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-            <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)'}}>
-                QUI SOMMES NOUS
+            <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
+                Q U I &nbsp; S O M M E S &nbsp; N O U S
             </span>
         </Col>
         
@@ -85,9 +53,9 @@ function QuiSommesNous() {
 
       <Row style={descRow}>
 
-        <Col xs='11' lg='6' style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', borderRadius: 10,}}>
-          <h2 style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', padding: '2vh', color: '#206A37', paddingTop: '4vh', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>Agence Immobiliere FCI</h2>
-          <span style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', padding: '2vh', textAlign: 'justify', fontSize: 'calc(0.4em + 0.5vw)'}}>F.C.I  Françoise Combes Immobilier est une histoire de famille depuis plus de 25 ans.
+        <Col xs='11' lg='6' style={col1}>
+          <h2 style={titleStyle}>Agence Immobiliere FCI</h2>
+          <span style={span1Style}>F.C.I  Françoise Combes Immobilier est une histoire de famille depuis plus de 25 ans.
                 Notre réputation depuis 1995 est l’assurance de la réussite de vos projets immobiliers qu’il soit personnel ou d’investissements. 
                 Tout d’abord implantés à Houdan 78, nous avons élargi notre cercle d’action à Paris et petite couronne, 78, 28,27. 
                 Les membres de notre équipe commerciale sont chez F.C.I depuis de nombreuses années. Cette stabilité est rassurante.
@@ -96,14 +64,14 @@ function QuiSommesNous() {
                 
                 
           </span>
-          <span style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', padding: '1vh', textAlign: 'justify', fontSize: 'calc(0.4em + 0.5vw)'}}>
+          <span style={span2Style}>
             <ul>
               <li>Efficacité</li>
               <li>Rapidité</li>
               <li>Savoir-faire</li>
             </ul>
           </span>
-          <span style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', paddingRight: '2vh', paddingLeft: '2vh', paddingBottom: '2vh', textAlign: 'justify', fontSize: 'calc(0.4em + 0.5vw)'}}>
+          <span style={span3Style}>
             Ces trois points permettent un bon suivi de votre dossier et un véritable accompagnement.
             Pour la transaction immobilière nos estimations sont justes, suivants des critères précis, nos visites sont toujours ciblées et qualifiées.
             Pour le syndic notre disponibilité et notre professionnalisme encadrent le quotidien de votre copropriété. 
@@ -116,6 +84,90 @@ function QuiSommesNous() {
 
     </Container>
   );
+}
+
+var BackgroundImage = {
+  display: 'flex',
+  flexDirection: 'column',
+  height:'100vh',
+  backgroundImage: `url(${photo})`,
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  maxWidth: '100%',
+}
+
+var navBarRow ={
+  backgroundColor: 'white',
+  height: 'auto',
+  diplay: 'flex',
+  flexDirection: 'row',
+  justifySelf: 'flex-start',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '1vw',
+  opacity: '90%'
+}
+
+var descRow = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifySelf: 'center',
+  alignSelf: 'center',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: 'calc(1em + 5vw)'
+}
+
+var col1 = {
+  display: 'flex', 
+  justifySelf: 'center', 
+  alignSelf: 'center', 
+  flexDirection: 'column', 
+  backgroundColor: 'rgba(255,255,255, 0.7)', 
+  justifyContent: 'center', 
+  alignItems: 'center',
+  borderRadius: 10,
+}
+
+var titleStyle = {
+  display: 'flex', 
+  justifySelf: 'center', 
+  alignSelf: 'center', 
+  padding: '2vh', 
+  color: '#206A37', 
+  paddingTop: '4vh', 
+  fontSize: 'calc(1em + 2vw)', 
+  textAlign: 'center'
+}
+
+var span1Style = {
+  display: 'flex', 
+  justifySelf: 'center', 
+  alignSelf: 'center', 
+  padding: '2vh', 
+  textAlign: 'justify', 
+  fontSize: 'calc(0.4em + 0.5vw)'
+}
+
+var span2Style = {
+  display: 'flex', 
+  justifySelf: 'center', 
+  alignSelf: 'center', 
+  padding: '1vh', 
+  textAlign: 'justify', 
+  fontSize: 'calc(0.4em + 0.5vw)'
+}
+
+var span3Style = {
+  display: 'flex', 
+  justifySelf: 'center', 
+  alignSelf: 'center', 
+  paddingRight: '2vh', 
+  paddingLeft: '2vh', 
+  paddingBottom: '2vh', 
+  textAlign: 'justify', 
+  fontSize: 'calc(0.4em + 0.5vw)'
 }
 
 export default QuiSommesNous;

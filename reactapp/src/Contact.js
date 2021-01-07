@@ -8,7 +8,8 @@ import user from './images/user.png'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown'
-import './PageContactStyle.css'
+import { Divider } from 'antd';
+
 
 
 
@@ -61,49 +62,65 @@ function Contact() {
 
       <Row style={firstRow}>
 
-        <Row style={rowContactezNous}>
-          <Col xs='12' id='contactezNous'>
+        <Row>
+          <Col xs='12' id='contactezNous' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center'}}>
             <span style={spanContactezNous}>CONTACTEZ NOUS</span>
           </Col>
+        </Row>
+
+        <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', marginBottom: '10px'}}>
+          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '1px'}} />
         </Row>
 
           
         <Row style={{display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', width: '100%', flexDirection: 'row'}}>
           <Col xs='5' lg='2' style={contactBoxes}>
             <span>FCI Houdan</span>
-            <span>houdan@fcimmo.com</span>
+            <a href='mailto:houdan@fcimmo.com' style={{color: '#206A37'}}>houdan@fcimmo.com</a>
             <span>Tél. : 01.78.90.51.51</span>
           </Col>
           <Col xs='5' lg='2' style={contactBoxes}>
             <span>FCI Paris</span>
-            <span>mozart@fcimmo.com</span>
+            <a href='mailto:mozart@fcimmo.com' style={{color: '#206A37'}}>mozart@fcimmo.com</a>
             <span>Tél. : 01.40.50.20.20</span>
           </Col>
           <Col xs='5' lg='2' style={contactBoxes}>
             <span>FCI Syndic</span>
-            <span>contact@fcisyndic.com</span>
+            <a href='mailto:contact@fcisyndic.com' style={{color: '#206A37'}}>contact@fcisyndic.com</a>
             <span>Tél. : 01.86.22.96.96</span>
           </Col>
           <Col xs='5' lg='2' style={contactBoxes}>
             <span>FCI Maule</span>
-            <span>maule@fcimmo.com</span>
+            <a href='mailto:contact@fcisyndic.com' style={{color: '#206A37'}}>maule@fcimmo.com</a>
             <span>Tél. : 01.34.75.08.08</span>
           </Col>
         </Row>
         
       </Row>
 
+      <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '75%', justifySelf: 'center', alignSelf: 'center', flexDirection: 'row' }}>
+        <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', flexDirection: 'row' }}>
+          <Divider  style={{width: '48%', backgroundColor: 'white', height: '2px'}}/> 
+          <span style={{color: 'white', fontSize: 'calc(1em + 0.2vw)', marginLeft: '7px', marginRight: '7px'}}>OU</span>
+          <Divider  style={{width: '48%', backgroundColor: 'white', height: '2px'}}/> 
+        </Col>
+      </Row>
+
       <Row style={firstRow}>
 
         <Row>
-          <Col xs='12' style={contactezNous}>
-            <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>LAISSEZ NOUS UNE MESSAGE</span>
+          <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center'}}>
+            <span style={spanContactezNous}>LAISSEZ NOUS UNE MESSAGE</span>
           </Col>
         </Row>
 
+        <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', marginBottom: '10px'}}>
+          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '1px'}} />
+        </Row>
 
-        <Row style={{width: '100%', margin:'1vw'}}>
-          <Col xs='6'>
+
+        <Row style={{width: '100%', margin:'1vw', marginBottom: '1vw'}}>
+          <Col xs='12' lg='6'>
             <DropdownButton
                 alignCenter
                 title={value}
@@ -124,17 +141,17 @@ function Contact() {
             </DropdownButton>
           </Col>
 
-          <Col xs='6'>
+          <Col xs='12' lg='6'>
             <Input size="sm" placeholder='Votre email'></Input>
           </Col>
         </Row>
 
         <Row style={{width: '100%', margin:'1vw'}}>
-          <Col xs='6'>
+          <Col xs='12' lg='6'>
             <Input size="sm" placeholder='Nom et Prénom' style={{marginBottom: '1vw'}}></Input>
-            <Input size="sm" placeholder='Téléphone'></Input>
+            <Input size="sm" placeholder='Téléphone' style={{marginBottom: '1vw'}}></Input>
           </Col>
-          <Col xs='6'>
+          <Col xs='12' lg='6'>
             <Input size="sm" placeholder='Message' type="textarea" style={{height: 'calc(2em + 12vw)'}}></Input>
           </Col>
         </Row>
@@ -156,7 +173,8 @@ function Contact() {
 var BackgroundImage = {
   display: 'flex',
   flexDirection: 'column',
-  height:'100vh',
+  justifyContent: 'space-between',
+  height:'110vh',
   backgroundImage: `url(${photo})`,
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
@@ -183,7 +201,7 @@ var firstRow = {
   backgroundColor: 'white',
   width: 'auto',
   opacity: '80%',
-  padding: '15px',
+  padding: '5px',
   width: '80%',
   justifySelf: 'center',
   alignSelf: 'center',
@@ -198,8 +216,11 @@ var firstRow = {
 }
 
  var spanContactezNous = {
+  display: 'flex',
+  justifySelf: 'center',
+  alignSelf: 'center',
   color: '#206A37',
-  fontSize: 'calc(1em + 0.5vw)',
+  fontSize: 'calc(1em + 0.3vw)',
   marginBottom: '5px',
 }
 
@@ -213,16 +234,6 @@ var contactezNous = {
   marginTop: '1vw'
 }
 
-var contactezNous = {
-  display: 'flex', 
-  justifySelf: 'center',
-  alignSelf: 'center',
-  flexDirection: 'column', 
-  justifyContent: 'center', 
-  alignItems: 'center',
-  marginTop: '0.5vw'
-  
-}
 
 var contactBoxes = {
 display: 'flex', 
@@ -230,7 +241,7 @@ flexDirection: 'column',
 justifyContent: 'center', 
 alignItems: 'center', 
 textAlign: 'center',
-border: 'solid 1px #206A37',
+border: 'solid 2px #206A37',
 borderRadius: 10,
 margin: 3,
 padding: 1,

@@ -16,6 +16,7 @@ import MesRecherches from './MesRecherches'
 import Wishlist from './Wishlist'
 import QuiSommesNous from './QuiSommesNous'
 import HomePage2 from './HomePage2'
+import CreationDeCompte from './CreationDeCompte'
 import {Link} from 'react-router-dom'
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="/mesrecherches" exact component={MesRecherches}/>
         <Route path="/wishlist" exact component={Wishlist}/>
         <Route path="/quisommesnous" exact component={QuiSommesNous}/>
+        <Route path="/creationdecompte" exact component={CreationDeCompte}/>
       </Switch>
     </Router>
   );

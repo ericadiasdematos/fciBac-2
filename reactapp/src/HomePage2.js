@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faUser} from '@fortawesome/free-solid-svg-icons'
 import photo from './images/HomePageFond.png'
 import photo2 from './images/ActualitéesFonds.png'
 import { Container, Row, Col, Popover, Input, PopoverBody, Button, Media } from 'reactstrap';
@@ -20,114 +18,7 @@ function HomePage() {
     const toggle = () => setPopoverOpen(!popoverOpen);
 
 
-    var BackgroundImage1 = {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        height:'100vh',
-        backgroundImage: `url(${photo})`,
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        maxWidth: '100%',
-      }
-
-    var navBarRow ={
-        backgroundColor: 'white',
-        height: 'auto',
-        diplay: 'flex',
-        flexDirection: 'row',
-        justifySelf: 'flex-start',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1vw',
-        opacity: '90%'
-    }
-
-    var nameWhiteBlock = {
-        backgroundColor: 'white',
-        display: 'flex',
-        flexDirection: 'row',
-        justifySelf: 'center',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
-        opacity: '80%',
-        borderRadius: 10,
-        padding: '1vw'
-    }
-
-    var littlewhiteboxes = {
-        backgroundColor: 'white',
-        width: 'calc(7em + 9vw)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: '0.5vw',
-        padding: '0.5vw',
-        fontSize: '2vh',
-        opacity: '80%',
-        borderRadius: 10,
-        color: '#206A37'
-    }
-
-    var barContacts = {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginBottom: '1vh',
-        opacity: '70%'
-
-        
-    }
-
-    var colContacts = {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        
-    }
-
-    var spanContacts = {
-        backgroundColor: '#206A37',
-        width: 'calc(7em + 9vw)',
-        color: 'white',
-        padding: '1vh',
-        borderRadius: 100,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 'calc(0.3em + 0.3vw)'
-    }
-
-    var BackgroundImage2 = {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        height:'100vh',
-        backgroundImage: `url(${photo2})`,
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        maxWidth: '100%',
-    }
-
-    var newsRow = {
-        backgroundColor: 'white',
-        display: 'flex',
-        flexDirection: 'row',
-        padding: 0, 
-        alignItems: 'center', 
-        justifyContent: 'space-between',
-        alignSelf: 'center',
-        justifySelf: 'center',
-        opacity: '80%',
-        borderRadius: 10,
-        marginBottom: 'calc(0.3em + 0.3vw)',
-        
-    }
+    
 
 
     return(
@@ -170,7 +61,7 @@ function HomePage() {
                         <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}}></Input>
                         <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}}></Input>
                         <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Sign In</Button>
-                        <Button style={{width: '28vh', backgroundColor: '#206A37'}}>Créer un compte</Button>
+                        <Button style={{width: '28vh', backgroundColor: '#206A37'}}><Link to='/creationdecompte' style={{color: 'white'}}>Créer un compte</Link></Button>
                     </PopoverBody>
                 </Popover>
             </Col>
@@ -321,6 +212,114 @@ function HomePage() {
 
 </span>
     )
+}
+
+var BackgroundImage1 = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height:'100vh',
+    backgroundImage: `url(${photo})`,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    maxWidth: '100%',
+  }
+
+var navBarRow ={
+    backgroundColor: 'white',
+    height: 'auto',
+    diplay: 'flex',
+    flexDirection: 'row',
+    justifySelf: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '1vw',
+    opacity: '90%'
+}
+
+var nameWhiteBlock = {
+    backgroundColor: 'white',
+    display: 'flex',
+    flexDirection: 'row',
+    justifySelf: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    opacity: '80%',
+    borderRadius: 10,
+    padding: '1vw'
+}
+
+var littlewhiteboxes = {
+    backgroundColor: 'white',
+    width: 'calc(7em + 9vw)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '0.5vw',
+    padding: '0.5vw',
+    fontSize: '2vh',
+    opacity: '80%',
+    borderRadius: 10,
+    color: '#206A37'
+}
+
+var barContacts = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: '1vh',
+    opacity: '70%'
+
+    
+}
+
+var colContacts = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    
+}
+
+var spanContacts = {
+    backgroundColor: '#206A37',
+    width: 'calc(7em + 9vw)',
+    color: 'white',
+    padding: '1vh',
+    borderRadius: 100,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 'calc(0.3em + 0.3vw)'
+}
+
+var BackgroundImage2 = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height:'100vh',
+    backgroundImage: `url(${photo2})`,
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    maxWidth: '100%',
+}
+
+var newsRow = {
+    backgroundColor: 'rgba(255,255,255, 0.7)',
+    display: 'flex',
+    flexDirection: 'row',
+    padding: 0, 
+    alignItems: 'center', 
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+    justifySelf: 'center',
+    borderRadius: 10,
+    marginBottom: 'calc(0.3em + 0.3vw)',
+    
 }
 
 
