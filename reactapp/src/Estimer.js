@@ -1,14 +1,270 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { Container, Row, Col, Popover, Input, PopoverBody, Button  } from 'reactstrap';
+import photo from './images/EstimerMonBienFonds.png'
+import logo from './images/logo.png'
+import { Link } from 'react-router-dom';
+import user from './images/user.png'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown'
+import { Divider } from 'antd';
+import {connect} from 'react-redux';
 
-function Estimer() {
+function Estimer(props) {
+
+  const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const toggle = () => setPopoverOpen(!popoverOpen);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
+
+  const [logInMessage, setLogInMessage] = useState([])
+
+  const [logInAccepted, setLogInAccepted] = useState(false)
+
+  const [userGenre, setUserGenre] = useState('')
+  const [usersName, setUsersName] = useState('')
+  
+  const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
+
+
+
+  var handleLogout = () => {
+    localStorage.removeItem('usersToken')
+    setLogInAccepted(false)
+}
+
+    
+useEffect(async() => {
+
+    console.log('localstotage',userFoundFromToken);
+
+    if(userFoundFromToken != null){
+
+        
+    var rawData = await fetch('/sendToken', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `tokenFromFront=${userFoundFromToken}`
+  }); 
+  
+      var data = await rawData.json()
+      
+      if(data.result === true){
+        setLogInAccepted(true)
+        setUsersName(data.user.prenom)
+        setUserGenre(data.user.genre)
+      }
+
+    }
+
+
+     
+  },[]);
+
+
+
+var handleSignIn = async () => {
+
+    console.log(password)
+
+      var rawData = await fetch('/signIn', {
+          method: 'POST',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: `emailFromFront=${email}&passwordFromFront=${password}`
+    });
+
+    var data = await rawData.json()
+    console.log('data: ', data)
+    if(data.result == true){
+      setLogInAccepted(true)
+      setUsersName(data.usersName)
+      localStorage.setItem('usersToken', data.token)
+    }else{
+      setLogInMessage(data.errors)
+
+    }
+
+}
+
+
+
+  var userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Se connecter</span>
+                        <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setEmail(e.target.value)}></Input>
+                        <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setPassword(e.target.value)}></Input>
+                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>{logInMessage}</span>
+                        <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}} onClick={()=>handleSignIn()}>Confirmer</Button>
+                        <Button style={{width: '28vh', backgroundColor: '#206A37'}}><Link to='/creationdecompte' style={{color: 'white'}}>Créer un compte</Link></Button>
+                    </PopoverBody>
+
+    if(logInAccepted === true){
+      userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                      <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {userGenre} {usersName} !</span>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes dernieres recherches</Button>
+                      <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()}>Se déconecter</Button>
+                  </PopoverBody>
+    }
+
+
   return (
-    <div>
-      <p>Estimer</p>
-    </div>
+    <Container style={BackgroundImage}>
+
+      <Row style={navBarRow}>
+
+        <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
+          <Link to='/'>
+            <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
+          </Link>
+        </Col>
+
+        <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
+            <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)'}}>
+                C O N T A C T
+            </span>
+        </Col>
+
+        <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
+          <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+            <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
+              {userBoard}
+            </Popover>
+        </Col>
+
+      </Row>
+
+      <Row style={firstRow}>
+
+      
+        <Row>
+          <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
+            <span style={spanContactezNous}>LAISSEZ-NOUS VOS COORDONNEES</span>
+          </Col>
+        </Row>
+        
+        <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+
+        <Row style={raisonStyle}>
+          <Col xs='12' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            Vous serez contacté sous 24 heures.
+          </Col>
+        </Row>
+
+
+        <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '15px'}}>
+          <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
+            <span style={{color: '#206A37',}}>Nom :</span>
+            <Input size='sm'/>
+          </Col>
+          <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
+            <span style={{color: '#206A37',}}>Email :</span>
+            <Input size='sm'/>
+          </Col>
+        </Row>
+
+        <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
+          <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
+            <span style={{color: '#206A37',}}>Prénom :</span>
+            <Input size='sm'></Input>
+          </Col>
+          <Col xs='12' lg='4'  style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
+            <span style={{color: '#206A37',}}>Téléphone :</span>
+            <Input size='sm'></Input>
+          </Col>
+        </Row>
+
+        <Row style={raisonStyle}>
+          <Col xs='12' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+              Raison : {props.reasonToDisplay}
+          </Col>
+        </Row>
+
+        <Row style={{width: '100%', marginTop:'1vw', marginBottom: '1vw'}}>
+          <Col xs='12' lg='1' lg={{offset: 4}} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <Button size="sm" style={{backgroundColor: '#206A37'}}>Confirmer</Button>
+          </Col>
+        </Row>
+        
+        
+
+      </Row>
+
+      
+
+    </Container>
   );
 }
 
-export default Estimer;
+function mapStateToProps(state){
+  return {reasonToDisplay: state.reason, tokenToDisplay: state.token}
+}
+
+var BackgroundImage = {
+  display: 'flex',
+  flexDirection: 'column',
+  height:'100vh',
+  backgroundImage: `url(${photo})`,
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  maxWidth: '100%',
+}
+
+ var navBarRow = {
+  backgroundColor: 'white',
+  height: 'auto',
+  display: 'flex',
+  flexDirection: 'row',
+  justifySelf: 'flex-start',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '1vw',
+  opacity: '90%',
+}
+
+var firstRow = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: 'rgba(255,255,255, 0.7)',
+  width: '60%',
+  justifySelf: 'center',
+  alignSelf: 'center',
+  marginTop: 'calc(1em + 5vw)',
+  borderRadius: '10px',
+  padding: 0,
+  border: 0
+}
+
+
+ var spanContactezNous = {
+  display: 'flex',
+  justifySelf: 'center',
+  alignSelf: 'center',
+  color: '#206A37',
+  fontSize: 'calc(1em + 0.6vw)',
+  marginBottom: '5px',
+  textAlign: 'center'
+}
+
+var raisonStyle = {
+  display: 'flex',
+  justifySelf: 'center',
+  alignSelf: 'center',
+  color: '#206A37',
+  fontSize: 'calc(0.8em + 0.3vw)',
+  marginBottom: '5px',
+  width: '100%',
+  marginTop: '15px'
+}
+
+
+
+export default connect(
+  mapStateToProps,
+  null
+)(Estimer)

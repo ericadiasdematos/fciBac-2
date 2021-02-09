@@ -6,19 +6,17 @@ import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
 import user from './images/user.png'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {GoogleMap, useLoadScript, Data, DrawingManager  } from '@react-google-maps/api'
+import {GoogleMap, useLoadScript, DrawingManager, Data  } from '@react-google-maps/api'
 import mapStyles from './mapSyles';
 import usePlacesAutoComplete, {getGeocode, getLatLng} from "use-places-autocomplete"
 import {Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from "@reach/combobox"
 import "@reach/combobox/styles.css"
 
 
-
-
 /** MAP OPTIONS */
 const libraries = ["places", "drawing"]
 const mapContainerStyle={
-  height: '80vh',
+  height: '85vh',
   width: '100%'
 }
 const center = {
@@ -61,8 +59,7 @@ function Map() {
 
   const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
 
-  const [doneButton, setDoneButton] = useState(false)
-  const [refresh, setRefresh] = useState(false)
+  
 
 
   var handleLogout = () => {
@@ -167,50 +164,22 @@ var handleSignIn = async () => {
     console.log('data: ', data)
   }
 
-  // const dataOptions = {
-  //   controlPosition: 'TOP_LEFT',
-  //   controls: ['Polygon', 'Circle'],
-  //   drawingMode: ['Polygon', 'Circle'],
-  //   featureFactory: (geometry) => {
-  //     console.log('geometry: ', geometry)
-  //   },
-  //   fillColor: 'yellow',
-  //   fillOpacity: 1,
-  //   strokeColor: 'red',
-  //   strokeOpacity: 1,
-  //   clickable: true,
-  //   draggable: true,
-  //   visible: true,
-  //   zIndex: 2,
-  // }
-
-  
-
-  function getPaths(polygon) {
-
-    var polygonBounds = polygon.getPath();
-    var bounds = [];
-    for (var i = 0; i < polygonBounds.length; i++) {
-      var point = {
-        lat: polygonBounds.getAt(i).lat(),
-        lng: polygonBounds.getAt(i).lng()
-      };
-      bounds.push(point);
-    }
-    console.log('THIS ARE THE POLYGON COORDINATES: ', bounds);
-    setDoneButton(true)
-
+  const dataOptions = {
+    controlPosition: 'TOP_LEFT',
+    controls: ['Polygon', 'Circle'],
+    drawingMode: ['Polygon', 'Circle'],
+    featureFactory: (geometry) => {
+      console.log('geometry: ', geometry)
+    },
+    fillColor: 'yellow',
+    fillOpacity: 1,
+    strokeColor: 'red',
+    strokeOpacity: 1,
+    clickable: true,
+    draggable: true,
+    visible: true,
+    zIndex: 2,
   }
-
-  var buttonValider;
-  var buttonRecommencer;
-
-  if(doneButton === true){
-    buttonValider = <Button style={{backgroundColor: '#206A37'}}><Link to='/recherche' style={{color: 'white'}}>Valider cette zone</Link></Button>
-    buttonRecommencer = <Button style={{backgroundColor: '#206A37'}} onClick={()=>window.location.reload()}>Recommencer</Button>
-  }
-
-  
 
   
 /** MORE MAP OPTIONS */
@@ -241,7 +210,7 @@ var handleSignIn = async () => {
       </Row>
 
       
-      <Search panTo={panTo}/>
+        <Search panTo={panTo}/>
       
 
       <GoogleMap 
@@ -253,29 +222,8 @@ var handleSignIn = async () => {
         onLoad={onMapLoad}
 
       >
-            <DrawingManager
-            
-            onPolygonComplete={value => console.log(getPaths(value))}
-            defaultOptions={{
-              drawingControl: true,
-              drawingControlOptions: {
-                drawingModes: ["polygon"],
-              },
-  
-              polygonOptions: {
-                strokeWeight: 2,
-                fillColor: "#000",
-                fillOpacity: 0.4,
-                clickable: true,
-                editable: true,
-                zIndex: 1,
-              },
-            }}
-          />
-        <Data onLoad={onDataLoad} /*options={dataOptions}*/ />
+        <Data onLoad={onDataLoad} options={dataOptions} />
       </GoogleMap>
-      {buttonValider}
-      {buttonRecommencer}
    </Container>
   );
 

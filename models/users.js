@@ -7,6 +7,8 @@ var userSchema = mongoose.Schema({
     email: String,
     telephone: Number,
     password: String,
+    salt: String,
+    token: String
 
 })
 

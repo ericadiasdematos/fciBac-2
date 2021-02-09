@@ -15,6 +15,7 @@
     "http-errors": "~1.6.3",
     "mongoose": "^5.11.10",
     "morgan": "~1.9.1",
+    "react-radio-buttons": "^1.2.2",
     "uid2": "0.0.3"
   }
 }

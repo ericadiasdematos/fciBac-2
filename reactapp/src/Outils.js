@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Popover, Input, PopoverBody, Button, Label  } from 'reactstrap';
 import photo from './images/PageOutils.png'
@@ -8,6 +8,7 @@ import user from './images/user.png'
 import { Divider } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faEquals} from '@fortawesome/free-solid-svg-icons'
+
 
 function Outils() {
 
@@ -23,23 +24,25 @@ function Outils() {
   const [dureeButton, setDureeButton] = useState(false)
   const [fraisNotaireButton, setFraisNotaireButton] = useState(false)
 
-  const [MEmensualite, setMEmensualite] = useState('')
-  const [MEduree, setMEduree] = useState('')
-  const [MEtaux, setMEtaux] = useState('')
-  const [MEmoisOuAnnee, setMEmoisOuAnnee] = useState('')
+  const [MEmensualite, setMEmensualite] = useState()
+  const [MEduree, setMEduree] = useState()
+  const [MEtaux, setMEtaux] = useState()
+  const [MEmoisOuAnnee, setMEmoisOuAnnee] = useState()
 
-  const [mensMontant, setMensMontant] = useState('')
-  const [mensDuree, setMensDuree] = useState('')
-  const [mensTaux, setMensTaux] = useState('')
-  const [mensMoisOuAnee, setMensMoisOuAnnee] = useState('')
+  const [mensMontant, setMensMontant] = useState()
+  const [mensDuree, setMensDuree] = useState()
+  const [mensTaux, setMensTaux] = useState()
+  const [mensMoisOuAnee, setMensMoisOuAnnee] = useState()
 
-  const [dureeMontant, setDureeMontant] = useState('')
-  const [dureeMensualite, setDureeMensualite] = useState('')
-  const [dureeTaux, setDureeTaux] = useState('')
-  const [dureeAppInitial, setDureeAppInitial] = useState('')
+  const [dureeMontant, setDureeMontant] = useState()
+  const [dureeMensualite, setDureeMensualite] = useState()
+  const [dureeTaux, setDureeTaux] = useState()
+  const [dureeAppInitial, setDureeAppInitial] = useState()
 
   const [FNtype, setFNtype] = useState('')
-  const [FNmontant, setFNmontant] = useState('')
+  const [FNmontant, setFNmontant] = useState()
+
+  const [resultatMensualité , setResultatMensualité] = useState('')
 
   const toggle = () => setPopoverOpen(!popoverOpen);
 
@@ -139,6 +142,14 @@ function Outils() {
 
   if (mensualiteButton === true) {
 
+    // var taux = mensTaux/100;
+    // var cal1 = mensMontant*(taux/12);
+    // var cal2 = 1+(taux/12)
+
+    // setResultatMensualité(cal1/1-cal2-12*mensDuree)
+    // console.log()
+    
+
     mensualité = <Row style={{display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', marginTop: '2vh', marginBottom: '2vh'}}>
 
     <Col xs='12' lg='6' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
@@ -183,7 +194,7 @@ function Outils() {
 
     <Col xs='12' lg='4' style={styleResultat}>
       <Row>
-        <span>Mensualité : </span>
+        <span>Mensualité : {resultatMensualité} </span>
       </Row>
       <Row>
         <span>203 000 €</span>
@@ -300,6 +311,93 @@ function Outils() {
   </Row>
   }
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
+
+  const [logInMessage, setLogInMessage] = useState([])
+
+  const [logInAccepted, setLogInAccepted] = useState(false)
+
+  const [userGenre, setUserGenre] = useState('')
+  const [usersName, setUsersName] = useState('')
+
+  const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
+
+  var handleLogout = () => {
+      localStorage.removeItem('usersToken')
+      setLogInAccepted(false)
+  }
+  
+      
+  useEffect(async() => {
+
+      console.log('localstotage',userFoundFromToken);
+
+      if(userFoundFromToken != null){
+
+          
+      var rawData = await fetch('/sendToken', {
+          method: 'POST',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: `tokenFromFront=${userFoundFromToken}`
+    }); 
+    
+        var data = await rawData.json()
+        
+        if(data.result === true){
+          setLogInAccepted(true)
+          setUsersName(data.user.prenom)
+          setUserGenre(data.user.genre)
+        }
+
+      }
+
+
+       
+    },[]);
+
+
+
+  var handleSignIn = async () => {
+
+      console.log(password)
+
+        var rawData = await fetch('/signIn', {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `emailFromFront=${email}&passwordFromFront=${password}`
+      });
+
+      var data = await rawData.json()
+      console.log('data: ', data)
+      if(data.result == true){
+        setLogInAccepted(true)
+        setUsersName(data.usersName)
+        localStorage.setItem('usersToken', data.token)
+      }else{
+        setLogInMessage(data.errors)
+
+      }
+
+  }
+
+  var userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                      <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Se connecter</span>
+                      <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setEmail(e.target.value)}></Input>
+                      <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setPassword(e.target.value)}></Input>
+                      <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>{logInMessage}</span>
+                      <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}} onClick={()=>handleSignIn()}>Confirmer</Button>
+                      <Button style={{width: '28vh', backgroundColor: '#206A37'}}><Link to='/creationdecompte' style={{color: 'white'}}>Créer un compte</Link></Button>
+                  </PopoverBody>
+
+  if(logInAccepted === true){
+    userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {userGenre} {usersName} !</span>
+                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/mesrecherches' style={{color: 'white'}}>Voir mes dernieres recherches</Link></Button>
+                    <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()}>Se déconecter</Button>
+                </PopoverBody>
+  }
 
 
   return (
@@ -321,13 +419,7 @@ function Outils() {
         <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
           <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
             <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                    <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Sign In</span>
-                        <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}}></Input>
-                        <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}}></Input>
-                        <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Sign In</Button>
-                        <Button style={{width: '28vh', backgroundColor: '#206A37'}}>Créer un compte</Button>
-                    </PopoverBody>
+              {userBoard}
             </Popover>
         </Col>
 
@@ -360,7 +452,8 @@ function Outils() {
 var BackgroundImage = {
   display: 'flex',
   flexDirection: 'column',
-  height:'100vh',
+  minHeight: '100vh',
+  height:'auto',
   backgroundImage: `url(${photo})`,
   backgroundPosition: 'center',
   backgroundRepeat: 'repeat-y',

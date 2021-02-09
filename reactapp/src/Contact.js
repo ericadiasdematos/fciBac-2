@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Popover, Input, PopoverBody, Button  } from 'reactstrap';
 import photo from './images/PageContacts.png'
@@ -9,16 +9,85 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Divider } from 'antd';
+import {connect} from 'react-redux';
 
 
 
 
-function Contact() {
+function Contact(props) {
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const toggle = () => setPopoverOpen(!popoverOpen);
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
+
+  const [logInMessage, setLogInMessage] = useState([])
+
+  const [logInAccepted, setLogInAccepted] = useState(false)
+
+  const [userGenre, setUserGenre] = useState('')
+  const [usersName, setUsersName] = useState('')
+
+  const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
+
+
+  var handleLogout = () => {
+    localStorage.removeItem('usersToken')
+    setLogInAccepted(false)
+}
+
+    
+useEffect(async() => {
+
+    console.log('localstotage',userFoundFromToken);
+
+    if(userFoundFromToken != null){
+
+        
+    var rawData = await fetch('/sendToken', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `tokenFromFront=${userFoundFromToken}`
+  }); 
+  
+      var data = await rawData.json()
+      
+      if(data.result === true){
+        setLogInAccepted(true)
+        setUsersName(data.user.prenom)
+        setUserGenre(data.user.genre)
+      }
+
+    }
+
+
+     
+  },[]);
+
+
+    var handleSignIn = async () => {
+
+      console.log(password)
+
+        var rawData = await fetch('/signIn', {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `emailFromFront=${email}&passwordFromFront=${password}`
+      });
+
+      var data = await rawData.json()
+      console.log('data: ', data)
+      if(data.result == true){
+        setLogInAccepted(true)
+        setUsersName(data.usersName)
+        localStorage.setItem('usersToken', data.token)
+      }else{
+        setLogInMessage(data.errors)
+
+      }
+    }
 
   
 
@@ -27,6 +96,25 @@ function Contact() {
     console.log(e);
     setValue(e)
   }
+
+  var userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Se connecter</span>
+                        <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setEmail(e.target.value)}></Input>
+                        <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setPassword(e.target.value)}></Input>
+                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>{logInMessage}</span>
+                        <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}} onClick={()=>handleSignIn()}>Confirmer</Button>
+                        <Button style={{width: '28vh', backgroundColor: '#206A37'}}><Link to='/creationdecompte' style={{color: 'white'}}>Créer un compte</Link></Button>
+                    </PopoverBody>
+
+    if(logInAccepted === true){
+      userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                      <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {userGenre} {usersName} !</span>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes dernieres recherches</Button>
+                      <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()} >Se déconecter</Button>
+                  </PopoverBody>
+    }
+
 
   return (
     <Container style={BackgroundImage}>
@@ -41,20 +129,14 @@ function Contact() {
 
         <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
             <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)'}}>
-                C O N T A C T
+                C O N T A C T 
             </span>
         </Col>
 
         <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
           <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
             <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                    <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Sign In</span>
-                        <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}}></Input>
-                        <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}}></Input>
-                        <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Sign In</Button>
-                        <Button style={{width: '28vh', backgroundColor: '#206A37'}}>Créer un compte</Button>
-                    </PopoverBody>
+             {userBoard}
             </Popover>
         </Col>
 
@@ -170,6 +252,8 @@ function Contact() {
   );
 }
 
+
+
 var BackgroundImage = {
   display: 'flex',
   flexDirection: 'column',
@@ -198,9 +282,8 @@ var firstRow = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: 'white',
+  backgroundColor: 'rgba(255,255,255, 0.7)',
   width: 'auto',
-  opacity: '80%',
   padding: '5px',
   width: '80%',
   justifySelf: 'center',
@@ -209,11 +292,6 @@ var firstRow = {
   borderRadius: '10px'
 }
 
- var rowContactezNous = {
-  width: '100%',
-  justifyContent: 'center',
-  alignItems: 'center'
-}
 
  var spanContactezNous = {
   display: 'flex',
@@ -247,7 +325,6 @@ margin: 3,
 padding: 1,
 fontSize: 'calc(0.4em + 0.5vw)'
 }
-
 
 
 export default Contact;

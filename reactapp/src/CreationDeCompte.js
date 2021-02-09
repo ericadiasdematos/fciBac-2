@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons'
@@ -7,6 +7,7 @@ import photo from './images/PageCreationDeCompte.png'
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
 import user from './images/user.png'
+
 
 function CreationDeCompte() {
 
@@ -20,23 +21,112 @@ function CreationDeCompte() {
     const [email, setEmail] = useState('')
     const [telephone, setTelephone] = useState('')
     const [password, setPassword] = useState('')
+    const [passwordConfirmation, setPasswordConfirmation] = useState('')
 
     const [tableauErreurs, setTableauErreurs] = useState([]);
-    const [userCreated, setUserCreated] = useState(false)
+    const [userCreated, setUserCreated] = useState('')
+
+    const [signInEmail, setSignInEmail] = useState('');
+    const [signInpassword, setSignInpassword] = useState('')
+
+    const [logInMessage, setLogInMessage] = useState([])
+
+  const [logInAccepted, setLogInAccepted] = useState(false)
+
+  const [usersName, setUsersName] = useState('')
+  const [userGenre, setUserGenre] = useState('')
+
+  const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
+
+  var handleLogout = () => {
+    localStorage.removeItem('usersToken')
+    setLogInAccepted(false)
+}
+
+    
+useEffect(async() => {
+
+    console.log('localstotage',userFoundFromToken);
+
+    if(userFoundFromToken != null){
+
+        
+    var rawData = await fetch('/sendToken', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `tokenFromFront=${userFoundFromToken}`
+  }); 
+  
+      var data = await rawData.json()
+      
+      if(data.result === true){
+        setLogInAccepted(true)
+        setUsersName(data.user.prenom)
+        setUserGenre(data.user.genre)
+        localStorage.setItem('usersToken', data.token)
+      }
+
+    }
+
+
+     
+  },[]);
+
+  var handleSignIn = async () => {
+
+    console.log(password)
+
+      var rawData = await fetch('/signIn', {
+          method: 'POST',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: `emailFromFront=${email}&passwordFromFront=${password}`
+    });
+
+    var data = await rawData.json()
+    console.log('data: ', data)
+    if(data.result == true){
+      setLogInAccepted(true)
+      setUsersName(data.usersName)
+      localStorage.setItem('usersToken', data.token)
+    }else{
+      setLogInMessage(data.errors)
+
+    }
+
+}
+
+  var userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Se connecter</span>
+                        <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setEmail(e.target.value)}></Input>
+                        <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setPassword(e.target.value)}></Input>
+                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>{logInMessage}</span>
+                        <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}} onClick={()=>handleSignIn()}>Confirmer</Button>
+                        <Button style={{width: '28vh', backgroundColor: '#206A37'}}><Link to='/creationdecompte' style={{color: 'white'}}>Créer un compte</Link></Button>
+                    </PopoverBody>
+
+    if(logInAccepted === true){
+      userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                      <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {usersName} !</span>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes dernieres recherches</Button>
+                      <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()} >Se déconecter</Button>
+                  </PopoverBody>
+    }
+
 
    var handleConfirmer = async ()  =>  {
 
     var rawData = await fetch('/signUp', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `genreFromFront=${genre}&nomFromFront=${nom}&prenomFromFront=${prenom}&emailFromFront=${email}&telephoneFromFront=${telephone}&passwordFromFront=${password}`
+      body: `genreFromFront=${genre}&nomFromFront=${nom}&prenomFromFront=${prenom}&emailFromFront=${email}&telephoneFromFront=${telephone}&passwordFromFront=${password}&passwordConfirmationFromFront=${passwordConfirmation}`
 });
 
     var data = await rawData.json();
     console.log(data.errors);
 
     if(data.result == true){
-      userCreated(true)
+      setUserCreated('Votre compte à été créé!')
     }else{
       setTableauErreurs(data.errors)
 
@@ -68,13 +158,7 @@ function CreationDeCompte() {
         <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
           <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
             <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                    <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Sign In</span>
-                        <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}}></Input>
-                        <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}}></Input>
-                        <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Sign In</Button>
-                        <Button style={{width: '28vh', backgroundColor: '#206A37'}}>Créer un compte</Button>
-                    </PopoverBody>
+              {userBoard}
             </Popover>
         </Col>
 
@@ -89,7 +173,7 @@ function CreationDeCompte() {
                     Mme.
                 </Label>
                 <Label check>
-                    <Input type="radio" name="radio1" value="Monsieur" />{' '}
+                    <Input type="radio" name="radio1" value="Monsieur" onChange={(e) => setGenre(e.target.value)} />{' '}
                     M.
                 </Label>
             </Col>
@@ -112,15 +196,18 @@ function CreationDeCompte() {
         </Row>
         <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'calc(1em + 2vw)'}}>
             <Col xs='12' lg='5'>
-                <Input placeholder="Mot de passe" style={{border: '2px solid #206A37', borderRadius: 10}} />
+                <Input type="password" placeholder="Mot de passe" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setPassword(e.target.value)} />
             </Col>
             <Col xs='12' lg='5'>
-                <Input placeholder="Confirmer me mot de passe" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setPassword(e.target.value)}/>
+                <Input type="password" placeholder="Confirmer me mot de passe" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setPasswordConfirmation(e.target.value)}/>
             </Col>
         </Row>
         <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-            <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'red', flexDirection: 'column'}}>
+            <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'red', flexDirection: 'column', textAlign: 'center'}}>
               {listOfErrors}
+            </span>
+            <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#206A37', flexDirection: 'column', textAlign: 'center'}}>
+              {userCreated}
             </span>
             <Button style={{color: 'white', backgroundColor: '#206A37', marginTop: '5px'}} onClick={()=>handleConfirmer()}>Confirmer</Button>
         </Row>

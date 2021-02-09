@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons'
@@ -16,6 +16,93 @@ function QuiSommesNous() {
 
   const toggle = () => setPopoverOpen(!popoverOpen);
 
+  const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('')
+
+    const [logInMessage, setLogInMessage] = useState([])
+
+  const [logInAccepted, setLogInAccepted] = useState(false)
+
+  const [userGenre, setUserGenre] = useState('')
+  const [usersName, setUsersName] = useState('')
+
+  const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
+
+  var handleLogout = () => {
+      localStorage.removeItem('usersToken')
+      setLogInAccepted(false)
+  }
+  
+      
+  useEffect(async() => {
+
+      console.log('localstotage',userFoundFromToken);
+
+      if(userFoundFromToken != null){
+
+          
+      var rawData = await fetch('/sendToken', {
+          method: 'POST',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: `tokenFromFront=${userFoundFromToken}`
+    }); 
+    
+        var data = await rawData.json()
+        
+        if(data.result === true){
+          setLogInAccepted(true)
+          setUsersName(data.user.prenom)
+          setUserGenre(data.user.genre)
+        }
+
+      }
+
+
+       
+    },[]);
+
+
+
+  var handleSignIn = async () => {
+
+      console.log(password)
+
+        var rawData = await fetch('/signIn', {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `emailFromFront=${email}&passwordFromFront=${password}`
+      });
+
+      var data = await rawData.json()
+      console.log('data: ', data)
+      if(data.result == true){
+        setLogInAccepted(true)
+        setUsersName(data.usersName)
+        localStorage.setItem('usersToken', data.token)
+      }else{
+        setLogInMessage(data.errors)
+
+      }
+
+  }
+
+  var userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                      <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Se connecter</span>
+                      <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setEmail(e.target.value)}></Input>
+                      <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setPassword(e.target.value)}></Input>
+                      <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>{logInMessage}</span>
+                      <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}} onClick={()=>handleSignIn()}>Confirmer</Button>
+                      <Button style={{width: '28vh', backgroundColor: '#206A37'}}><Link to='/creationdecompte' style={{color: 'white'}}>Créer un compte</Link></Button>
+                  </PopoverBody>
+
+  if(logInAccepted === true){
+    userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                    <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {userGenre} {usersName} !</span>
+                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/mesrecherches' style={{color: 'white'}}>Voir mes dernieres recherches</Link></Button>
+                    <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()}>Se déconecter</Button>
+                </PopoverBody>
+  }
 
   
 
@@ -39,13 +126,7 @@ function QuiSommesNous() {
         <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
           <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
             <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                    <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Sign In</span>
-                        <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}}></Input>
-                        <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}}></Input>
-                        <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Sign In</Button>
-                        <Button style={{width: '28vh', backgroundColor: '#206A37'}}>Créer un compte</Button>
-                    </PopoverBody>
+              {userBoard}
             </Popover>
         </Col>
 
