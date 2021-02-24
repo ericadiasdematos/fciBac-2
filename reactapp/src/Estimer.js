@@ -10,6 +10,12 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Divider } from 'antd';
 import {connect} from 'react-redux';
+import emailjs from 'emailjs-com';
+import Footer from './Footer'
+import { motion } from 'framer-motion'
+
+
+
 
 function Estimer(props) {
 
@@ -26,6 +32,12 @@ function Estimer(props) {
 
   const [userGenre, setUserGenre] = useState('')
   const [usersName, setUsersName] = useState('')
+
+  const [nomClient, setNomClient] = useState('')
+  const [prenomClient, setPrenomClient] = useState('')
+  const [telClient, setTelClient] = useState('')
+  const [emailClient, setEmailClient] = useState('')
+  const [messageResult, setMessageResult] = useState('')
   
   const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
 
@@ -103,42 +115,27 @@ var handleSignIn = async () => {
     if(logInAccepted === true){
       userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                       <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {userGenre} {usersName} !</span>
-                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/wishlist' style={{color: 'white'}}>Voir mes favoris</Link></Button>
                       <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes dernieres recherches</Button>
                       <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()}>Se déconecter</Button>
                   </PopoverBody>
     }
 
 
-  return (
-    <Container style={BackgroundImage}>
-
-      <Row style={navBarRow}>
-
-        <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-          <Link to='/'>
-            <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-          </Link>
-        </Col>
-
-        <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-            <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)'}}>
-                C O N T A C T
-            </span>
-        </Col>
-
-        <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-          <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
-            <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-              {userBoard}
-            </Popover>
-        </Col>
-
-      </Row>
-
-      <Row style={firstRow}>
-
+    const sendEmail=()=> {
       
+      emailjs.send('service_k47enb9', 'template_3zyynoq', {raison_message: props.reasonToDisplay, nom_client: nomClient, premon_client: prenomClient, tel_client: telClient, email_client: emailClient}, 'user_TImKxpycj1WcmG7hCooDa')
+        .then((result) => {
+            console.log(result.text);
+            setMessageResult(result.text)
+        }, (error) => {
+            console.log(error.text);
+        });
+    }
+
+
+  var infoShown = 
+      <span style={{width: '100%'}}>
         <Row>
           <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
             <span style={spanContactezNous}>LAISSEZ-NOUS VOS COORDONNEES</span>
@@ -157,22 +154,22 @@ var handleSignIn = async () => {
         <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '15px'}}>
           <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
             <span style={{color: '#206A37',}}>Nom :</span>
-            <Input size='sm'/>
+            <Input size='sm' onChange={(e)=>setNomClient(e.target.value)}/>
           </Col>
           <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
             <span style={{color: '#206A37',}}>Email :</span>
-            <Input size='sm'/>
+            <Input size='sm' onChange={(e)=>setEmailClient(e.target.value)}/>
           </Col>
         </Row>
 
         <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
           <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
             <span style={{color: '#206A37',}}>Prénom :</span>
-            <Input size='sm'></Input>
+            <Input size='sm' onChange={(e)=>setPrenomClient(e.target.value)}></Input>
           </Col>
           <Col xs='12' lg='4'  style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
             <span style={{color: '#206A37',}}>Téléphone :</span>
-            <Input size='sm'></Input>
+            <Input size='sm' onChange={(e)=>setTelClient(e.target.value)}></Input>
           </Col>
         </Row>
 
@@ -184,23 +181,65 @@ var handleSignIn = async () => {
 
         <Row style={{width: '100%', marginTop:'1vw', marginBottom: '1vw'}}>
           <Col xs='12' lg='1' lg={{offset: 4}} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <Button size="sm" style={{backgroundColor: '#206A37'}}>Confirmer</Button>
+            <Button size="sm" style={{backgroundColor: '#206A37'}} onClick={sendEmail}>Confirmer</Button>
           </Col>
         </Row>
-        
-        
 
-      </Row>
+      </span>
 
-      
+if(messageResult === 'OK'){
 
-    </Container>
+  infoShown = <span style={{fontSize: 25, color: '#206A37', textAlign: 'center', padding: 10}}>Votre demande a été envoyé! Nous vous répondrons dans les plus brefs délais.</span>
+}
+
+  return (
+<motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{opacity: 0 }}
+>
+
+      <Container style={BackgroundImage}>
+
+        <Row style={navBarRow}>
+
+          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
+            <Link to='/'>
+              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
+            </Link>
+          </Col>
+
+          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
+              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)'}}>
+                  C O N T A C T
+              </span>
+          </Col>
+
+          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
+            <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
+                {userBoard}
+              </Popover>
+          </Col>
+
+        </Row>
+
+        <Row style={firstRow}>
+          {infoShown}
+        </Row>
+
+      </Container>
+
+      <Footer/>
+
+    </motion.div>
   );
 }
 
 function mapStateToProps(state){
   return {reasonToDisplay: state.reason, tokenToDisplay: state.token}
 }
+
 
 var BackgroundImage = {
   display: 'flex',

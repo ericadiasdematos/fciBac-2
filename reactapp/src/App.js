@@ -24,33 +24,42 @@ import {Provider} from 'react-redux'
 import {createStore, combineReducers} from 'redux';
 import MapTest from './MapTest'
 import PageBien from './PageBien'
+import MailTest from './MailTest'
+import Car from './car'
+import {AnimatePresence, motion} from 'framer-motion'
 
 const store = createStore(combineReducers({reason, token}))
 
 function App() {
+
+  
   return (
 
     <Provider store={store}>
     
       <Router>
-        <Switch>
-          <Route path="/" exact component={HomePage2}/>
-          <Route path="/nosagences" exact component={NosAgences}/>
-          <Route path="/contact" exact component={Contact}/>
-          <Route path="/estimer" exact component={Estimer}/>
-          <Route path="/recherche" exact component={Recherche}/>
-          <Route path="/map" exact component={Map}/>
-          <Route path="/rechercheavances" exact component={RechercheAvance}/>
-          <Route path="/resultats" exact component={Resultats}/>
-          <Route path="/outils" exact component={Outils}/>
-          <Route path="/mesrecherches" exact component={MesRecherches}/>
-          <Route path="/wishlist" exact component={Wishlist}/>
-          <Route path="/quisommesnous" exact component={QuiSommesNous}/>
-          <Route path="/creationdecompte" exact component={CreationDeCompte}/>
-          <Route path="/syndic" exact component={ServicesSyndic}/>
-          <Route path="/maptest" exact component={MapTest}/>
-          <Route path="/bien" exact component={PageBien}/>
-        </Switch>
+        <AnimatePresence>
+          <Switch>
+            <Route path="/" exact component={HomePage2}/>
+            <Route path="/mail" exact component={MailTest}/>
+            <Route path="/nosagences" exact component={NosAgences}/>
+            <Route path="/contact" exact component={Contact}/>
+            <Route path="/estimer" exact component={Estimer}/>
+            <Route path="/recherche" exact component={Recherche}/>
+            <Route path="/map" exact component={Map}/>
+            <Route path="/rechercheavances" exact component={RechercheAvance}/>
+            <Route path="/resultats" exact component={Resultats}/>
+            <Route path="/outils" exact component={Outils}/>
+            <Route path="/mesrecherches" exact component={MesRecherches}/>
+            <Route path="/wishlist" exact component={Wishlist}/>
+            <Route path="/quisommesnous" exact component={QuiSommesNous}/>
+            <Route path="/creationdecompte" exact component={CreationDeCompte}/>
+            <Route path="/syndic" exact component={ServicesSyndic}/>
+            <Route path="/maptest" exact component={MapTest}/>
+            <Route path="/bien" exact component={PageBien}/>
+            <Route path="/testing" exact component={Car}/>
+          </Switch>
+        </AnimatePresence>
       </Router>
 
     </Provider>

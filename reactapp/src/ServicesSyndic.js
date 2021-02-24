@@ -15,6 +15,11 @@ import Img5 from './images/SyndicCaroussel5.png'
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import {connect} from 'react-redux'
+import Footer from './Footer'
+import Car from './car'
+import { UncontrolledCarousel } from 'reactstrap';
+import { motion } from 'framer-motion'
+
 
 function Syndic(props) {
 
@@ -107,82 +112,90 @@ function Syndic(props) {
     if(logInAccepted === true){
       userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                       <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {userGenre} {usersName} !</span>
-                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/wishlist' style={{color: 'white'}}>Voir mes favoris</Link></Button>
                       <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/mesrecherches' style={{color: 'white'}}>Voir mes dernieres recherches</Link></Button>
                       <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()}>Se déconecter</Button>
                   </PopoverBody>
     }
 
 
-    const responsive = {
-        0: { items: 1 },
-        568: { items: 1 },
-        1024: { items: 1 },
-    }
-
     const items = [
-        <img src={Img1}  className="item" data-value="1" style={carouselImages} />,
-        <img src={Img2}  className="item" data-value="2" style={carouselImages}/>,
-        <img src={Img3}  className="item" data-value="3" style={carouselImages}/>,
-      ];
+      {
+        src: "https://i.imgur.com/b3xdn1x.jpg"
+      },
+      {
+        src: "https://i.imgur.com/b3xdn1x.jpg"
+      },
+      {
+        src: "https://i.imgur.com/b3xdn1x.jpg"
+      },
+      {
+        src: "https://i.imgur.com/b3xdn1x.jpg"
+      },
+      {
+        src: "https://i.imgur.com/b3xdn1x.jpg"
+      }
+    ]
    
     
   
     return (
-      <Container style={BackgroundImage}>
-  
-        <Row style={navBarRow}>
-  
-          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-            <Link to='/'>
-              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-            </Link>
-          </Col>
-  
-          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                  F C I &nbsp; S Y N D I C
-              </span>
-          </Col>
-          
-          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
-              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                {userBoard}
-              </Popover>
-          </Col>
-  
-        </Row>
-  
-        <Row style={descRow}>
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{opacity: 0 }}
+>
 
-            <Col xs='12' lg='6' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', }}>
-
-                <AliceCarousel
-                    mouseTracking
-                    items={items}
-                    responsive={responsive}
-                    disableButtonsControls={true}
-                    infinite={true}
-                    autoPlay={true}
-                    autoPlayInterval={17000}
-                />
-
+        <Container style={BackgroundImage}>
+    
+          <Row style={navBarRow}>
+    
+            <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
+              <Link to='/'>
+                <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
+              </Link>
             </Col>
-  
-        </Row>
-
-        <Row style={{display:'flex', alignItems: 'center', justifyContent: 'center', width: '100%', marginBottom: 'calc(1em + 3vw)'}}>
-            <Col xs='12' lg='6' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0}}>
-                <Button style={{width: '100%', backgroundColor: '#206A37'}}><Link to='/estimer' style={{color: 'white'}} onClick={()=>props.onContactClick('Je veux changer de Syndic.')}>Demander un devis</Link></Button>
+    
+            <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
+                <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
+                    F C I &nbsp; S Y N D I C
+                </span>
             </Col>
-        </Row>
-  
-      </Container>
+            
+            <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
+              <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+                <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
+                  {userBoard}
+                </Popover>
+            </Col>
+    
+          </Row>
+    
+          <Row style={descRow}>
+
+              <Col xs='12' lg='6' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', }}>
+
+                <UncontrolledCarousel items={items} />
+
+              </Col>
+    
+          </Row>
+
+          <Row style={{display:'flex', alignItems: 'center', justifyContent: 'center', width: '100%', marginBottom: 'calc(1em + 3vw)'}}>
+              <Col xs='12' lg='6' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0}}>
+                  <Button style={{width: '100%', backgroundColor: '#206A37'}}><Link to='/estimer' style={{color: 'white'}} onClick={()=>props.onContactClick('Je veux changer de Syndic.')}>Demander un devis</Link></Button>
+              </Col>
+          </Row>
+
+        </Container>
+        <Footer/>
+
+</motion.div>
     );
 
 
   }
+
 
   function mapDispatchToProps(dispatch) {
     return {
@@ -191,7 +204,6 @@ function Syndic(props) {
         }
     }
 }
-
   var carouselImages = {
       width: 'auto',
       display: 'flex',

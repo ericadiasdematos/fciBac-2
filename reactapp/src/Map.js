@@ -11,6 +11,7 @@ import mapStyles from './mapSyles';
 import usePlacesAutoComplete, {getGeocode, getLatLng} from "use-places-autocomplete"
 import {Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from "@reach/combobox"
 import "@reach/combobox/styles.css"
+import { motion } from 'framer-motion'
 
 
 
@@ -135,8 +136,8 @@ var handleSignIn = async () => {
     if(logInAccepted === true){
       userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                       <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {usersName} !</span>
-                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
-                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes dernieres recherches</Button>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/wishlist' style={{color: 'white'}}>Voir mes favoris</Link></Button>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/mesrecherches'>Voir mes dernieres recherches</Link></Button>
                       <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}}  onClick={()=>handleLogout()}>Se déconecter</Button>
                   </PopoverBody>
     }
@@ -216,6 +217,11 @@ var handleSignIn = async () => {
 /** MORE MAP OPTIONS */
 
   return (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{opacity: 0 }}
+  >
     <Container style={BackgroundImage}>
       <Row style={navBarRow}>
 
@@ -277,6 +283,7 @@ var handleSignIn = async () => {
       {buttonValider}
       {buttonRecommencer}
    </Container>
+  </motion.div>
   );
 
 }

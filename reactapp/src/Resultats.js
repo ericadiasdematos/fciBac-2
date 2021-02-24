@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faHeart} from '@fortawesome/free-solid-svg-icons'
 import {faBell} from '@fortawesome/free-solid-svg-icons'
 import { Container, Row, Col, Popover, Input, PopoverBody, Badge, Label, Button, ButtonGroup  } from 'reactstrap';
 import photo from './images/PageWishlist.png'
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
 import user from './images/user.png'
-import { Divider } from 'antd';
 import { FaRegHeart } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
+import Footer from './Footer'
+import { motion } from 'framer-motion'
 
 
 
@@ -32,6 +33,7 @@ function Resultats() {
   const [deleteFav, setDeleteFav] = useState(false)
   const [OptionSelected, setOptionSelected] = useState(null);
   const [TypeSelected, setTypeSelected] = useState(null);
+  const [heart, setHeart] = useState(false)
 
   const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
 
@@ -42,6 +44,12 @@ function Resultats() {
   
       
   useEffect(async() => {
+
+    
+    // var rawData2 = await fetch('http://clients.ac3-distribution.com/office2/gli_111306/cache/export.xml'); 
+    // var data2 = rawData2.json()
+    // console.log('data2: ', data2)
+    
 
       console.log('localstotage',userFoundFromToken);
 
@@ -105,11 +113,21 @@ function Resultats() {
   if(logInAccepted === true){
     userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {userGenre} {usersName} !</span>
-                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/wishlist' style={{color: 'white'}}>Voir mes favoris</Link></Button>
                     <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/mesrecherches' style={{color: 'white'}}>Voir mes dernieres recherches</Link></Button>
                     <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()}>Se déconecter</Button>
                 </PopoverBody>
   }
+
+
+
+var heartIcon =  <FaRegHeart type='button' onClick={()=> setHeart(!heart)} style={{color:'#206A37', width: 40, height: 40}}/>
+  
+if(heart === true){
+  heartIcon = <FaHeart type='button' onClick={()=> setHeart(!heart)} style={{color:'#206A37', width: 40, height: 40}}/>
+}
+
+
 
   var favRows =     
   
@@ -135,7 +153,7 @@ function Resultats() {
 
     <Col xs='12' lg='2' style={{display: 'flex',alignItems:'center', flexDirection: 'column', height: '100%', justifyContent:'center'}}>
       <Row style={{marginTop:'15px', marginBottom:'45px'}}><Badge style={{backgroundColor: '#206A37', fontSize:'calc(0.5em + 0.5vw)'}}>4 000 000 €</Badge></Row>
-      <Row style={{marginBottom:'15px', marginTop:'45px', display: 'flex', alignSelf: 'flex-end', marginRight: '1px'}}><FaRegHeart type='button' style={{color:'#206A37', width: 40, height: 40}}/></Row>
+      <Row style={{marginBottom:'15px', marginTop:'45px', display: 'flex', alignSelf: 'flex-end', marginRight: '1px'}}>{heartIcon}</Row>
     </Col>
 
   </Row>
@@ -145,103 +163,107 @@ function Resultats() {
 
 var allRows = [];
 
-for (let i=0; i<3; i++ ){
+for (let i=0; i<3; i++){
 
   allRows.push(favRows)
 }
 
 
 
-  
-
   return (
-    <Container style={BackgroundImage}>
 
-      <Row style={navBarRow}>
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{opacity: 0 }}
+>
 
-        <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-          <Link to='/'>
-            <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-          </Link>
-        </Col>
+      <Container style={BackgroundImage}>
 
-        <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-            <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                R E S U L T A T S
-            </span>
-        </Col>
-        
-        <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-          <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
-            <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-              {userBoard}
-            </Popover>
-        </Col>
+        <Row style={navBarRow}>
 
-      </Row>
+          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
+            <Link to='/'>
+              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
+            </Link>
+          </Col>
 
-      <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255, 0.8)',height: 'auto',marginTop: '15px', padding: '5px'}}>
-
-        <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-
-          <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <Button color="success" style={{marginBottom: '3px'}}><FontAwesomeIcon icon={faBell} style={{color: 'white', marginRight: '2px'}}/>Activer l'alerte mail</Button>
-          </Row>
-
-        </Col>
-
-        <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: '#206A37'}}>
-          <ButtonGroup style={{display: 'flex', flexDirection: 'column'}}>
-            <Button color="success" style={{marginBottom: '3px'}} onClick={() => setOptionSelected('Acheter')} active={OptionSelected === 'Acheter'}>Acheter</Button>
-            <Button color="success"  onClick={() => setOptionSelected('Louer')} active={OptionSelected === 'Louer'}>Louer</Button>
-          </ButtonGroup>
-        </Col>
-
-        <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-            <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#206A37'}}>Type de bien :</Row>
-            <Row style={{display: 'flex',flexDirection: 'column'}}>
-              <ButtonGroup style={{display: 'flex', flexDirection: 'column'}}>
-                <Button color="success" style={{marginBottom: '3px'}} onClick={() => setTypeSelected('Appartement')} active={TypeSelected === 'Appartement'}>Appartement</Button>
-                <Button color="success" onClick={() => setTypeSelected('Maison')} active={TypeSelected === 'Maison'}>Maison</Button>
-              </ButtonGroup>
-            </Row>
-        </Col>
-
-        <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-            <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#206A37'}}>A quelle endroit ?</Row>
-            <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <Input placeholder='Ville ? Quartier ?'/>
-            </Row>
-        </Col>
-
-        <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', marginBottom: '3px'}}>
-            <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: '#206A37'}}>Votre Budget ?</Row>
-            <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-              <Input style={{width:'40%'}} placeholder='Min'/>
-              <Input style={{width:'40%'}} placeholder='Max'/>
-            </Row>
-        </Col>
-        
-        <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-          <ButtonGroup style={{display: 'flex', flexDirection: 'column'}}>
-            <Button color="success" style={{marginBottom: '3px'}}>Confirmer</Button>
-            <Button color="success">Plus de filtres</Button>
-          </ButtonGroup>
-        </Col>
+          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
+              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
+                  R E S U L T A T S
+              </span>
+          </Col>
           
-        
+          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
+            <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
+                {userBoard}
+              </Popover>
+          </Col>
 
-      </Row>
+        </Row>
 
-      <Row style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-        {allRows}
-      </Row>
+        <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255, 0.8)',height: 'auto',marginTop: '15px', padding: '5px'}}>
 
-      
+          <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
 
-      
+            <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+              <Button color="success" style={{marginBottom: '3px'}}><FontAwesomeIcon icon={faBell} style={{color: 'white', marginRight: '2px'}}/>Activer l'alerte mail</Button>
+            </Row>
 
-    </Container>
+          </Col>
+
+          <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: '#206A37'}}>
+            <ButtonGroup style={{display: 'flex', flexDirection: 'column'}}>
+              <Button color="success" style={{marginBottom: '3px'}} onClick={() => setOptionSelected('Acheter')} active={OptionSelected === 'Acheter'}>Acheter</Button>
+              <Button color="success"  onClick={() => setOptionSelected('Louer')} active={OptionSelected === 'Louer'}>Louer</Button>
+            </ButtonGroup>
+          </Col>
+
+          <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+              <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#206A37'}}>Type de bien :</Row>
+              <Row style={{display: 'flex',flexDirection: 'column'}}>
+                <ButtonGroup style={{display: 'flex', flexDirection: 'column'}}>
+                  <Button color="success" style={{marginBottom: '3px'}} onClick={() => setTypeSelected('Appartement')} active={TypeSelected === 'Appartement'}>Appartement</Button>
+                  <Button color="success" onClick={() => setTypeSelected('Maison')} active={TypeSelected === 'Maison'}>Maison</Button>
+                </ButtonGroup>
+              </Row>
+          </Col>
+
+          <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+              <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#206A37'}}>A quelle endroit ?</Row>
+              <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <Input placeholder='Ville ? Quartier ?'/>
+              </Row>
+          </Col>
+
+          <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', marginBottom: '3px'}}>
+              <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: '#206A37'}}>Votre Budget ?</Row>
+              <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
+                <Input style={{width:'40%'}} placeholder='Min'/>
+                <Input style={{width:'40%'}} placeholder='Max'/>
+              </Row>
+          </Col>
+          
+          <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+            <ButtonGroup style={{display: 'flex', flexDirection: 'column'}}>
+              <Button color="success" style={{marginBottom: '3px'}}>Confirmer</Button>
+              <Button color="success">Plus de filtres</Button>
+            </ButtonGroup>
+          </Col>
+            
+          
+
+        </Row>
+
+        <Row style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+          {allRows}
+        </Row>
+
+      </Container>
+      <Footer/>
+
+</motion.div>
   );
 }
 
@@ -250,7 +272,7 @@ var BackgroundImage = {
   flexDirection: 'column',
   minHeight: '100vh',
   height:'auto',
-  backgroundColor: 'rgba(13,42,26, 0.4)',
+  backgroundColor: 'rgba(189, 224, 193)',
   backgroundPosition: 'center',
   backgroundRepeat: 'repeat-y',
   backgroundSize: 'cover',

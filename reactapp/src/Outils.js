@@ -8,6 +8,8 @@ import user from './images/user.png'
 import { Divider } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faEquals} from '@fortawesome/free-solid-svg-icons'
+import Footer from './Footer'
+import { motion } from 'framer-motion'
 
 
 function Outils() {
@@ -43,6 +45,76 @@ function Outils() {
   const [FNmontant, setFNmontant] = useState()
 
   const [resultatMensualité , setResultatMensualité] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
+
+  const [logInMessage, setLogInMessage] = useState([])
+
+  const [logInAccepted, setLogInAccepted] = useState(false)
+
+  const [userGenre, setUserGenre] = useState('')
+  const [usersName, setUsersName] = useState('')
+
+  const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
+
+
+  var handleLogout = () => {
+    localStorage.removeItem('usersToken')
+    setLogInAccepted(false)
+}
+
+    
+useEffect(async() => {
+
+    console.log('localstotage',userFoundFromToken);
+
+    if(userFoundFromToken != null){
+
+        
+    var rawData = await fetch('/sendToken', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `tokenFromFront=${userFoundFromToken}`
+  }); 
+  
+      var data = await rawData.json()
+      
+      if(data.result === true){
+        setLogInAccepted(true)
+        setUsersName(data.user.prenom)
+        setUserGenre(data.user.genre)
+      }
+
+    }
+
+
+     
+  },[]);
+
+
+
+var handleSignIn = async () => {
+
+    console.log(password)
+
+      var rawData = await fetch('/signIn', {
+          method: 'POST',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: `emailFromFront=${email}&passwordFromFront=${password}`
+    });
+
+    var data = await rawData.json()
+    console.log('data: ', data)
+    if(data.result == true){
+      setLogInAccepted(true)
+      setUsersName(data.usersName)
+      localStorage.setItem('usersToken', data.token)
+    }else{
+      setLogInMessage(data.errors)
+
+    }
+
+}
 
   const toggle = () => setPopoverOpen(!popoverOpen);
 
@@ -311,75 +383,9 @@ function Outils() {
   </Row>
   }
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('')
-
-  const [logInMessage, setLogInMessage] = useState([])
-
-  const [logInAccepted, setLogInAccepted] = useState(false)
-
-  const [userGenre, setUserGenre] = useState('')
-  const [usersName, setUsersName] = useState('')
-
-  const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
-
-  var handleLogout = () => {
-      localStorage.removeItem('usersToken')
-      setLogInAccepted(false)
-  }
-  
-      
-  useEffect(async() => {
-
-      console.log('localstotage',userFoundFromToken);
-
-      if(userFoundFromToken != null){
-
-          
-      var rawData = await fetch('/sendToken', {
-          method: 'POST',
-          headers: {'Content-Type':'application/x-www-form-urlencoded'},
-          body: `tokenFromFront=${userFoundFromToken}`
-    }); 
-    
-        var data = await rawData.json()
-        
-        if(data.result === true){
-          setLogInAccepted(true)
-          setUsersName(data.user.prenom)
-          setUserGenre(data.user.genre)
-        }
-
-      }
-
-
-       
-    },[]);
 
 
 
-  var handleSignIn = async () => {
-
-      console.log(password)
-
-        var rawData = await fetch('/signIn', {
-            method: 'POST',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body: `emailFromFront=${email}&passwordFromFront=${password}`
-      });
-
-      var data = await rawData.json()
-      console.log('data: ', data)
-      if(data.result == true){
-        setLogInAccepted(true)
-        setUsersName(data.usersName)
-        localStorage.setItem('usersToken', data.token)
-      }else{
-        setLogInMessage(data.errors)
-
-      }
-
-  }
 
   var userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                       <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Se connecter</span>
@@ -393,7 +399,7 @@ function Outils() {
   if(logInAccepted === true){
     userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {userGenre} {usersName} !</span>
-                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/wishlist' style={{color: 'white'}}>Voir mes favoris</Link></Button>
                     <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/mesrecherches' style={{color: 'white'}}>Voir mes dernieres recherches</Link></Button>
                     <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()}>Se déconecter</Button>
                 </PopoverBody>
@@ -401,51 +407,56 @@ function Outils() {
 
 
   return (
-    <Container style={BackgroundImage}>
-      <Row style={navBarRow}>
 
-        <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-          <Link to='/'>
-            <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-          </Link>
-        </Col>
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{opacity: 0 }}
+>
 
-        <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-            <span style={{color: '#206A37', fontSize: 'calc(1em + 1.5vw)'}}>
-              <span>O U T I L S</span>   
-            </span>
-        </Col>
+      <Container style={BackgroundImage}>
+        <Row style={navBarRow}>
 
-        <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-          <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
-            <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-              {userBoard}
-            </Popover>
-        </Col>
+          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
+            <Link to='/'>
+              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
+            </Link>
+          </Col>
 
-      </Row>
+          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
+              <span style={{color: '#206A37', fontSize: 'calc(1em + 1.5vw)'}}>
+                <span>O U T I L S</span>   
+              </span>
+          </Col>
 
-      <Row style={styleBigWhiteBox}>
-        <Row style={{fontSize: 'calc(1em + 0.7vw)', color: '#206A37'}}>Outils de financement</Row>
-        <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
-        <Row style={{fontSize: 'calc(0.7em + 0.3vw)', color: '#206A37', width: '100%', justifySelf: 'center', alignSelf: 'center', justifyContent: 'center', alignItems: 'center', textAlign: 'center', marginBottom: '2vh', marginTop: '2vh'}}>Effectuez vos comptes facilement grâce à nos différentes calculettes financières.</Row>
-        <Row style={{width: '80%'}}><Button style={buttonStyle} onClick={ ()=>handleMontantEmpruntButtonClick() }>Calculer le montant de votre emprunt</Button></Row>
-          {montantEmprunt}
-        <Row style={{width: '80%'}}><Button style={buttonStyle} onClick={ ()=>handleMensualiteButtonClick() }>Calculer le remborsement mensuel de votre emprunt</Button></Row>
-          {mensualité}
-        <Row style={{width: '80%'}}><Button style={buttonStyle} onClick={ ()=>handleDureeButtonClick() }>Calculer la durée de votre emprunt</Button></Row>
-          {duree}
-        <Row style={{width: '80%'}}><Button style={buttonStyle} onClick={ ()=>handleFraisNotaireButton() } >Simulation frais de notaires</Button></Row>
-          {fraisNotaire}
+          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
+            <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
+                {userBoard}
+              </Popover>
+          </Col>
 
+        </Row>
 
-        
-      </Row>
+        <Row style={styleBigWhiteBox}>
+          <Row style={{fontSize: 'calc(1em + 0.7vw)', color: '#206A37'}}>Outils de financement</Row>
+          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+          <Row style={{fontSize: 'calc(0.7em + 0.3vw)', color: '#206A37', width: '100%', justifySelf: 'center', alignSelf: 'center', justifyContent: 'center', alignItems: 'center', textAlign: 'center', marginBottom: '2vh', marginTop: '2vh'}}>Effectuez vos comptes facilement grâce à nos différentes calculettes financières.</Row>
+          <Row style={{width: '80%'}}><Button style={buttonStyle} onClick={ ()=>handleMontantEmpruntButtonClick() }>Calculer le montant de votre emprunt</Button></Row>
+            {montantEmprunt}
+          <Row style={{width: '80%'}}><Button style={buttonStyle} onClick={ ()=>handleMensualiteButtonClick() }>Calculer le remborsement mensuel de votre emprunt</Button></Row>
+            {mensualité}
+          <Row style={{width: '80%'}}><Button style={buttonStyle} onClick={ ()=>handleDureeButtonClick() }>Calculer la durée de votre emprunt</Button></Row>
+            {duree}
+          <Row style={{width: '80%'}}><Button style={buttonStyle} onClick={ ()=>handleFraisNotaireButton() } >Simulation frais de notaires</Button></Row>
+            {fraisNotaire}
 
-     
+        </Row>
 
+      </Container>
+      <Footer/>
 
-    </Container>
+</motion.div>
   );
 }
 

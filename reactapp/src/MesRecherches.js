@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faUser} from '@fortawesome/free-solid-svg-icons'
 import { Container, Row, Col, Popover, Input, PopoverBody, Button, Badge   } from 'reactstrap';
 import photo from './images/PageMesRecherches.png'
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
 import user from './images/user.png'
 import {faTrash} from '@fortawesome/free-solid-svg-icons'
+import Footer from './Footer'
+import { motion } from 'framer-motion'
 
 function MesRecherches() {
 
@@ -101,8 +102,8 @@ function MesRecherches() {
   if(logInAccepted === true){
     userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {userGenre} {usersName} !</span>
-                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
-                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes dernieres recherches</Button>
+                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/wishlist' style={{color: 'white'}}>Voir mes favoris</Link></Button>
+                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/mesrecherches'>Voir mes dernieres recherches</Link></Button>
                     <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()}>Se déconecter</Button>
                 </PopoverBody>
   }
@@ -111,71 +112,78 @@ function MesRecherches() {
   
 
   return (
-    <Container style={BackgroundImage}>
+<motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{opacity: 0 }}
+>
+      <Container style={BackgroundImage}>
 
-      <Row style={navBarRow}>
+        <Row style={navBarRow}>
 
-        <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-          <Link to='/'>
-            <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-          </Link>
-        </Col>
+          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
+            <Link to='/'>
+              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
+            </Link>
+          </Col>
 
-        <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-            <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                M E S &nbsp; R E C H E R C H E S
-            </span>
-        </Col>
-        
-        <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-          <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
-            <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-              {userBoard}
-            </Popover>
-        </Col>
+          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
+              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
+                  M E S &nbsp; R E C H E R C H E S
+              </span>
+          </Col>
+          
+          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
+            <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
+                {userBoard}
+              </Popover>
+          </Col>
 
-      </Row>
-
-      <Row style={descRow}>
-
-        <Row style={styleRow1}>
-          Voici vos dernieres recherches :
         </Row>
 
-        <Row style={styleRow2}>
+        <Row style={descRow}>
 
-          <Row style={styleRowInside}>
-            <Col xs='3' style={{display: 'flex', justifySelf: 'flex-start', alignSelf: 'flex-start', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-              <span>Faite le : 08/11/2020.</span>
-            </Col>
+          <Row style={styleRow1}>
+            Voici vos dernieres recherches :
           </Row>
-          <Row style={{display:'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-            <Col xs='11' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',}}>
-              <span style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>Filtres :</span>
-              <Col xs='10' style={styleFiltres}>
-                <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Appartement</Badge></Col>
-                <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>5 piéces</Badge></Col>
-                <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>2 chambres</Badge></Col> 
-                <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Paris 17éme</Badge></Col>
-                <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Budget Max: 700 000</Badge></Col>
-                <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Garage</Badge></Col>
+
+          <Row style={styleRow2}>
+
+            <Row style={styleRowInside}>
+              <Col xs='3' style={{display: 'flex', justifySelf: 'flex-start', alignSelf: 'flex-start', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+                <span>Faite le : 08/11/2020.</span>
               </Col>
-            </Col>
-            <Col xs='1' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 0}}>
-              <FontAwesomeIcon size='lg' icon={faTrash} style={{color: '#206A37'}} type='button'/>
-            </Col>
+            </Row>
+            <Row style={{display:'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
+              <Col xs='11' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',}}>
+                <span style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>Filtres :</span>
+                <Col xs='10' style={styleFiltres}>
+                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Appartement</Badge></Col>
+                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>5 piéces</Badge></Col>
+                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>2 chambres</Badge></Col> 
+                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Paris 17éme</Badge></Col>
+                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Budget Max: 700 000</Badge></Col>
+                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Garage</Badge></Col>
+                </Col>
+              </Col>
+              <Col xs='1' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 0}}>
+                <FontAwesomeIcon size='lg' icon={faTrash} style={{color: '#206A37'}} type='button'/>
+              </Col>
+            </Row>
+
+            <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '15px'}}>
+              <span type='button' style={{textDecoration: 'underline'}} >Utiliser ces filtres de recherche</span>
+            </Row>
+
           </Row>
 
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '15px'}}>
-            <span type='button' style={{textDecoration: 'underline'}} >Utiliser ces filtres de recherche</span>
-          </Row>
 
         </Row>
 
-
-      </Row>
-
-    </Container>
+      </Container>
+      <Footer/>
+</motion.div>
   );
 }
 

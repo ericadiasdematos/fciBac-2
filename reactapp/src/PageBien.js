@@ -1,21 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faTrash} from '@fortawesome/free-solid-svg-icons'
 import { Container, Row, Col, Popover, Input, PopoverBody, Button, Badge, ButtonGroup } from 'reactstrap';
-import photo from './images/PageWishlist.png'
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
 import user from './images/user.png'
-import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
-import Example from './carosel'
+import PictureCarousel from './carosel'
 import { FaRegHeart } from 'react-icons/fa';
 import { FaMap } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
 import { Table } from 'reactstrap';
 import energy from './images/energieExample.gif'
-import { Radio, Form } from 'antd';
+import emailjs from 'emailjs-com';
+import Footer from './Footer'
+import Car from './car'
+import { motion } from 'framer-motion'
 
 
 
@@ -26,9 +25,9 @@ function PageBien() {
   const toggle = () => setPopoverOpen(!popoverOpen);
 
   const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
+  const [password, setPassword] = useState('')
 
-    const [logInMessage, setLogInMessage] = useState([])
+  const [logInMessage, setLogInMessage] = useState([])
 
   const [logInAccepted, setLogInAccepted] = useState(false)
 
@@ -40,6 +39,12 @@ function PageBien() {
   const [bienAVendre, setBienAVendre] = useState(null);
   const [heart, setHeart] = useState(false)
   const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
+
+  const [nomClient, setNomClient] = useState('')
+  const [prenomClient, setPrenomClient] = useState('')
+  const [telClient, setTelClient] = useState('')
+  const [messageResult, setMessageResult] = useState('')
+  // const [bienAVendreClient, setBienAVendreClient] = useState('')
 
   var handleLogout = () => {
       localStorage.removeItem('usersToken')
@@ -99,6 +104,17 @@ function PageBien() {
 
   }
 
+  const sendEmail=()=> {
+      
+    emailjs.send('service_k47enb9', 'template_3zyynoq', {raison_message: 'Interresé par bien', nom_client: nomClient, premon_client: prenomClient, tel_client: telClient, bien_interrese: '1234', bien_a_vendre: bienAVendre}, 'user_TImKxpycj1WcmG7hCooDa')
+      .then((result) => {
+          console.log(result.text);
+          setMessageResult(result.text)
+      }, (error) => {
+          console.log(error.text);
+      });
+  }
+
   var userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                       <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Se connecter</span>
                       <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setEmail(e.target.value)}></Input>
@@ -111,7 +127,7 @@ function PageBien() {
   if(logInAccepted === true){
     userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {userGenre} {usersName} !</span>
-                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                    <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/wishlist' style={{color: 'white'}}>Voir mes favoris</Link></Button>
                     <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/mesrecherches' style={{color: 'white'}}>Voir mes dernieres recherches</Link></Button>
                     <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()}>Se déconecter</Button>
                 </PopoverBody>
@@ -207,25 +223,30 @@ function PageBien() {
             <Row style={{fontSize: 20, textAlign: 'center'}}><strong>Une question sur cet appartement ?</strong></Row>
           </Row>
           <Row>
-            <Input placeholder='Nom' style={styleInput}></Input>
+            <Input placeholder='Nom' style={styleInput} onChange={(e)=>setNomClient(e.target.value)}></Input>
           </Row>
           <Row>
-            <Input placeholder='Prénom' style={styleInput}></Input>
+            <Input placeholder='Prénom' style={styleInput} onChange={(e)=>setPrenomClient(e.target.value)}></Input>
           </Row>
           <Row>
-            <Input placeholder='Téléphone' style={styleInput}></Input>
+            <Input placeholder='Téléphone' style={styleInput} onChange={(e)=>setTelClient(e.target.value)}></Input>
           </Row>
           <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', marginBottom: 3}}>
             <Row>Avez-vous un bien à vendre?</Row>
             <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
               <ButtonGroup style={{width: '100%'}}>
-                <Button color="success" onClick={() => setBienAVendre(1)} active={bienAVendre === 1}>Oui</Button>
-                <Button color="success" onClick={() => setBienAVendre(2)} active={bienAVendre === 2}>Non</Button>
+                <Button color="success" onClick={() => setBienAVendre('Oui')} active={bienAVendre === 1}>Oui</Button>
+                <Button color="success" onClick={() => setBienAVendre('Non')} active={bienAVendre === 2}>Non</Button>
                </ButtonGroup>
             </Row>
           </Row>
-          <Row ><Button color="success" style={{color: 'white', width: '100%'}}>Contacter l’agence</Button></Row>
+          <Row ><Button color="success" style={{color: 'white', width: '100%'}} onClick={sendEmail}>Contacter l’agence</Button></Row>
     </Col>
+  }
+
+  if(messageResult === 'OK'){
+
+    infoShown = <span style={{fontSize: 25, color: '#206A37', textAlign: 'center', padding: 10}}>Votre demande a été envoyé! Nous vous répondrons dans les plus brefs délais.</span>
   }
 
  var heartIcon =  <FaRegHeart type='button' onClick={()=> setHeart(!heart)} style={{color:'white', width: 40, height: 40}}/>
@@ -236,76 +257,86 @@ function PageBien() {
 
 
   return (
-    <Container style={BackgroundImage}>
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{opacity: 0 }}
+>
 
-      <Row style={navBarRow}>
+      <Container style={BackgroundImage}>
 
-        <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-          <Link to='/'>
-            <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-          </Link>
-        </Col>
+        <Row style={navBarRow}>
 
-        <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-            <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                &nbsp; 
-            </span>
-        </Col>
+          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
+            <Link to='/'>
+              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
+            </Link>
+          </Col>
+
+          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
+              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
+                  &nbsp; 
+              </span>
+          </Col>
+          
+          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
+            <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
+                {userBoard}
+              </Popover>
+          </Col>
+
+        </Row>
+
+        <Row style={descRow}>
+
+          <Col xs='12' lg='6' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', alignSelf: 'center', justifySelf: 'center'}}>
+            <PictureCarousel/>
+            {/* <Car/> */}
+          </Col>
+
+        </Row>
+
+        <Row style={descRow2}>
+          <Col xs='12' lg='6'>
+            <Row style={{marginLeft: '3px', fontSize: 25}}><strong>Maison</strong></Row>
+            <Row style={{marginLeft: '3px'}}>7 p - 4 ch -  300m²</Row>
+            <Row style={{marginLeft: '3px'}}>Quartier Pasteur Montparnasse, Paris 15ème</Row>
+          </Col>
+
+          <Col xs='12' lg='6' style={{display: 'flex', justifyContent: 'center', alignItems: 'flex-end', flexDirection: 'column'}}>
+            <Row style={{marginRight: '3px', fontSize: 25}}>4 000 000 €</Row>
+            <Row style={{marginRight: '3px'}}>{heartIcon}</Row>
+          </Col>
+        </Row>
+
+        <Row style={descRow3}>
+          <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <Button style={styleButton} onClick={()=> setButtonClicked('Général')}>Général</Button>
+          </Col>
+          <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <Button style={styleButton} onClick={()=> setButtonClicked('Localisation')}>Localisation</Button>
+          </Col>
+          <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <Button style={styleButton} onClick={()=> setButtonClicked('Energie')}>Energie</Button>
+          </Col>
+          <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <Button style={styleButton} onClick={()=> setButtonClicked('Coproriete')}>Coproriete</Button>
+          </Col>
+          <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <Button style={styleButton} onClick={()=> setButtonClicked('Visiter')}>Visiter</Button>
+          </Col>
+        </Row>
+
+        <Row style={descRow4}>
+          {infoShown}
+        </Row>
+
         
-        <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-          <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
-            <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-              {userBoard}
-            </Popover>
-        </Col>
+      </Container>
+      <Footer/>
 
-      </Row>
-
-      <Row style={descRow}>
-
-        <Col xs='12' lg='6' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', alignSelf: 'center', justifySelf: 'center'}}>
-          <Example/>
-        </Col>
-
-      </Row>
-
-      <Row style={descRow2}>
-        <Col xs='12' lg='6'>
-          <Row style={{marginLeft: '3px', fontSize: 25}}><strong>Maison</strong></Row>
-          <Row style={{marginLeft: '3px'}}>7 p - 4 ch -  300m²</Row>
-          <Row style={{marginLeft: '3px'}}>Quartier Pasteur Montparnasse, Paris 15ème</Row>
-        </Col>
-
-        <Col xs='12' lg='6' style={{display: 'flex', justifyContent: 'center', alignItems: 'flex-end', flexDirection: 'column'}}>
-          <Row style={{marginRight: '3px', fontSize: 25}}>4 000 000 €</Row>
-          <Row style={{marginRight: '3px'}}>{heartIcon}</Row>
-        </Col>
-      </Row>
-
-      <Row style={descRow3}>
-        <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <Button style={styleButton} onClick={()=> setButtonClicked('Général')}>Général</Button>
-        </Col>
-        <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <Button style={styleButton} onClick={()=> setButtonClicked('Localisation')}>Localisation</Button>
-        </Col>
-        <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <Button style={styleButton} onClick={()=> setButtonClicked('Energie')}>Energie</Button>
-        </Col>
-        <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <Button style={styleButton} onClick={()=> setButtonClicked('Coproriete')}>Coproriete</Button>
-        </Col>
-        <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          <Button style={styleButton} onClick={()=> setButtonClicked('Visiter')}>Visiter</Button>
-        </Col>
-      </Row>
-
-      <Row style={descRow4}>
-        {infoShown}
-      </Row>
-
-      
-    </Container>
+</motion.div>
   );
 }
 
@@ -326,7 +357,7 @@ var BackgroundImage = {
   flexDirection: 'column',
   minHeight: '100vh',
   height:'auto',
-  backgroundColor: 'rgba(13,42,26, 0.4)',
+  backgroundColor: 'rgba(189, 224, 193)',
   backgroundPosition: 'center',
   backgroundRepeat: 'repeat-y',
   backgroundSize: 'cover',

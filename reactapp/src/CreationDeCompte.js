@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faUser} from '@fortawesome/free-solid-svg-icons'
 import { Container, Row, Col, Popover, Input, PopoverBody, Button, Label  } from 'reactstrap';
 import photo from './images/PageCreationDeCompte.png'
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
 import user from './images/user.png'
+import Footer from './Footer'
+import { motion } from 'framer-motion'
 
 
 function CreationDeCompte() {
@@ -107,7 +107,7 @@ useEffect(async() => {
     if(logInAccepted === true){
       userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                       <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Bienvenue {usersName} !</span>
-                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes favoris</Button>
+                      <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}><Link to='/wishlist' style={{color: 'white'}}>Voir mes favoris</Link></Button>
                       <Button size='sm' style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}}>Voir mes dernieres recherches</Button>
                       <Button size='sm' style={{width: '28vh', backgroundColor: '#206A37'}} onClick={()=>handleLogout()} >Se déconecter</Button>
                   </PopoverBody>
@@ -139,84 +139,94 @@ useEffect(async() => {
    })
 
   return (
-    <Container style={BackgroundImage}>
+<motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{opacity: 0 }}
+>
 
-      <Row style={navBarRow}>
+      <Container style={BackgroundImage}>
 
-        <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-          <Link to='/'>
-            <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-          </Link>
-        </Col>
+        <Row style={navBarRow}>
 
-        <Col xs='7' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-            <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                C R É E R &nbsp; U N E &nbsp; C O M P T E
-            </span>
-        </Col>
-        
-        <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-          <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
-            <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-              {userBoard}
-            </Popover>
-        </Col>
+          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
+            <Link to='/'>
+              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
+            </Link>
+          </Col>
 
-      </Row>
+          <Col xs='7' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
+              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
+                  C R É E R &nbsp; U N E &nbsp; C O M P T E
+              </span>
+          </Col>
+          
+          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
+            <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
+                {userBoard}
+              </Popover>
+          </Col>
 
-      <Row style={descRow}>
-
-        <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'calc(1em + 2vw)'}}>
-            <Col style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <Label check style={{marginRight: '25px'}}>
-                    <Input type="radio" name="radio1" value="Madame" onChange={(e) => setGenre(e.target.value)} />{' '}
-                    Mme.
-                </Label>
-                <Label check>
-                    <Input type="radio" name="radio1" value="Monsieur" onChange={(e) => setGenre(e.target.value)} />{' '}
-                    M.
-                </Label>
-            </Col>
-        </Row>
-        <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'calc(0.2em + 0.2vw)'}}>
-            <Col xs='12' lg='5'>
-                <Input placeholder="Nom" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setNom(e.target.value)}/>
-            </Col>
-            <Col xs='12' lg='5'>
-                <Input placeholder="Prénom" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setprenom(e.target.value)}/>
-            </Col>
-        </Row>
-        <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'calc(0.2em + 0.2vw)'}}>
-            <Col xs='12' lg='5'>
-                <Input placeholder="Email" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setEmail(e.target.value)}/>
-            </Col>
-            <Col xs='12' lg='5'>
-                <Input placeholder="Telephone" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setTelephone(e.target.value)}/>
-            </Col>
-        </Row>
-        <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'calc(1em + 2vw)'}}>
-            <Col xs='12' lg='5'>
-                <Input type="password" placeholder="Mot de passe" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setPassword(e.target.value)} />
-            </Col>
-            <Col xs='12' lg='5'>
-                <Input type="password" placeholder="Confirmer me mot de passe" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setPasswordConfirmation(e.target.value)}/>
-            </Col>
-        </Row>
-        <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-            <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'red', flexDirection: 'column', textAlign: 'center'}}>
-              {listOfErrors}
-            </span>
-            <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#206A37', flexDirection: 'column', textAlign: 'center'}}>
-              {userCreated}
-            </span>
-            <Button style={{color: 'white', backgroundColor: '#206A37', marginTop: '5px'}} onClick={()=>handleConfirmer()}>Confirmer</Button>
         </Row>
 
-      </Row>
+        <Row style={descRow}>
 
-    </Container>
+          <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'calc(1em + 2vw)'}}>
+              <Col style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                  <Label check style={{marginRight: '25px'}}>
+                      <Input type="radio" name="radio1" value="Madame" onChange={(e) => setGenre(e.target.value)} />{' '}
+                      Mme.
+                  </Label>
+                  <Label check>
+                      <Input type="radio" name="radio1" value="Monsieur" onChange={(e) => setGenre(e.target.value)} />{' '}
+                      M.
+                  </Label>
+              </Col>
+          </Row>
+          <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'calc(0.2em + 0.2vw)'}}>
+              <Col xs='12' lg='5'>
+                  <Input placeholder="Nom" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setNom(e.target.value)}/>
+              </Col>
+              <Col xs='12' lg='5'>
+                  <Input placeholder="Prénom" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setprenom(e.target.value)}/>
+              </Col>
+          </Row>
+          <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'calc(0.2em + 0.2vw)'}}>
+              <Col xs='12' lg='5'>
+                  <Input placeholder="Email" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setEmail(e.target.value)}/>
+              </Col>
+              <Col xs='12' lg='5'>
+                  <Input placeholder="Telephone" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setTelephone(e.target.value)}/>
+              </Col>
+          </Row>
+          <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 'calc(1em + 2vw)'}}>
+              <Col xs='12' lg='5'>
+                  <Input type="password" placeholder="Mot de passe" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setPassword(e.target.value)} />
+              </Col>
+              <Col xs='12' lg='5'>
+                  <Input type="password" placeholder="Confirmer me mot de passe" style={{border: '2px solid #206A37', borderRadius: 10}} onChange={(e) => setPasswordConfirmation(e.target.value)}/>
+              </Col>
+          </Row>
+          <Row style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+              <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'red', flexDirection: 'column', textAlign: 'center'}}>
+                {listOfErrors}
+              </span>
+              <span style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#206A37', flexDirection: 'column', textAlign: 'center'}}>
+                {userCreated}
+              </span>
+              <Button style={{color: 'white', backgroundColor: '#206A37', marginTop: '5px'}} onClick={()=>handleConfirmer()}>Confirmer</Button>
+          </Row>
+
+        </Row>
+
+      </Container>
+      <Footer/>
+    </motion.div>
   );
 }
+
+
 
 var BackgroundImage = {
     display: 'flex',
