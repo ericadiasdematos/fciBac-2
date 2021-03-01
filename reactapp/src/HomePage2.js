@@ -10,7 +10,6 @@ import {connect} from 'react-redux'
 import { Media } from 'reactstrap';
 import Footer from './Footer'
 import Car from './car'
-import { FaRegUserCircle } from 'react-icons/fa';
 import { FaUserCircle } from 'react-icons/fa';
 import { motion } from 'framer-motion'
 
@@ -151,7 +150,7 @@ const toggle = () => setPopoverOpen(!popoverOpen);
         <Row style={navBarRow}>
 
             <Col xs='12' lg='2' style={{paddingLeft: '0.6vh', display: 'flex', justifyContent: 'center'}}>
-                <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
+                <img src={logo} alt='logo' style={{width: 170}}/>
             </Col>
             <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
                 <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
@@ -174,12 +173,12 @@ const toggle = () => setPopoverOpen(!popoverOpen);
                 </span>
             </Col>
             <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', fontSize: '1vw'}}>
-                <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
-                {/* { userIconState?
-                    <FaUserCircle id="Popover1" type="button" onMouseOver={changeIcon} onMouseOut={changeBackIcon} size='2x' style={{width: '40px', color: '#206A37'}} type="button"/>:
-                    <FaRegUserCircle  type="button" onMouseOver={changeIcon} onMouseOut={changeBackIcon} size='2x' style={{width: '40px', color: '#206A37'}} type="button"/>
+                {/* <img src={user} id="Popover1" style={{width: 50}} type="button" ></img> */}
 
-                } */}
+                    <FaUserCircle id="Popover1" type="button" size='2x' style={{width: '40px', color: '#206A37'}} type="button"/>:
+                   
+
+                
                 <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
                     {userBoard}
                 </Popover>

@@ -121,19 +121,19 @@ function Syndic(props) {
 
     const items = [
       {
-        src: "https://i.imgur.com/b3xdn1x.jpg"
+        src: "https://i.imgur.com/ymGUOZP.png"
       },
       {
-        src: "https://i.imgur.com/b3xdn1x.jpg"
+        src: "https://i.imgur.com/8hK922w.png"
       },
       {
-        src: "https://i.imgur.com/b3xdn1x.jpg"
+        src: "https://i.imgur.com/2IE31dw.png"
       },
       {
-        src: "https://i.imgur.com/b3xdn1x.jpg"
+        src: "https://i.imgur.com/JcAdNjn.png"
       },
       {
-        src: "https://i.imgur.com/b3xdn1x.jpg"
+        src: "https://i.imgur.com/OD2F3cF.png"
       }
     ]
    

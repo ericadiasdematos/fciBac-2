@@ -64,8 +64,7 @@ return(
         <Row style={{display: 'flex', color: 'white', justifyContent: 'center', alignItems: 'center', marginBottom: 5}}>
             <FaRegCopyright style={{width: 10}}/>
             <span> Copyright All rights reserved. | &nbsp; </span>
-            <span><Link to='' style={{color: 'white'}}> Terms of Policy | &nbsp;</Link></span>
-            <span><Link to='' style={{color: 'white'}}> Privacy Policy</Link></span>
+            <a href='https://www.privacypolicies.com/live/d791f210-d32e-4766-bb19-2c99491e813d' style={{color: 'white'}}> Privacy Policy</a>
         </Row>
     </Col>
     <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: 5}}>

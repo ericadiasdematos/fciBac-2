@@ -26,6 +26,7 @@ import MapTest from './MapTest'
 import PageBien from './PageBien'
 import MailTest from './MailTest'
 import Car from './car'
+import AnotherMap from './AnotherMap'
 import {AnimatePresence, motion} from 'framer-motion'
 
 const store = createStore(combineReducers({reason, token}))
@@ -55,7 +56,7 @@ function App() {
             <Route path="/quisommesnous" exact component={QuiSommesNous}/>
             <Route path="/creationdecompte" exact component={CreationDeCompte}/>
             <Route path="/syndic" exact component={ServicesSyndic}/>
-            <Route path="/maptest" exact component={MapTest}/>
+            <Route path="/maptest" exact component={Map}/>
             <Route path="/bien" exact component={PageBien}/>
             <Route path="/testing" exact component={Car}/>
           </Switch>

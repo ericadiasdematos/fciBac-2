@@ -12,6 +12,8 @@ import usePlacesAutoComplete, {getGeocode, getLatLng} from "use-places-autocompl
 import {Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption} from "@reach/combobox"
 import "@reach/combobox/styles.css"
 import { motion } from 'framer-motion'
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import MapIconsPhoto from './images/mapIcons.png'
 
 
 
@@ -42,7 +44,7 @@ const options = {
 /** MAP OPTIONS */
 
 
-function Map() {
+function Map(props) {
 
   /** LOG IN OPTIONS */
 
@@ -64,7 +66,7 @@ function Map() {
 
   const [doneButton, setDoneButton] = useState(false)
   const [refresh, setRefresh] = useState(false)
-
+  const [modal, setModal] = useState(true);
 
   var handleLogout = () => {
     localStorage.removeItem('usersToken')
@@ -168,25 +170,6 @@ var handleSignIn = async () => {
     console.log('data: ', data)
   }
 
-  // const dataOptions = {
-  //   controlPosition: 'TOP_LEFT',
-  //   controls: ['Polygon', 'Circle'],
-  //   drawingMode: ['Polygon', 'Circle'],
-  //   featureFactory: (geometry) => {
-  //     console.log('geometry: ', geometry)
-  //   },
-  //   fillColor: 'yellow',
-  //   fillOpacity: 1,
-  //   strokeColor: 'red',
-  //   strokeOpacity: 1,
-  //   clickable: true,
-  //   draggable: true,
-  //   visible: true,
-  //   zIndex: 2,
-  // }
-
-  
-
   function getPaths(polygon) {
 
     var polygonBounds = polygon.getPath();
@@ -207,11 +190,16 @@ var handleSignIn = async () => {
   var buttonRecommencer;
 
   if(doneButton === true){
-    buttonValider = <Button style={{backgroundColor: '#206A37'}}><Link to='/recherche' style={{color: 'white'}}>Valider cette zone</Link></Button>
-    buttonRecommencer = <Button style={{backgroundColor: '#206A37'}} onClick={()=>window.location.reload()}>Recommencer</Button>
+    buttonValider = <Button onClick={()=> window.location.replace('/recherche')} style={{backgroundColor: '#206A37', width: '50%'}}>Valider cette zone</Button>
+    buttonRecommencer = <Button style={{backgroundColor: '#206A37', width: '50%'}} onClick={()=>window.location.reload()}>Recommencer</Button>
   }
 
-  
+  const {
+    buttonLabel,
+    className
+  } = props;
+
+  const toggle1 = () => setModal(!modal);
 
   
 /** MORE MAP OPTIONS */
@@ -259,30 +247,35 @@ var handleSignIn = async () => {
         onLoad={onMapLoad}
 
       >
-            <DrawingManager
-            
-            onPolygonComplete={value => console.log(getPaths(value))}
-            defaultOptions={{
-              drawingControl: true,
-              drawingControlOptions: {
-                drawingModes: ["polygon"],
-              },
-  
-              polygonOptions: {
-                strokeWeight: 2,
-                fillColor: "#000",
-                fillOpacity: 0.4,
-                clickable: true,
-                editable: true,
-                zIndex: 1,
-              },
+        <DrawingManager
+            onPolygonComplete={value => getPaths(value)}
+            setMap={GoogleMap}
+            options={{
+                drawingControl: true,
+                drawingControlOptions: {
+                    drawingModes: ['polygon'],
+
+                }
             }}
-          />
+        />
         <Data onLoad={onDataLoad} /*options={dataOptions}*/ />
       </GoogleMap>
-      {buttonValider}
-      {buttonRecommencer}
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
+        {buttonValider}
+        {buttonRecommencer}
+      </div>
+      <Modal isOpen={modal} toggle={toggle1} className={className}>
+        <ModalHeader toggle={toggle1}></ModalHeader>
+        <ModalBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+          <span>Pour commencer à dessiner cliquez sur le button droite à gauche en haut de la map.</span>
+          <img src={MapIconsPhoto}/>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="secondary" onClick={toggle1}>OK</Button>
+        </ModalFooter>
+      </Modal>
    </Container>
+
   </motion.div>
   );
 

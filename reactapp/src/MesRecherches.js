@@ -148,35 +148,35 @@ function MesRecherches() {
             Voici vos dernieres recherches :
           </Row>
 
-          <Row style={styleRow2}>
-
-            <Row style={styleRowInside}>
-              <Col xs='3' style={{display: 'flex', justifySelf: 'flex-start', alignSelf: 'flex-start', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+          <Col xs='10' lg='4' style={styleRow2}>
+            <Row  style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',marginBottom: 15}}>
+              <Col xs='12' style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', justifyContent: 'center', alignItems: 'center'}}>
                 <span>Faite le : 08/11/2020.</span>
               </Col>
             </Row>
-            <Row style={{display:'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-              <Col xs='11' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',}}>
+            <Row style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center', width: '90%',marginBottom: 15}}>
+              <Row style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',marginBottom: 15}}>
                 <span style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>Filtres :</span>
-                <Col xs='10' style={styleFiltres}>
-                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Appartement</Badge></Col>
-                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>5 piéces</Badge></Col>
-                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>2 chambres</Badge></Col> 
-                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Paris 17éme</Badge></Col>
-                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Budget Max: 700 000</Badge></Col>
-                  <Col xs='12' lg='2'><Badge size='sm' style={styleButtons}>Garage</Badge></Col>
-                </Col>
-              </Col>
-              <Col xs='1' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 0}}>
+              </Row>
+              <Row style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',marginBottom: 15,}}>
+                <Row style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                  <Badge size='sm' style={styleButtons}>Appartement</Badge>
+                  <Badge size='sm' style={styleButtons}>5 piéces</Badge>
+                  <Badge size='sm' style={styleButtons}>2 chambres</Badge> 
+                </Row>
+                <Row style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                  <Badge size='sm' style={styleButtons}>Paris 17éme</Badge>
+                  <Badge size='sm' style={styleButtons}>Garage</Badge>
+                </Row>
+              </Row>
+              <Row style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
                 <FontAwesomeIcon size='lg' icon={faTrash} style={{color: '#206A37'}} type='button'/>
-              </Col>
+              </Row>
             </Row>
-
-            <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '15px'}}>
+            <Row style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',marginBottom: 15}}>
               <span type='button' style={{textDecoration: 'underline'}} >Utiliser ces filtres de recherche</span>
             </Row>
-
-          </Row>
+          </Col>
 
 
         </Row>
@@ -218,7 +218,7 @@ var descRow = {
   justifyContent: 'center',
   alignItems: 'center',
   marginTop: '16px',
-  width: '70%'
+  width: '100%'
 }
 
 var styleRow1 = {
@@ -233,14 +233,15 @@ var styleRow1 = {
 }
 
 var styleRow2 = {
-  width: 'auto',
   backgroundColor: 'rgba(255,255,255, 0.7)',
   borderRadius: 10,
   padding: '15px',
   display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: '15px'
+  marginTop: '15px',
+  padding: 20
 }
 
 var styleRowInside = {

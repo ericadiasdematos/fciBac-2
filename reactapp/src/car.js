@@ -132,7 +132,7 @@ function Carrosel(props) {
         var tempoPosts = InstaPostData.map(function(i) {
             if(i.type === 'IMAGE'){
                 return(
-                    <Row onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)} type="button"  style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', marginBottom: 10, marginTop: 30, borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd'}}>
+                    <Row onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)} type="button"  style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', margin: '20px 0 20px 0', borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd'}}>
                         <Col xs='10' lg='3' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <img  src={i.imgUrl} style={{width: 'inherit', height: 'inherit'}} fluid />
                         </Col>
@@ -145,7 +145,7 @@ function Carrosel(props) {
         }
         if(i.type === 'VIDEO'){
             return(
-                <Row onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)} type="button" style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', marginBottom: 10, marginTop: 30, borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd'}}>
+                <Row onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)} type="button" style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', margin: '20px 0 20px 0', borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd'}}>
                     <Col xs='10' lg='3' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <img src={i.thumbnailUrl} style={{width: 'inherit', height: 'inherit'}}/>
                     </Col>
