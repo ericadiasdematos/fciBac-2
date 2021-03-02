@@ -11,6 +11,8 @@ import agenceHoudan from './images/AgenceHoudan.jpg'
 import agenceSyndic from './images/AgenceSyndic.jpg'
 import Footer from './Footer'
 import { motion } from 'framer-motion'
+import { FaUserCircle } from 'react-icons/fa';
+
 
 
 function NosAgences() {
@@ -134,7 +136,7 @@ function NosAgences() {
           </Col>
 
           <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
               <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
                 {userBoard}
               </Popover>
@@ -144,7 +146,7 @@ function NosAgences() {
 
         <Row style={agenceRow}>
           <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection: 'column', marginTop: '1%', marginBottom: '1%'}}>
-            <img src={agenceParis} style={{width: 'calc(1em + 9vw)', height: 'calc(1em + 10vw)'}} fluid />
+            <img src={agenceParis} style={{width: '100%', height: '100%'}} fluid />
           </Col>
           <Col xs='12' lg='7' style={{display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection: 'column'}}>
             <span style={{fontSize:'calc(1em + 0.5vw)'}}>FCI Paris</span>
@@ -162,7 +164,7 @@ function NosAgences() {
 
         <Row style={agenceRow}>
           <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection: 'column', marginTop: '1%', marginBottom: '1%'}}>
-            <img src={agenceHoudan} style={{width: 'calc(1em + 9vw)', height: 'calc(1em + 10vw)'}} fluid />
+            <img src={agenceHoudan} style={{width: '100%', height: '100%'}} fluid />
           </Col>
           <Col xs='12' lg='7' style={{display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection: 'column'}}>
             <span style={{fontSize:'calc(1em + 0.5vw)'}}>FCI Houdan</span>
@@ -180,7 +182,7 @@ function NosAgences() {
 
         <Row style={agenceRow}>
           <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection: 'column', marginTop: '1%', marginBottom: '1%'}}>
-            <img src={agenceMaule} style={{width: 'calc(1em + 9vw)', height: 'calc(1em + 10vw)'}} fluid />
+            <img src={agenceMaule} style={{width: '100%', height: '100%'}} fluid />
           </Col>
           <Col xs='12' lg='7' style={{display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection: 'column'}}>
             <span style={{fontSize:'calc(1em + 0.5vw)'}}>FCI Maule</span>
@@ -198,7 +200,7 @@ function NosAgences() {
 
         <Row style={agenceRow}>
           <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection: 'column', marginTop: '1%', marginBottom: '1%'}}>
-            <img src={agenceSyndic} style={{width: 'calc(1em + 9vw)', height: 'calc(1em + 10vw)'}} fluid />
+            <img src={agenceSyndic} style={{width: '100%', height: '100%'}} fluid />
           </Col>
           <Col xs='12' lg='7' style={{display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection: 'column'}}>
             <span style={{fontSize:'calc(1em + 0.5vw)'}}>FCI Syndic</span>

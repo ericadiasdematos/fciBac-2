@@ -15,6 +15,8 @@ import emailjs from 'emailjs-com';
 import Footer from './Footer'
 import Car from './car'
 import { motion } from 'framer-motion'
+import { FaUserCircle } from 'react-icons/fa';
+
 
 
 
@@ -280,7 +282,7 @@ function PageBien() {
           </Col>
           
           <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
               <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
                 {userBoard}
               </Popover>

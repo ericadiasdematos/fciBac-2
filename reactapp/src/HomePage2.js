@@ -149,8 +149,10 @@ const toggle = () => setPopoverOpen(!popoverOpen);
             
         <Row style={navBarRow}>
 
-            <Col xs='12' lg='2' style={{paddingLeft: '0.6vh', display: 'flex', justifyContent: 'center'}}>
-                <img src={logo} alt='logo' style={{width: 170}}/>
+            <Col xs='7' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
+                <div style={{width: '100%', height: '100%'}}>
+                    <img src={logo} style={{width: 'inherit', height: 'inherit'}}/>
+                </div>
             </Col>
             <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
                 <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
@@ -173,12 +175,7 @@ const toggle = () => setPopoverOpen(!popoverOpen);
                 </span>
             </Col>
             <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', fontSize: '1vw'}}>
-                {/* <img src={user} id="Popover1" style={{width: 50}} type="button" ></img> */}
-
-                    <FaUserCircle id="Popover1" type="button" size='2x' style={{width: '40px', color: '#206A37'}} type="button"/>:
-                   
-
-                
+                <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
                 <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
                     {userBoard}
                 </Popover>

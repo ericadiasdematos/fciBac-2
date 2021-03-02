@@ -14,6 +14,8 @@ import "@reach/combobox/styles.css"
 import { motion } from 'framer-motion'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import MapIconsPhoto from './images/mapIcons.png'
+import { FaUserCircle } from 'react-icons/fa';
+
 
 
 
@@ -21,7 +23,7 @@ import MapIconsPhoto from './images/mapIcons.png'
 /** MAP OPTIONS */
 const libraries = ["places", "drawing"]
 const mapContainerStyle={
-  height: '80vh',
+  height: '75vh',
   width: '100%'
 }
 const center = {
@@ -226,54 +228,58 @@ var handleSignIn = async () => {
       </Col>
 
       <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-        <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+        <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
           <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
             {userBoard}
           </Popover>
       </Col>
 
       </Row>
+      <Row style={{padding: 30}}>
+        <Search panTo={panTo}/>
+        
+
+        <GoogleMap 
+          id='drawing-example'
+          mapContainerStyle={mapContainerStyle} 
+          zoom={10} 
+          center={center} 
+          options={options}
+          onLoad={onMapLoad}
+
+        >
+          <DrawingManager
+              onPolygonComplete={value => getPaths(value)}
+              setMap={GoogleMap}
+              options={{
+                  drawingControl: true,
+                  drawingControlOptions: {
+                      drawingModes: ['polygon'],
+
+                  }
+              }}
+          />
+          <Data onLoad={onDataLoad} /*options={dataOptions}*/ />
+        </GoogleMap>
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
+          {buttonValider}
+          {buttonRecommencer}
+        </div>
+        <Modal isOpen={modal} toggle={toggle1} className={className}>
+          <ModalHeader toggle={toggle1}></ModalHeader>
+          <ModalBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            <span>Pour commencer à dessiner cliquez sur le button droite à gauche en haut de la map.</span>
+            <img src={MapIconsPhoto}/>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={toggle1}>OK</Button>
+          </ModalFooter>
+        </Modal>
+
+      </Row>
 
       
-      <Search panTo={panTo}/>
       
-
-      <GoogleMap 
-        id='drawing-example'
-        mapContainerStyle={mapContainerStyle} 
-        zoom={10} 
-        center={center} 
-        options={options}
-        onLoad={onMapLoad}
-
-      >
-        <DrawingManager
-            onPolygonComplete={value => getPaths(value)}
-            setMap={GoogleMap}
-            options={{
-                drawingControl: true,
-                drawingControlOptions: {
-                    drawingModes: ['polygon'],
-
-                }
-            }}
-        />
-        <Data onLoad={onDataLoad} /*options={dataOptions}*/ />
-      </GoogleMap>
-      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
-        {buttonValider}
-        {buttonRecommencer}
-      </div>
-      <Modal isOpen={modal} toggle={toggle1} className={className}>
-        <ModalHeader toggle={toggle1}></ModalHeader>
-        <ModalBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-          <span>Pour commencer à dessiner cliquez sur le button droite à gauche en haut de la map.</span>
-          <img src={MapIconsPhoto}/>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" onClick={toggle1}>OK</Button>
-        </ModalFooter>
-      </Modal>
    </Container>
 
   </motion.div>

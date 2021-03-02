@@ -14,6 +14,7 @@ import {faHistory} from '@fortawesome/free-solid-svg-icons'
 import {faPlus} from '@fortawesome/free-solid-svg-icons'
 import Footer from './Footer'
 import { motion } from 'framer-motion'
+import { FaUserCircle } from 'react-icons/fa';
 
 
 
@@ -138,7 +139,7 @@ function Recherche() {
           </Col>
 
           <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <img src={user} id="Popover1" style={{width: 'calc(1em + 2vw)'}} type="button" ></img>
+            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
               <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
                   {userBoard}
               </Popover>
@@ -231,13 +232,13 @@ function Recherche() {
 
 
           <Row style={{width: '100%', marginTop:'1vw', marginBottom: '1vw'}}>
-            <Col xs='12' lg='4' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <Col xs='12' lg='4' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 0 5px 0'}}>
               <Button size="sm" style={{backgroundColor: '#206A37', fontSize: 'calc(0.5em + 0.4vw)'}}><Link style={{color: 'white'}} to="/mesrecherches"><FontAwesomeIcon icon={faHistory} style={{color: 'white', margin: '2px'}}/>Voir mes dérnieres recherches</Link></Button>
             </Col>
-            <Col xs='12' lg='4'>
-              <span type='button' style={{textDecoration: 'underline', color: '#206A37'}}>Voir la derniere recherche efectué</span>
+            <Col xs='12' lg='4' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 0 5px 0'}}>
+              <Button size='sm' style={{backgroundColor: '#206A37', fontSize: 'calc(0.5em + 0.4vw)'}}>Voir la derniere recherche efectué</Button>
             </Col>
-            <Col xs='12' lg='4'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <Col xs='12' lg='4'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 0 5px 0'}}>
               <Button size="sm" style={{backgroundColor: '#206A37',fontSize: 'calc(0.5em + 0.4vw)'}}><Link style={{color: 'white'}} to="/rechercheavances"><FontAwesomeIcon icon={faPlus} style={{color: 'white', margin: '2px'}}/>Recherche Avancé</Link></Button>
             </Col>
           </Row>
@@ -245,9 +246,7 @@ function Recherche() {
         </Row>
 
         <Row style={secondRow}>
-          <Col xs='8' lg='2' style={{diplay:'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', fontSize: 'calc(1em + 0.4vw)', color: '#206A37', fontWeight: 'bold'}}>
-            <Link to='/resultats' type='button' style={{color: '#206A37', fontSize: 'calc(1em + 0.6vw)'}}>Valider</Link>
-          </Col>
+          <Link to='/resultats' style={{color: '#206A37', fontSize: 'calc(1em + 0.6vw)', color: '#206A37', fontWeight: 'bold'}}>Valider</Link>
         </Row>
 
       </Container>
@@ -286,7 +285,7 @@ var firstRow = {
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: 'rgba(255,255,255, 0.7)',
-  width: '60%',
+  width: '70%',
   justifySelf: 'center',
   alignSelf: 'center',
   marginTop: 'calc(1em + 5vw)',
@@ -300,7 +299,7 @@ var secondRow = {
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: 'rgba(255,255,255, 0.7)',
-  width: '60%',
+  width: '70%',
   justifySelf: 'center',
   alignSelf: 'center',
   borderRadius: '10px',

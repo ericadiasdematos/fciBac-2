@@ -46,7 +46,7 @@ function Carrosel(props) {
 
         instaModal =   <Modal isOpen={modal} toggle={toggle2} className={className} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <ModalHeader style={{display: 'flex', alignSelf: 'flex-end', justifySelf: 'flex-end'}}>
-                                <RiCloseCircleLine onClick={toggle2} type='button' style={{color:'#656D64', width: 20, height: 20, display: 'flex', alignSelf: 'flex-end', justifySelf: 'flex-end'}}/>
+                                <Button style={{backgroundColor: 'white', border: 'white'}}><RiCloseCircleLine onClick={toggle2} style={{color:'#656D64', width: 20, height: 20, display: 'flex', alignSelf: 'flex-end', justifySelf: 'flex-end'}}/></Button>
                             </ModalHeader>
                             <ModalBody>
                                 <img src={mediaPostData} style={{width: '100%'}}/>
@@ -61,7 +61,7 @@ function Carrosel(props) {
     }else{
         instaModal = <Modal isOpen={modal} toggle={toggle2} className={className} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <ModalHeader style={{display: 'flex', alignSelf: 'flex-end', justifySelf: 'flex-end'}}>
-                            <RiCloseCircleLine onClick={toggle2} type='button' style={{color:'black', width: 20, height: 20, display: 'flex', alignSelf: 'flex-end', justifySelf: 'flex-end'}}/>
+                            <Button style={{backgroundColor: 'white', border: 'white'}}><RiCloseCircleLine onClick={toggle2}  style={{color:'black', width: 20, height: 20, display: 'flex', alignSelf: 'flex-end', justifySelf: 'flex-end'}}/></Button>
                         </ModalHeader>
                         <ModalBody>
                             <video controls style={{width: '100%'}} fluid>
@@ -132,7 +132,7 @@ function Carrosel(props) {
         var tempoPosts = InstaPostData.map(function(i) {
             if(i.type === 'IMAGE'){
                 return(
-                    <Row onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)} type="button"  style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', margin: '20px 0 20px 0', borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd'}}>
+                    <Row onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)}  style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', margin: '20px 0 20px 0', borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd'}}>
                         <Col xs='10' lg='3' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <img  src={i.imgUrl} style={{width: 'inherit', height: 'inherit'}} fluid />
                         </Col>
@@ -145,7 +145,7 @@ function Carrosel(props) {
         }
         if(i.type === 'VIDEO'){
             return(
-                <Row onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)} type="button" style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', margin: '20px 0 20px 0', borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd'}}>
+                <Row onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)} style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', margin: '20px 0 20px 0', borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd'}}>
                     <Col xs='10' lg='3' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <img src={i.thumbnailUrl} style={{width: 'inherit', height: 'inherit'}}/>
                     </Col>
@@ -179,18 +179,11 @@ function Carrosel(props) {
 
     return (
 
-<div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',  height: '100%', alignSelf: 'stretch', backgroundColor: 'white', width: '100%', fontFamily: 'roboto, sans-serif', fontStyle: 'normal'}}>
-
-
-    {postsInReturnn}
-    {instaModal}
-    <Button style={{width: '100%', color: 'white', backgroundColor: '#206A37'}} onClick={()=>handlePlusArticles()}>Voir plus d'articles</Button>
-
-
-</div>
-            
-
-
+    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',  height: '100%', alignSelf: 'stretch', backgroundColor: 'white', width: '100%', fontFamily: 'roboto, sans-serif', fontStyle: 'normal'}}>
+        {postsInReturnn}
+        {instaModal}
+        <Button style={{width: '100%', color: 'white', backgroundColor: '#206A37'}} onClick={()=>handlePlusArticles()}>Voir plus d'articles</Button>
+    </div>
 
     )
   
