@@ -20,6 +20,8 @@ import Car from './car'
 import { UncontrolledCarousel } from 'reactstrap';
 import { motion } from 'framer-motion'
 import { FaUserCircle } from 'react-icons/fa';
+import NavBar from "./NavBar"
+
 
 
 
@@ -150,28 +152,9 @@ function Syndic(props) {
 
         <Container style={BackgroundImage}>
     
-          <Row style={navBarRow}>
-    
-            <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-              <Link to='/'>
-                <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-              </Link>
-            </Col>
-    
-            <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                    F C I &nbsp; S Y N D I C
-                </span>
-            </Col>
-            
-            <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-              <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-                <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                  {userBoard}
-                </Popover>
-            </Col>
-    
-          </Row>
+
+          <NavBar pageName="F C I &nbsp; S Y N D I C" />
+
     
           <Row style={descRow}>
 

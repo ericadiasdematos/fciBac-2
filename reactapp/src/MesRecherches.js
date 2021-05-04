@@ -6,13 +6,31 @@ import photo from './images/PageMesRecherches.png'
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
 import user from './images/user.png'
-import {faTrash} from '@fortawesome/free-solid-svg-icons'
+import { BsFillTrashFill } from 'react-icons/bs';
 import Footer from './Footer'
 import { motion } from 'framer-motion'
 import { FaUserCircle } from 'react-icons/fa';
+import { connect } from "react-redux"
+import { Tag } from 'antd';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import NavBar from "./NavBar"
 
 
-function MesRecherches() {
+
+
+
+function MesRecherches(props) {
+
+  function numberWithSpaces(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+function convert(str) {
+  var date = new Date(str),
+    mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+    day = ("0" + date.getDate()).slice(-2);
+  return [day, mnth, date.getFullYear()].join("/");
+}
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -31,6 +49,7 @@ function MesRecherches() {
     const [usersName, setUsersName] = useState('')
   
     const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
+    const [tableauDeMesRecherches, setTableauDeMesRecherches] = useState([])
 
 
 
@@ -62,7 +81,20 @@ function MesRecherches() {
         }
 
       }
+      
+      var tempoTableau = []
+      var tableauFiltered = []
+      var getMesRecherces = await fetch('/getMesRecherches', {
+        method: 'POST',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          userTokenFromFront: userFoundFromToken,
+        })
+      })
+        .then(response => response.json()
+          .then(json =>  tempoTableau = json.tableauDeMesRecherches))
 
+          setTableauDeMesRecherches(tempoTableau)
 
        
     },[]);
@@ -111,6 +143,21 @@ function MesRecherches() {
   }
 
 
+  async function handleDelete(id){
+
+    var getBiensFavoris = await fetch('/deleteMaRecherche', {
+      method: 'DELETE',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        userTokenFromFront: userFoundFromToken,
+        idFromFront: id
+      })
+    })
+      .then(response => response.json()
+        .then(json => setTableauDeMesRecherches(json.tableauDeMesRecherches)))
+        }
+        
+        
   
 
   return (
@@ -121,78 +168,219 @@ function MesRecherches() {
 >
       <Container style={BackgroundImage}>
 
-        <Row style={navBarRow}>
+        <NavBar pageName="M E S &nbsp; R E C H E R C H E S" />
 
-          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-            <Link to='/'>
-              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-            </Link>
-          </Col>
 
-          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                  M E S &nbsp; R E C H E R C H E S
+        <Row style={titreStyle}>
+          <span>Voici vos dernieres recherches :</span>
+        </Row>
+
+        { tableauDeMesRecherches.map(function(recherche, i){
+
+          var typedeTransaction = 
+          <span>
+            <span style={{fontWeight: "bold"}}>Type de Transaction : &nbsp;</span><span>{recherche.typeDeTransaction}</span>
+          </span>
+          var typeBien;
+          var budgetMin;
+          var budgetMax;
+          var localisation;
+          var surfaceMin;
+          var surfaceMax;
+          var terrainMin;
+          var terrainMax;
+          var nombrePieces;
+          var nombreChambres;
+          if(recherche.typeDeBien[0] != "Vous n'avez pas séléctionné un type de bien"){
+            typeBien = 
+            <span style={{display: "flex", flexDirection: "row", marginRight: 5 }}>
+              <span style={{fontWeight: "bold"}}>Type de Bien : &nbsp;</span><span>{recherche.typeDeBien.join(', ')}</span>
+            </span>
+          }
+          if(recherche.budgetMin != ""){
+            budgetMin = 
+            <span  style={{display: "flex", flexDirection: "row", marginRight: 5}}>
+              <span style={{fontWeight: "bold"}}>Budget Min : &nbsp;</span><span> {recherche.budgetMin}</span>
+            </span>
+          }
+          if(recherche.budgetMax != ""){
+            budgetMax = 
+            <span  style={{display: "flex", flexDirection: "row", marginRight: 5}}>
+              <span style={{fontWeight: "bold"}}>Budget Max : &nbsp;</span><span> {recherche.budgetMax}</span>
+            </span>
+          }
+          if(recherche.localisation != undefined){
+              localisation = 
+              <span  style={{display: "flex", flexDirection: "row", marginRight: 5}}>
+                <span style={{fontWeight: "bold"}}>Localisation: &nbsp;</span><span> {recherche.localisation}</span>
               </span>
-          </Col>
-          
-          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                {userBoard}
-              </Popover>
-          </Col>
+          }
+          if(recherche.mapBounds.length != 0){
+            localisation = 
+            <span  style={{display: "flex", flexDirection: "row", marginRight: 5}}>
+              <span style={{fontWeight: "bold"}}>Localisation: &nbsp;</span>
+              <span>
+                <Tag icon={<FaMapMarkerAlt style={{marginRight: 3}} />} color="success" style={{padding: 5, display: "flex", justifyContent: "center", alignItems: "center"}}>
+                  Coordonnées de la carte
+                </Tag>
+              </span>
+            </span>
+          }
+          if(recherche.surfaceMin != undefined){
+            surfaceMin = 
+            <span style={{display: "flex", flexDirection: "row", marginRight: 5 }}>
+              <span style={{fontWeight: "bold"}}>Surface Min: &nbsp;</span><span> {numberWithSpaces(recherche.surfaceMin)}</span>
+            </span>
+          }
+          if(recherche.surfaceMax != undefined){
+            surfaceMax = 
+            <span  style={{display: "flex", flexDirection: "row", marginRight: 5}}>
+              <span style={{fontWeight: "bold"}}>Surface Max: </span><span> {numberWithSpaces(recherche.surfaceMax)}</span>
+            </span>
+          }
+          if(recherche.terrainMin != undefined){
+            terrainMin =
+            <span  style={{display: "flex", flexDirection: "row", marginRight: 5}}>
+              <span style={{fontWeight: "bold"}}>Terrain Min: </span><span> {numberWithSpaces(recherche.terrainMin)}</span>
+            </span>
+          }
+          if(recherche.terrainMax != undefined){
+            terrainMax = 
+            <span  style={{display: "flex", flexDirection: "row", marginRight: 5}}>
+              <span style={{fontWeight: "bold"}}>Terrain Max: </span><span> {numberWithSpaces(recherche.terrainMax)}</span>
+            </span>
+          }
+          if(recherche.nbPieces != undefined){
+            nombrePieces =
+            <span  style={{display: "flex", flexDirection: "row", marginRight: 5}}>
+              <span style={{fontWeight: "bold"}}>Nombre de pièces: </span><span> {recherche.nbPieces}</span>
+            </span>
+          }
+          if(recherche.nbChambres != undefined){
+            nombreChambres =
+            <span  style={{display: "flex", flexDirection: "row", marginRight: 5}}>
+            <span style={{fontWeight: "bold"}}>Nombre de chambres: </span><span> {recherche.nbChambres}</span>
+            </span>
+          }
+          var pasDeType = false
+          if(recherche.typeDeBien[0] === "Vous n'avez pas séléctionné un type de bien"){
+            pasDeType = true
+          }
+          var appBoolean = false
+          var maisonBoolean = false
+          var loftBoolean = false
+          var terrainBoolean = false
+          var bureauBoolean = false
+          var fondCommerceBoolean = false
+          var hotelPBoolean = false
+          var immeubleBoolean = false
+          var parkingBoolean = false
 
-        </Row>
 
-        <Row style={descRow}>
+          if(recherche.typeDeBien.includes("Appartement") === true){
+            appBoolean = true
+          }
+          if(recherche.typeDeBien.includes("Maison") === true){
+            maisonBoolean = true
+          }
+          if(recherche.typeDeBien.includes("Loft") === true){
+            loftBoolean = true
+          }
+          if(recherche.typeDeBien.includes("Terrain") === true){
+            terrainBoolean = true
+          }
+          if(recherche.typeDeBien.includes("Bureau") === true){
+            bureauBoolean = true
+          }
+          if(recherche.typeDeBien.includes("Fond de Commerce") === true){
+            fondCommerceBoolean = true
+          }
+          if(recherche.typeDeBien.includes("Hotel Particulier") === true){
+            hotelPBoolean = true
+          }
+          if(recherche.typeDeBien.includes("Immeuble") === true){
+            immeubleBoolean = true
+          }
+          if(recherche.typeDeBien.includes("Parking / Box") === true){
+            parkingBoolean = true
+          }
+          var filtersToSendToRedux = {
+            endroit: {
+              label: recherche.localisation
+            },
+            noBiensSelected: pasDeType,
+            typedeTransaction: recherche.typeDeTransaction,
+            appartement: appBoolean,
+            maison: maisonBoolean,
+            loft: loftBoolean,
+            terrain: terrainBoolean,
+            bureau: bureauBoolean,
+            fondCommerce: fondCommerceBoolean,
+            hotelP: hotelPBoolean,
+            immeuble: immeubleBoolean,
+            parking: parkingBoolean
+          }
+          return(
 
-          <Row style={styleRow1}>
-            Voici vos dernieres recherches :
-          </Row>
-
-          <Col xs='10' lg='4' style={styleRow2}>
-            <Row  style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',marginBottom: 15}}>
-              <Col xs='12' style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', justifyContent: 'center', alignItems: 'center'}}>
-                <span>Faite le : 08/11/2020.</span>
-              </Col>
-            </Row>
-            <Row style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center', width: '90%',marginBottom: 15}}>
-              <Row style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',marginBottom: 15}}>
-                <span style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>Filtres :</span>
-              </Row>
-              <Row style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',marginBottom: 15,}}>
-                <Row style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                  <Badge size='sm' style={styleButtons}>Appartement</Badge>
-                  <Badge size='sm' style={styleButtons}>5 piéces</Badge>
-                  <Badge size='sm' style={styleButtons}>2 chambres</Badge> 
+                <Row style={rechercheStyle}>
+                  <Col xs="2" style={{display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "space-between", color: "#888888"}}>
+                    <span>Filtres :</span>
+                    <span>{convert(recherche.date)}</span>
+                  </Col>
+                  <Col xs="8" style={{display: "flex"}}>
+                    <Col xs="6" style={{display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "column"}}>
+                      {typedeTransaction}
+                      {typeBien}
+                      {budgetMin}
+                      {budgetMax}
+                      {localisation}
+                      {surfaceMin}
+                    </Col>
+                    <Col xs="6" style={{display: "flex", justifyContent: "center", alignItems: "flex-start", flexDirection: "column"}}>
+                      {surfaceMax}
+                      {terrainMin}
+                      {terrainMax}
+                      {nombrePieces}
+                      {nombreChambres}
+                    </Col>
+                  </Col>
+                  <Col xs="2" style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+                    <Row style={{display: "flex", justifyContent: "flex-end", alignItems: "self-start"}}>
+                      <BsFillTrashFill onClick={()=>handleDelete(recherche._id)} style={{height: 25, width: 25, color: "#206A37", cursor: "pointer"}}/>
+                    </Row>
+                    <Row  style={{display: "flex", justifyContent: "flex-end", alignItems: "self-end"}}>
+                      <Button onClick={()=>console.log(filtersToSendToRedux)} style={{backgroundColor: '#206A37', fontSize: 10}}>
+                        <Link to="/resultats" style={{color: "white"}}>
+                          Utiliser ces filtres de recherche
+                        </Link>
+                      </Button>
+                    </Row>
+                  </Col>
                 </Row>
-                <Row style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                  <Badge size='sm' style={styleButtons}>Paris 17éme</Badge>
-                  <Badge size='sm' style={styleButtons}>Garage</Badge>
-                </Row>
-              </Row>
-              <Row style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center'}}>
-                <FontAwesomeIcon size='lg' icon={faTrash} style={{color: '#206A37'}} type='button'/>
-              </Row>
-            </Row>
-            <Row style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',marginBottom: 15}}>
-              <span type='button' style={{textDecoration: 'underline'}} >Utiliser ces filtres de recherche</span>
-            </Row>
-          </Col>
 
+          )
+        })
 
-        </Row>
-
+        }
       </Container>
       <Footer/>
 </motion.div>
   );
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onClickValider: function(filtres) {
+      dispatch( {type: "filtersFromRecherche", whatFilters: filtres} )
+    }
+  }
+}
+
 var BackgroundImage = {
   display: 'flex',
   flexDirection: 'column',
-  height:'100vh',
+  minHeight: '100vh',
+  height:'auto',
   backgroundImage: `url(${photo})`,
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
@@ -212,6 +400,35 @@ var navBarRow ={
   opacity: '90%'
 }
 
+var titreStyle = {
+  display: "flex", 
+  justifyContent: "center", 
+  alignItems: "center", 
+  backgroundColor: 'rgba(255,255,255, 0.9)', 
+  color: '#206A37', 
+  fontWeight: "bold", 
+  marginTop: 20, 
+  marginBottom: 20, 
+  width: "30%", 
+  justifySelf: "center", 
+  alignSelf: "center", 
+  padding: 10, 
+  borderRadius: 10, 
+  fontSize: 20
+}
+
+var rechercheStyle = {
+  display: "flex", 
+  justifySelf: "center",
+  alignSelf: "center",
+  backgroundColor: 'rgba(255,255,255, 0.9)', 
+  marginTop: 20, 
+  marginBottom: 20, 
+  width: "70%", 
+  padding: 10, 
+  borderRadius: 10, 
+}
+
 var descRow = {
   display: 'flex',
   flexDirection: 'column',
@@ -225,22 +442,23 @@ var descRow = {
 
 var styleRow1 = {
   width: 'auto',
-  backgroundColor: 'rgba(255,255,255, 0.7)',
+  backgroundColor: 'rgba(255,255,255, 0.9)',
   borderRadius: 10,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
   padding: '15px',
-  fontSize: 'calc(0.6em + 0.6vw)'
+  fontSize: 'calc(0.8em + 0.8vw)',
+  color: '#206A37',
+  fontWeight: "bold"
 }
 
 var styleRow2 = {
-  backgroundColor: 'rgba(255,255,255, 0.7)',
+  backgroundColor: 'rgba(255,255,255, 0.9)',
   borderRadius: 10,
   padding: '15px',
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
   alignItems: 'center',
   marginTop: '15px',
   padding: 20
@@ -267,6 +485,7 @@ var styleButtons = {
 }
 
 
-
-
-export default MesRecherches;
+export default connect(
+  null,
+  mapDispatchToProps
+)(MesRecherches)

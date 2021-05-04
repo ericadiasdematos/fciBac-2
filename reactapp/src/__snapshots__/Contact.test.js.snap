@@ -1,0 +1,1016 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders conrrectly 1`] = `
+<ForwardRef(MotionComponent)
+  animate={
+    Object {
+      "opacity": 1,
+    }
+  }
+  exit={
+    Object {
+      "opacity": 0,
+    }
+  }
+  initial={
+    Object {
+      "opacity": 0,
+    }
+  }
+>
+  <Container
+    style={
+      Object {
+        "backgroundImage": "url(PageContacts.png)",
+        "backgroundPosition": "center",
+        "backgroundRepeat": "repeat-y",
+        "backgroundSize": "cover",
+        "display": "flex",
+        "flexDirection": "column",
+        "height": "auto",
+        "maxWidth": "100%",
+        "minHeight": "100vh",
+      }
+    }
+    tag="div"
+  >
+    <Row
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "display": "flex",
+          "flexDirection": "row",
+          "height": "auto",
+          "justifyContent": "center",
+          "justifySelf": "flex-start",
+          "opacity": "90%",
+          "padding": "1vw",
+        }
+      }
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Col
+        lg="1"
+        style={
+          Object {
+            "paddingLeft": "0.6vh",
+          }
+        }
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+        xs="2"
+      >
+        <Link
+          to="/"
+        >
+          <img
+            alt="logo"
+            src="logo.png"
+            style={
+              Object {
+                "width": "calc(1em + 9vw)",
+              }
+            }
+          />
+        </Link>
+      </Col>
+      <Col
+        lg="10"
+        style={
+          Object {
+            "display": "flex",
+            "justifyContent": "center",
+          }
+        }
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+        xs="8"
+      >
+        <span
+          style={
+            Object {
+              "color": "#206A37",
+              "fontSize": "calc(1em + 2vw)",
+            }
+          }
+        >
+          C O N T A C T
+        </span>
+      </Col>
+      <Col
+        lg="1"
+        style={
+          Object {
+            "display": "flex",
+            "justifyContent": "flex-end",
+          }
+        }
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+        xs="1"
+      >
+        <Button
+          color="secondary"
+          style={
+            Object {
+              "backgroundColor": "white",
+              "border": "white",
+              "borderRadius": 100,
+            }
+          }
+          tag="button"
+        >
+          <FaUserCircle
+            id="Popover1"
+            size="2x"
+            style={
+              Object {
+                "color": "#206A37",
+                "width": "40px",
+              }
+            }
+          />
+        </Button>
+        <Popover
+          isOpen={false}
+          placement="bottom"
+          placementPrefix="bs-popover"
+          target="Popover1"
+          toggle={[Function]}
+          trigger="click"
+        >
+          <PopoverBody
+            style={
+              Object {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "column",
+                "justifyContent": "center",
+              }
+            }
+            tag="div"
+          >
+            <span
+              style={
+                Object {
+                  "color": "#206A37",
+                  "fontWeight": "bold",
+                  "padding": "1vh",
+                }
+              }
+            >
+              Se connecter
+            </span>
+            <Input
+              onChange={[Function]}
+              placeholder="Email"
+              style={
+                Object {
+                  "marginBottom": "1vh",
+                  "width": "auto",
+                }
+              }
+              type="email"
+            />
+            <Input
+              onChange={[Function]}
+              placeholder="Password"
+              style={
+                Object {
+                  "marginBottom": "1vh",
+                  "width": "auto",
+                }
+              }
+              type="password"
+            />
+            <span
+              style={
+                Object {
+                  "color": "#206A37",
+                  "fontWeight": "bold",
+                  "padding": "1vh",
+                }
+              }
+            />
+            <Button
+              color="secondary"
+              onClick={[Function]}
+              style={
+                Object {
+                  "backgroundColor": "#206A37",
+                  "marginBottom": "1vh",
+                  "width": "28vh",
+                }
+              }
+              tag="button"
+            >
+              Confirmer
+            </Button>
+            <Button
+              color="secondary"
+              style={
+                Object {
+                  "backgroundColor": "#206A37",
+                  "width": "28vh",
+                }
+              }
+              tag="button"
+            >
+              <Link
+                style={
+                  Object {
+                    "color": "white",
+                  }
+                }
+                to="/creationdecompte"
+              >
+                Créer un compte
+              </Link>
+            </Button>
+          </PopoverBody>
+        </Popover>
+      </Col>
+    </Row>
+    <Row
+      style={
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "backgroundColor": "rgba(255,255,255, 0.7)",
+          "borderRadius": "10px",
+          "display": "flex",
+          "justifyContent": "center",
+          "justifySelf": "center",
+          "margin": "5px",
+          "marginTop": 15,
+          "padding": "5px",
+          "width": "80%",
+        }
+      }
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Row
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          id="contactezNous"
+          style={
+            Object {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "display": "flex",
+              "justifyContent": "center",
+              "justifySelf": "center",
+            }
+          }
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+          xs="12"
+        >
+          <span
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "#206A37",
+                "display": "flex",
+                "fontSize": "calc(1em + 0.3vw)",
+                "justifySelf": "center",
+                "marginBottom": "5px",
+              }
+            }
+          >
+            CONTACTEZ NOUS
+          </span>
+        </Col>
+      </Row>
+      <Row
+        style={
+          Object {
+            "alignItems": "center",
+            "display": "flex",
+            "justifyContent": "center",
+            "marginBottom": "10px",
+            "width": "100%",
+          }
+        }
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Divider
+          style={
+            Object {
+              "backgroundColor": "#206A37",
+              "height": "1px",
+              "width": "100%",
+            }
+          }
+        />
+      </Row>
+      <Row
+        style={
+          Object {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "space-evenly",
+            "width": "100%",
+          }
+        }
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          lg="2"
+          style={
+            Object {
+              "alignItems": "center",
+              "border": "solid 2px #206A37",
+              "borderRadius": 10,
+              "display": "flex",
+              "flexDirection": "column",
+              "fontSize": "calc(0.4em + 0.5vw)",
+              "justifyContent": "center",
+              "margin": 3,
+              "padding": 1,
+              "textAlign": "center",
+            }
+          }
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+          xs="5"
+        >
+          <span>
+            FCI Houdan
+          </span>
+          <a
+            href="mailto:houdan@fcimmo.com"
+            style={
+              Object {
+                "color": "#206A37",
+              }
+            }
+          >
+            houdan@fcimmo.com
+          </a>
+          <span>
+            Tél. : 01.78.90.51.51
+          </span>
+        </Col>
+        <Col
+          lg="2"
+          style={
+            Object {
+              "alignItems": "center",
+              "border": "solid 2px #206A37",
+              "borderRadius": 10,
+              "display": "flex",
+              "flexDirection": "column",
+              "fontSize": "calc(0.4em + 0.5vw)",
+              "justifyContent": "center",
+              "margin": 3,
+              "padding": 1,
+              "textAlign": "center",
+            }
+          }
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+          xs="5"
+        >
+          <span>
+            FCI Paris
+          </span>
+          <a
+            href="mailto:mozart@fcimmo.com"
+            style={
+              Object {
+                "color": "#206A37",
+              }
+            }
+          >
+            mozart@fcimmo.com
+          </a>
+          <span>
+            Tél. : 01.40.50.20.20
+          </span>
+        </Col>
+        <Col
+          lg="2"
+          style={
+            Object {
+              "alignItems": "center",
+              "border": "solid 2px #206A37",
+              "borderRadius": 10,
+              "display": "flex",
+              "flexDirection": "column",
+              "fontSize": "calc(0.4em + 0.5vw)",
+              "justifyContent": "center",
+              "margin": 3,
+              "padding": 1,
+              "textAlign": "center",
+            }
+          }
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+          xs="5"
+        >
+          <span>
+            FCI Syndic
+          </span>
+          <a
+            href="mailto:contact@fcisyndic.com"
+            style={
+              Object {
+                "color": "#206A37",
+              }
+            }
+          >
+            contact@fcisyndic.com
+          </a>
+          <span>
+            Tél. : 01.86.22.96.96
+          </span>
+        </Col>
+        <Col
+          lg="2"
+          style={
+            Object {
+              "alignItems": "center",
+              "border": "solid 2px #206A37",
+              "borderRadius": 10,
+              "display": "flex",
+              "flexDirection": "column",
+              "fontSize": "calc(0.4em + 0.5vw)",
+              "justifyContent": "center",
+              "margin": 3,
+              "padding": 1,
+              "textAlign": "center",
+            }
+          }
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+          xs="5"
+        >
+          <span>
+            FCI Maule
+          </span>
+          <a
+            href="mailto:contact@fcisyndic.com"
+            style={
+              Object {
+                "color": "#206A37",
+              }
+            }
+          >
+            maule@fcimmo.com
+          </a>
+          <span>
+            Tél. : 01.34.75.08.08
+          </span>
+        </Col>
+      </Row>
+    </Row>
+    <Row
+      style={
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "justifySelf": "center",
+          "width": "75%",
+        }
+      }
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Col
+        style={
+          Object {
+            "alignItems": "center",
+            "alignSelf": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "justifySelf": "center",
+          }
+        }
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+        xs="12"
+      >
+        <Divider
+          style={
+            Object {
+              "backgroundColor": "white",
+              "height": "2px",
+              "width": "48%",
+            }
+          }
+        />
+        <span
+          style={
+            Object {
+              "color": "white",
+              "fontSize": "calc(1em + 0.2vw)",
+              "marginLeft": "7px",
+              "marginRight": "7px",
+            }
+          }
+        >
+          OU
+        </span>
+        <Divider
+          style={
+            Object {
+              "backgroundColor": "white",
+              "height": "2px",
+              "width": "48%",
+            }
+          }
+        />
+      </Col>
+    </Row>
+    <Row
+      style={
+        Object {
+          "alignItems": "center",
+          "alignSelf": "center",
+          "backgroundColor": "rgba(255,255,255, 0.7)",
+          "borderRadius": "10px",
+          "display": "flex",
+          "justifyContent": "center",
+          "justifySelf": "center",
+          "margin": "5px",
+          "marginTop": 15,
+          "padding": "5px",
+          "width": "80%",
+        }
+      }
+      tag="div"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      <Row
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Col
+          style={
+            Object {
+              "alignItems": "center",
+              "alignSelf": "center",
+              "display": "flex",
+              "justifyContent": "center",
+              "justifySelf": "center",
+            }
+          }
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+          xs="12"
+        >
+          <span
+            style={
+              Object {
+                "alignSelf": "center",
+                "color": "#206A37",
+                "display": "flex",
+                "fontSize": "calc(1em + 0.3vw)",
+                "justifySelf": "center",
+                "marginBottom": "5px",
+              }
+            }
+          >
+            LAISSEZ NOUS UNE MESSAGE
+          </span>
+        </Col>
+      </Row>
+      <Row
+        style={
+          Object {
+            "alignItems": "center",
+            "display": "flex",
+            "justifyContent": "center",
+            "marginBottom": "10px",
+            "width": "100%",
+          }
+        }
+        tag="div"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        <Divider
+          style={
+            Object {
+              "backgroundColor": "#206A37",
+              "height": "1px",
+              "width": "100%",
+            }
+          }
+        />
+      </Row>
+      <span
+        style={
+          Object {
+            "width": "100%",
+          }
+        }
+      >
+        <Row
+          style={
+            Object {
+              "margin": "1vw",
+              "marginBottom": "1vw",
+              "width": "100%",
+            }
+          }
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Col
+            lg="6"
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+            xs="12"
+          >
+            <DropdownButton
+              alignCenter={true}
+              className="myDropdown"
+              id="dropdown"
+              onSelect={[Function]}
+              size="sm"
+              title="Raison"
+              variant="secondary"
+            >
+              <DropdownItem
+                as="button"
+                disabled={false}
+                eventKey="Je veux acheter"
+              >
+                Je veux acheter
+              </DropdownItem>
+              <DropdownItem
+                as="button"
+                disabled={false}
+                eventKey="Je veux vendre mon bien"
+              >
+                Je veux vendre mon bien
+              </DropdownItem>
+              <DropdownItem
+                as="button"
+                disabled={false}
+                eventKey="Je cherche une location"
+              >
+                Je cherche une location
+              </DropdownItem>
+              <DropdownItem
+                as="button"
+                disabled={false}
+                eventKey="Je veux louer mon bien"
+              >
+                Je veux louer mon bien
+              </DropdownItem>
+              <DropdownItem
+                as="button"
+                disabled={false}
+                eventKey="Je veux changer de syndic"
+              >
+                Je veux changer de syndic
+              </DropdownItem>
+              <DropdownItem
+                as="button"
+                disabled={false}
+                eventKey="Je cherche un viager"
+              >
+                Je cherche un viager
+              </DropdownItem>
+              <DropdownItem
+                as="button"
+                disabled={false}
+                eventKey="Autre raison"
+              >
+                Autre raison
+              </DropdownItem>
+            </DropdownButton>
+          </Col>
+          <Col
+            lg="6"
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+            xs="12"
+          >
+            <Input
+              onChange={[Function]}
+              placeholder="Votre email"
+              size="sm"
+              type="text"
+            />
+          </Col>
+        </Row>
+        <Row
+          style={
+            Object {
+              "margin": "1vw",
+              "width": "100%",
+            }
+          }
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Col
+            lg="6"
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+            xs="12"
+          >
+            <Input
+              onChange={[Function]}
+              placeholder="Nom et Prénom"
+              size="sm"
+              style={
+                Object {
+                  "marginBottom": "1vw",
+                }
+              }
+              type="text"
+            />
+            <Input
+              onChange={[Function]}
+              placeholder="Téléphone"
+              size="sm"
+              style={
+                Object {
+                  "marginBottom": "1vw",
+                }
+              }
+              type="text"
+            />
+          </Col>
+          <Col
+            lg="6"
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+            xs="12"
+          >
+            <Input
+              onChange={[Function]}
+              placeholder="Message"
+              size="sm"
+              style={
+                Object {
+                  "height": "calc(2em + 12vw)",
+                }
+              }
+              type="textarea"
+            />
+          </Col>
+        </Row>
+        <Row
+          style={
+            Object {
+              "margin": "1vw",
+              "width": "100%",
+            }
+          }
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+        >
+          <Col
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+            xs="1"
+          >
+            <Button
+              color="secondary"
+              onClick={[Function]}
+              size="sm"
+              tag="button"
+            >
+              Envoyer
+            </Button>
+          </Col>
+        </Row>
+      </span>
+    </Row>
+  </Container>
+  <Footer />
+</ForwardRef(MotionComponent)>
+`;

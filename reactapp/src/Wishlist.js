@@ -10,11 +10,20 @@ import user from './images/user.png'
 import Footer from './Footer'
 import { motion } from 'framer-motion'
 import { FaUserCircle } from 'react-icons/fa';
+import { BsFillTrashFill } from 'react-icons/bs';
+import {connect} from "react-redux"
+import NavBar from "./NavBar"
 
 
 
 
-function Wishlist() {
+
+
+function Wishlist(props) {
+
+  function numberWithSpaces(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -30,6 +39,7 @@ function Wishlist() {
   const [userGenre, setUserGenre] = useState('')
   const [usersName, setUsersName] = useState('')
   const [deleteFav, setDeleteFav] = useState(false)
+  const [biensFavoris, setBiensFavoris] = useState([])
 
   const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
 
@@ -62,8 +72,20 @@ function Wishlist() {
 
       }
 
+      var getBiensFavoris = await fetch('/getBiensFavoris', {
+        method: 'POST',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          userTokenFromFront: userFoundFromToken,
+        })
+      })
+        .then(response => response.json()
+          .then(json => setBiensFavoris(json.tableauDeBiensFavoris) ))
 
-       
+
+  
+
+
     },[]);
 
 
@@ -91,6 +113,23 @@ function Wishlist() {
 
   }
 
+  async function deleteBienFavoris(id){
+
+    console.log("id :", id)
+
+    var deleteBien = await fetch('/supprimerBienFavori', {
+      method: 'DELETE',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        idFromFront: id,
+        userTokenFromFront: userFoundFromToken,
+      })
+    })
+      .then(response => response.json()
+        .then(json => setBiensFavoris(json.tableauDeBiensFavoris)))
+
+  }
+
   var userBoard = <PopoverBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                       <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Se connecter</span>
                       <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setEmail(e.target.value)}></Input>
@@ -109,42 +148,7 @@ function Wishlist() {
                 </PopoverBody>
   }
 
-var favRows =       
-  
-<Row style={firstRow}>
 
-  <Col xs='12' lg='3' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', justifySelf: 'center', alignSelf: 'center', height:'100%'}}>
-    <img src={photo} style={{width: '200px', height: '200px', display:'flex', justifySelf: 'center', alignSelf: 'center', justifyContent: 'center', alignItems: 'center'}} fluid />
-  </Col>
-
-  <Col xs='12' lg='2' style={{display:'flex', alignItems:'center', justifyContent: 'center', flexDirection: 'column'}}>
-    <Row>Maison</Row>
-    <Row><strong>7 p - 4 ch -  300m²</strong></Row>
-  </Col>
-
-  <Col xs='12' lg='4'>
-    <span style={{fontSize: 'calc(0.5em + 0.4vw)'}}>Lorem ipsum molestie adipiscing fringilla  lacinia condimentum amet phasellus. nec cras non imperdiet proin augue curae ultrices aliquam, tempus hendrerit sociosqu laoreet potenti aliquet sit taciti nullam,sociosqu laoreet potenti...</span>
-  </Col>
-
-  <Col xs='12' lg='2' style={{display: 'flex',alignItems:'center', flexDirection: 'column', height: '100%', justifyContent:'center'}}>
-    <Row style={{marginTop:'15px', marginBottom:'45px'}}><Badge style={{backgroundColor: '#206A37', fontSize:'calc(0.5em + 0.5vw)'}}>4 000 000 €</Badge></Row>
-    <Row style={{marginBottom:'15px', marginTop:'45px', display: 'flex', alignSelf: 'flex-end', marginRight: '1px'}}><FontAwesomeIcon icon={faTrash} type='button' size='2x' style={{color:'#206A37'}} onClick={()=> setDeleteFav(true)}/></Row>
-  </Col>
-
-</Row>
-
-
-
-var allRows = [];
-
-for (let i=0; i<3; i++ ){
-
-  allRows.push(favRows)
-}
-
-
-
-  
 
   return (
 
@@ -156,36 +160,74 @@ for (let i=0; i<3; i++ ){
 
       <Container style={BackgroundImage}>
 
-        <Row style={navBarRow}>
+        <NavBar pageName="M E S &nbsp; F A V O R I S" />
 
-          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-            <Link to='/'>
-              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-            </Link>
-          </Col>
 
-          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                  M E S &nbsp; F A V O R I S
-              </span>
-          </Col>
-          
-          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                {userBoard}
-              </Popover>
-          </Col>
+        {
+                biensFavoris.map(function(bien, i){
+  
+                    var bienImage = bien.photos[0]
+                    var caption100 = bien.description.substring(0,200) + " ...";
+                  
+            
+                    return(
+                    <span  style={firstRow} key={i} onClick={()=>props.onBienClick(bien)}>
+                        <Col xs='12' lg='3' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', justifySelf: 'center', alignSelf: 'center', height:'100%'}}>
+                          <Link to='/bien' style={linkStyle}>
+                            <img src={decodeURIComponent(bienImage)} style={{width: '200px', height: '200px', display:'flex', justifySelf: 'center', alignSelf: 'center', justifyContent: 'center', alignItems: 'center'}} fluid />
+                          </Link>
+                        </Col>
+            
+                      
+                      <Col xs='12' lg='9' style={{display:'flex', alignItems:'center', justifyContent: 'center', flexDirection: 'column'}}>
+                        
+                            <Row style={{width: "100%", marginBottom: 10, color: "#206A37", display: "flex", justifyContent: "space-between", }}>
+                              <Link to='/bien' style={linkStyle}>
+                                <Col xs="10">
+                                  <Row>{bien.typeBien}</Row>
+                                  <Row><strong> {bien.nbPieces} p -  ch - {bien.surfaceTotal} m² </strong></Row>
+                                </Col>
+                                <Col xs="2">
+                                  <Badge style={{backgroundColor: '#206A37', fontSize:'calc(0.5em + 0.5vw)'}}>{numberWithSpaces(bien.prixBien)} €</Badge>
+                                </Col>
+                              </Link>
+                            </Row>
 
-        </Row>
+                            <Row style={{width: "100%", display: "flex", flexDirection: "column", marginBottom: 10, color: "#206A37"}}>
+                              <Link to='/bien' style={linkStyle}>
+                                <span>{bien.ville} - {bien.codePostal}</span>
+                              </Link>
+                            </Row>
+            
+                          <Row style={{width: "100%", display: "flex", justifyContent: "space-between", marginRight: 5}}>
+                            <Col xs="10">
+                              <span style={{fontSize: 'calc(0.5em + 0.4vw)', color: "#a6a6a6",}}>{caption100}</span>
+                            </Col>
+                            <Col xs="2" style={{display: "flex", justifyContent: "flex-end"}}>
+                              <BsFillTrashFill style={{height: 20, width: 20, marginRight: 5, color: "#206A37", cursor: "pointer"}} onClick={()=>deleteBienFavoris(bien._id)}/>
+                            </Col>
+                          </Row>
+                      </Col>
 
-        {allRows}
+                    </span>
+                    )
+                  })
+            }
 
       </Container>
       <Footer/>
 
 </motion.div>
   );
+}
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onBienClick: function(info) {
+      dispatch( {type: "sendBienInfo", whatInfo: info} )
+    }
+  }
 }
 
 var BackgroundImage = {
@@ -218,7 +260,7 @@ var firstRow = {
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: 'rgba(255,255,255, 0.8)',
+  backgroundColor: 'rgba(255,255,255, 0.9)',
   width: '60%',
   justifySelf: 'center',
   alignSelf: 'center',
@@ -228,6 +270,15 @@ var firstRow = {
   border: 0
 }
 
+var linkStyle = {
+  width: "100%",
+  display: 'flex',
+  color: "#206A37"
+}
 
 
-export default Wishlist;
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Wishlist)

@@ -1,34 +1,49 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faBell} from '@fortawesome/free-solid-svg-icons'
-import { Container, Row, Col, Popover, Input, PopoverBody, Badge, Label, Button, ButtonGroup  } from 'reactstrap';
-import photo from './images/PageWishlist.png'
-import logo from './images/logo.png'
+import { Container, Row, Col, Input, PopoverBody, Badge, Spinner , Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import user from './images/user.png'
-import { FaRegHeart } from 'react-icons/fa';
-import { FaHeart } from 'react-icons/fa';
+import { BiArrowBack } from 'react-icons/bi';
 import Footer from './Footer'
 import { motion } from 'framer-motion'
-import { FaUserCircle } from 'react-icons/fa';
+import {connect} from 'react-redux';
+import NavBar from "./NavBar"
 
 
 
+function Resultats(props) {
 
+  function numberWithSpaces(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+function inside(point, vs) {
 
-function Resultats() {
+  var x = point[0], y = point[1];
+  
+  var inside = false;
+  for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+      var xi = vs[i][0], yi = vs[i][1];
+      var xj = vs[j][0], yj = vs[j][1];
+      
+      var intersect = ((yi > y) != (yj > y))
+          && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+      if (intersect) inside = !inside;
+  }
+  
+  return inside;
+}
 
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [filtersFromRedux, setFiltersFromRedux] = useState(props.filtersToDisplay)
 
   const toggle = () => setPopoverOpen(!popoverOpen);
 
   const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
+  const [password, setPassword] = useState('')
 
-    const [logInMessage, setLogInMessage] = useState([])
+  const [logInMessage, setLogInMessage] = useState([])
 
   const [logInAccepted, setLogInAccepted] = useState(false)
+  const[loaded, setLoaded] = useState(false)
 
   const [userGenre, setUserGenre] = useState('')
   const [usersName, setUsersName] = useState('')
@@ -36,22 +51,28 @@ function Resultats() {
   const [OptionSelected, setOptionSelected] = useState(null);
   const [TypeSelected, setTypeSelected] = useState(null);
   const [heart, setHeart] = useState(false)
-
+  const [allBiensState, setAllBiensState] = useState([])
   const [userFoundFromToken, setUserFoundFromToken] = useState(localStorage.getItem('usersToken'))
+
+  const [appartement, setAppartement] = useState(filtersFromRedux.appartement)
+  const [maison, setMaison] = useState(filtersFromRedux.maison)
+  const [place, setPlace] = useState()
+  const [budget, setBudget] = useState(filtersFromRedux.prix)
+  const [acheter, setAcheter] = useState(false)
+  const [louer, setLouer] = useState(false)
+  const [boundsFromRedux, setBoundsFromRedux] = useState(props.boundsToDisplay)
+
+
 
   var handleLogout = () => {
       localStorage.removeItem('usersToken')
       setLogInAccepted(false)
   }
+
+  var pasDeBiens;
   
       
   useEffect(async() => {
-
-    
-    // var rawData2 = await fetch('http://clients.ac3-distribution.com/office2/gli_111306/cache/export.xml'); 
-    // var data2 = rawData2.json()
-    // console.log('data2: ', data2)
-    
 
       console.log('localstotage',userFoundFromToken);
 
@@ -65,6 +86,7 @@ function Resultats() {
     }); 
     
         var data = await rawData.json()
+        console.log("data :",data)
         
         if(data.result === true){
           setLogInAccepted(true)
@@ -74,9 +96,696 @@ function Resultats() {
 
       }
 
+      //FETCH ALL BIENS :
+
+      // console.log("boundsFromRedux :", boundsFromRedux)
+
+      var allBiens = []
+      
+
+      var getBiens = await fetch('/getBiens', {
+        method: 'POST',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          filtersFromFront: filtersFromRedux,
+        })
+
+  });
+
+      var dataGetBiens = await getBiens.json()
+      console.log("dataGetBiens :", dataGetBiens)
+      allBiens = dataGetBiens.biens
+
+      console.log("boundsFromRedux.length :", boundsFromRedux.length)
+
+      // FILTER BIENS:
+
+      var allBiensVar = []
+
+      //filter vente:
+      if(props.typeTransactionToDisplay === "Acheter"){
+        var allVente = []
+          for(let i=0; i<allBiens.length; i++){
+            if(allBiens[i].typeTransaction === "Vente"){
+              allVente.push(allBiens[i])
+            }
+          }
+          console.log("allVente :", allVente)
+          setAllBiensState(allVente)
+
+          // filtre par type de bien:
+
+          if(filtersFromRedux.appartement === true){
+            for(let i=0; i<allVente.length; i++){
+              if(allVente[i].typeBien === "Appartement"){
+                allBiensVar.push(allVente[i])
+              }
+            }
+          }
+
+          if(filtersFromRedux.maison === true){
+            for(let i=0; i<allVente.length; i++){
+              if(allVente[i].typeBien === "Maison"){
+                allBiensVar.push(allVente[i])
+              }
+            }
+          }
+
+          if(filtersFromRedux.loft === true){
+            for(let i=0; i<allVente.length; i++){
+              if(allVente[i].typeBien === "Loft"){
+                allBiensVar.push(allVente[i])
+              }
+            }
+          }
+          if(filtersFromRedux.terrain === true){
+            for(let i=0; i<allVente.length; i++){
+              if(allVente[i].typeBien === "Terrain"){
+                allBiensVar.push(allVente[i])
+              }
+            }
+          }
+          if(filtersFromRedux.bureau === true){
+            for(let i=0; i<allVente.length; i++){
+              if(allVente[i].typeBien === "Bureau"){
+                allBiensVar.push(allVente[i])
+              }
+            }
+          }
+          if(filtersFromRedux.parking === true){
+            for(let i=0; i<allVente.length; i++){
+              if(allVente[i].typeBien === "Parking / Garage"){
+                allBiensVar.push(allVente[i])
+              }
+            }
+          }
+          if(filtersFromRedux.immeuble === true){
+            for(let i=0; i<allVente.length; i++){
+              if(allVente[i].typeBien === "Immeuble"){
+                allBiensVar.push(allVente[i])
+              }
+            }
+          }
+          if(filtersFromRedux.fondCommerce === true){
+            for(let i=0; i<allVente.length; i++){
+              if(allVente[i].typeBien === "Fonds de commerce"){
+                allBiensVar.push(allVente[i])
+              }
+            }
+          }
+          if(filtersFromRedux.hotelP === true){
+            for(let i=0; i<allVente.length; i++){
+              if(allVente[i].typeBien === "Hôtel Particulier"){
+                allBiensVar.push(allVente[i])
+              }
+            }
+          }
+          setAllBiensState(allBiensVar)
+
+          var biensFilteredEndroit = []
+          var biensFilteredEndroitEtPrix = [];
+
+          // filter par ville tapé:
+
+          if(filtersFromRedux.endroit){
+            for(let i=0; i<allBiensVar.length; i++){
+              if(allBiensVar[i].ville === filtersFromRedux.endroit.label){
+                biensFilteredEndroit.push(allBiensVar[i])
+              }
+            }
+            setAllBiensState(biensFilteredEndroit)
+          }
+
+          //filter par budget:
+
+          if(filtersFromRedux.prixMin || filtersFromRedux.prixMax){
+            var tableauABloucler = biensFilteredEndroit
+            if(biensFilteredEndroit.length === 0){
+              tableauABloucler = allBiensVar
+            }
+            for(let i=0; i<tableauABloucler.length; i++){
+              if(tableauABloucler[i].prixBien >=  filtersFromRedux.prixMin && tableauABloucler[i].prixBien <=  filtersFromRedux.prixMax){
+                biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+              }
+            }
+            setAllBiensState(biensFilteredEndroitEtPrix)
+
+            if(filtersFromRedux.prixMin === ""){
+              for(let i=0; i<tableauABloucler.length; i++){
+                if(tableauABloucler[i].prixBien <=  filtersFromRedux.prixMax){
+                  biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+                }
+              }
+              setAllBiensState(biensFilteredEndroitEtPrix)
+            }
+            if(filtersFromRedux.prixMax === ""){
+              for(let i=0; i<tableauABloucler.length; i++){
+                if(tableauABloucler[i].prixBien >=  filtersFromRedux.prixMin){
+                  biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+                }
+              }
+              setAllBiensState(biensFilteredEndroitEtPrix)
+            }
+
+          }
+
+          // filter par coordones de la map et type de bien: 
+
+          var biensFilteredMap = []
+          var biensFilteredMapAndPrix = []
+          if(boundsFromRedux.length != 0){
+
+            for(let i=0; i<allBiensVar.length; i++){
+              var bienLat = allBiensVar[i].latitude;
+              var bienLgn = allBiensVar[i].longitude
+              var bienCords = [bienLat, bienLgn]
+              var includesInPolygon = inside(bienCords, boundsFromRedux)
+              if(includesInPolygon === true){
+                  console.log("condition passed")
+                  biensFilteredMap.push(allBiensVar[i])
+                  
+                }
+              }
+              setAllBiensState(biensFilteredMap)
+
+              // filter par coordones, type de bien et budget:
+
+              if(filtersFromRedux.prixMin || filtersFromRedux.prixMax){
+
+                if(filtersFromRedux.prixMin != "" && filtersFromRedux.prixMax != ""){
+                  for(let i=0; i<biensFilteredMap.length; i++){
+                    if(biensFilteredMap[i].prixBien >=  filtersFromRedux.prixMin && biensFilteredMap[i].prixBien <=  filtersFromRedux.prixMax){
+                      biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                    }
+                  }
+                  setAllBiensState(biensFilteredMapAndPrix)
+                }
+    
+                if(filtersFromRedux.prixMin === ""){
+                  for(let i=0; i<biensFilteredMap.length; i++){
+                    if(biensFilteredMap[i].prixBien <=  filtersFromRedux.prixMax){
+                      biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                    }
+                  }
+                  setAllBiensState(biensFilteredMapAndPrix)
+                }
+                if(filtersFromRedux.prixMax === ""){
+                  for(let i=0; i<biensFilteredMap.length; i++){
+                    if(biensFilteredMap[i].prixBien >=  filtersFromRedux.prixMin){
+                      biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                    }
+                  }
+                  setAllBiensState(biensFilteredMapAndPrix)
+                }
+    
+              }
+
+          }
+
+          // filter si le type de bien n'as pa été selectioné :
+
+          if(filtersFromRedux.noBiensSelected === true){
+            setAllBiensState(allVente)
+
+            // filter par ville tapé:
+
+            if(filtersFromRedux.endroit){
+              for(let i=0; i<allVente.length; i++){
+                if(allVente[i].ville === filtersFromRedux.endroit.label){
+                  biensFilteredEndroit.push(allVente[i])
+                }
+              }
+              setAllBiensState(biensFilteredEndroit)
+            }
+            // filter par ville tapé et budget ou juste budget:
+
+            if(filtersFromRedux.prixMin || filtersFromRedux.prixMax){
+              var tableauABloucler = biensFilteredEndroit
+              if(biensFilteredEndroit.length === 0){
+                tableauABloucler = allVente
+              }
+
+              // si budget min = null
+              if(filtersFromRedux.prixMin === ""){
+              for(let i=0; i<tableauABloucler.length; i++){
+                if(tableauABloucler[i].prixBien <=  filtersFromRedux.prixMax){
+                  biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+                }
+              }
+              setAllBiensState(biensFilteredEndroitEtPrix)
+            }
+
+            // si budget max = null
+            if(filtersFromRedux.prixMax === ""){
+              for(let i=0; i<tableauABloucler.length; i++){
+                if(tableauABloucler[i].prixBien >=  filtersFromRedux.prixMin){
+                  biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+                }
+              }
+              setAllBiensState(biensFilteredEndroitEtPrix)
+            }
+
+            // si les deux budgets sont pas null
+            if(filtersFromRedux.prixMin != "" && filtersFromRedux.prixMax != ""){
+              for(let i=0; i<tableauABloucler.length; i++){
+                if(tableauABloucler[i].prixBien >=  filtersFromRedux.prixMin && tableauABloucler[i].prixBien <=  filtersFromRedux.prixMax){
+                  biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+                }
+              }
+              setAllBiensState(biensFilteredEndroitEtPrix)
+            }
+            // filter par coordones de la map: not working!
+
+            console.log("boundsFromRedux.length :", boundsFromRedux.length)
+
+            if(boundsFromRedux.length != 0){
+              console.log("condition passed")
+
+              for(let i=0; i<allVente.length; i++){
+                var bienLat = allVente[i].latitude;
+                var bienLgn = allVente[i].longitude
+                var bienCords = [bienLat, bienLgn]
+                var includesInPolygon = inside(bienCords, boundsFromRedux)
+                if(includesInPolygon === true){
+                  biensFilteredMap.push(allVente[i])
+                  
+                }
+              }
+              setAllBiensState(biensFilteredMap)
+
+              // filter par coordones et budget:
+
+              if(filtersFromRedux.prixMin || filtersFromRedux.prixMax){
+
+                for(let i=0; i<biensFilteredMap.length; i++){
+                  if(biensFilteredMap[i].prixBien >=  filtersFromRedux.prixMin && biensFilteredMap[i].prixBien <=  filtersFromRedux.prixMax){
+                    biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                  }
+                }
+                setAllBiensState(biensFilteredMapAndPrix)
+    
+                if(filtersFromRedux.prixMin === ""){
+                  for(let i=0; i<biensFilteredMap.length; i++){
+                    if(biensFilteredMap[i].prixBien <=  filtersFromRedux.prixMax){
+                      biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                    }
+                  }
+                  setAllBiensState(biensFilteredMapAndPrix)
+                }
+                if(filtersFromRedux.prixMax === ""){
+                  for(let i=0; i<biensFilteredMap.length; i++){
+                    if(biensFilteredMap[i].prixBien >=  filtersFromRedux.prixMin){
+                      biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                    }
+                  }
+                  setAllBiensState(biensFilteredMapAndPrix)
+                }
+    
+              }
+
+            }
+            
+            }
+          
+          
+          }
+
+      }
+
+
+
+
+      //filter location
+      if(props.typeTransactionToDisplay === "Louer"){
+        var allLocation = []
+        for(let i=0; i<allBiens.length; i++){
+          if(allBiens[i].typeTransaction === "Location"){
+            allLocation.push(allBiens[i])
+          }
+        }
+        
+        if(filtersFromRedux.appartement === true){
+          for(let i=0; i<allLocation.length; i++){
+            if(allLocation[i].typeBien === "Appartement"){
+              allBiensVar.push(allLocation[i])
+            }
+          }
+        }
+        
+        if(filtersFromRedux.maison === true){
+          for(let i=0; i<allLocation.length; i++){
+            if(allLocation[i].typeBien === "Maison"){
+              allBiensVar.push(allLocation[i])
+            }
+          }
+        }
+        
+        if(filtersFromRedux.loft === true){
+          for(let i=0; i<allLocation.length; i++){
+            if(allLocation[i].typeBien === "Loft"){
+              allBiensVar.push(allLocation[i])
+            }
+          }
+        }
+        if(filtersFromRedux.bureau === true){
+          for(let i=0; i<allLocation.length; i++){
+            if(allLocation[i].typeBien === "Bureau"){
+              allBiensVar.push(allLocation[i])
+            }
+          }
+        }
+        if(filtersFromRedux.parking === true){
+          for(let i=0; i<allLocation.length; i++){
+            if(allLocation[i].typeBien === "Parking / Garage"){
+              allBiensVar.push(allLocation[i])
+            }
+          }
+        }
+        if(filtersFromRedux.immeuble === true){
+          for(let i=0; i<allLocation.length; i++){
+            if(allLocation[i].typeBien === "Immeuble"){
+              allBiensVar.push(allLocation[i])
+            }
+          }
+        }
+        if(filtersFromRedux.hotelP === true){
+          for(let i=0; i<allLocation.length; i++){
+            if(allLocation[i].typeBien === "Hôtel Particulier"){
+              allBiensVar.push(allLocation[i])
+            }
+          }
+        }
+        setAllBiensState(allBiensVar)
+
+
+        var biensFilteredEndroit = []
+        var biensFilteredEndroitEtPrix = [];
+
+
+        if(filtersFromRedux.endroit){
+          for(let i=0; i<allBiensVar.length; i++){
+            if(allBiensVar[i].ville === filtersFromRedux.endroit.label){
+              biensFilteredEndroit.push(allBiensVar[i])
+            }
+          }
+          setAllBiensState(biensFilteredEndroit)
+        }
+
+        if(filtersFromRedux.prixMin || filtersFromRedux.prixMax){
+          console.log("condition passes!")
+          var tableauABloucler = biensFilteredEndroit
+          if(biensFilteredEndroit.length === 0){
+            tableauABloucler = allBiensVar
+          }
+          for(let i=0; i<tableauABloucler.length; i++){
+            if(tableauABloucler[i].prixBien >=  filtersFromRedux.prixMin && tableauABloucler[i].prixBien <=  filtersFromRedux.prixMax){
+              biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+            }
+          }
+          setAllBiensState(biensFilteredEndroitEtPrix)
+
+          if(filtersFromRedux.prixMin === ""){
+            for(let i=0; i<tableauABloucler.length; i++){
+              if(tableauABloucler[i].prixBien <=  filtersFromRedux.prixMax){
+                biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+              }
+            }
+            setAllBiensState(biensFilteredEndroitEtPrix)
+          }
+          if(filtersFromRedux.prixMax === ""){
+            for(let i=0; i<tableauABloucler.length; i++){
+              if(tableauABloucler[i].prixBien >=  filtersFromRedux.prixMin){
+                biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+              }
+            }
+            setAllBiensState(biensFilteredEndroitEtPrix)
+          }
+        }
+
+        // filter par coordones de la map et type de bien: 
+
+        var biensFilteredMap = []
+        var biensFilteredMapAndPrix = []
+        if(boundsFromRedux.length != 0){
+
+          for(let i=0; i<allBiensVar.length; i++){
+            var bienLat = allBiensVar[i].latitude;
+            var bienLgn = allBiensVar[i].longitude
+            var bienCords = [bienLat, bienLgn]
+            var includesInPolygon = inside(bienCords, boundsFromRedux)
+            if(includesInPolygon === true){
+                console.log("condition passed")
+                biensFilteredMap.push(allBiensVar[i])
+                
+              }
+            }
+            setAllBiensState(biensFilteredMap)
+
+            // filter par coordones, type de bien et budget:
+
+            if(filtersFromRedux.prixMin || filtersFromRedux.prixMax){
+              if(filtersFromRedux.prixMin != "" && filtersFromRedux.prixMax != ""){
+                for(let i=0; i<biensFilteredMap.length; i++){
+                  if(biensFilteredMap[i].prixBien >=  filtersFromRedux.prixMin && biensFilteredMap[i].prixBien <=  filtersFromRedux.prixMax){
+                    biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                  }
+                }
+                setAllBiensState(biensFilteredMapAndPrix)
+              }
+  
+              if(filtersFromRedux.prixMin === ""){
+                for(let i=0; i<biensFilteredMap.length; i++){
+                  if(biensFilteredMap[i].prixBien <=  filtersFromRedux.prixMax){
+                    biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                  }
+                }
+                setAllBiensState(biensFilteredMapAndPrix)
+              }
+              if(filtersFromRedux.prixMax === ""){
+                for(let i=0; i<biensFilteredMap.length; i++){
+                  if(biensFilteredMap[i].prixBien >=  filtersFromRedux.prixMin){
+                    biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                  }
+                }
+                setAllBiensState(biensFilteredMapAndPrix)
+              }
+  
+            }
+
+        }
+
+
+        if(filtersFromRedux.noBiensSelected === true){
+          setAllBiensState(allLocation)
+          
+          if(filtersFromRedux.endroit){
+            for(let i=0; i<allLocation.length; i++){
+              if(allLocation[i].ville === filtersFromRedux.endroit.label){
+                biensFilteredEndroit.push(allLocation[i])
+              }
+            }
+            setAllBiensState(biensFilteredEndroit)
+          }
+
+          if(filtersFromRedux.prixMin || filtersFromRedux.prixMax){
+            var tableauABloucler = biensFilteredEndroit
+            if(biensFilteredEndroit.length === 0){
+              tableauABloucler = allLocation
+            }
+            
+            if(filtersFromRedux.prixMin === ""){
+              for(let i=0; i<tableauABloucler.length; i++){
+                if(tableauABloucler[i].prixBien <=  filtersFromRedux.prixMax){
+                  biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+                }
+              }
+              setAllBiensState(biensFilteredEndroitEtPrix)
+            }
+            if(filtersFromRedux.prixMax === ""){
+              for(let i=0; i<tableauABloucler.length; i++){
+                if(tableauABloucler[i].prixBien >=  filtersFromRedux.prixMin){
+                  biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+                }
+              }
+              setAllBiensState(biensFilteredEndroitEtPrix)
+            }
+
+            if(filtersFromRedux.prixMin != "" && filtersFromRedux.prixMax != ""){
+              for(let i=0; i<tableauABloucler.length; i++){
+                if(tableauABloucler[i].prixBien >=  filtersFromRedux.prixMin && tableauABloucler[i].prixBien <=  filtersFromRedux.prixMax){
+                  biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+                }
+              }
+              setAllBiensState(biensFilteredEndroitEtPrix)
+            }
+          }
+
+        }
+
+
+      }
+
+
+      // filter viager
+      if(props.typeTransactionToDisplay === "Viager"){
+        var allViager = []
+        for(let i=0; i<allBiens.length; i++){
+          if(allBiens[i].typeTransaction === "Viager"){
+            allViager.push(allBiens[i])
+          }
+        }
+        setAllBiensState(allViager)
+
+        if(filtersFromRedux.appartement === true){
+          for(let i=0; i<allViager.length; i++){
+            if(allViager[i].typeBien === "Appartement"){
+              allBiensVar.push(allViager[i])
+            }
+          }
+        }
+
+        if(filtersFromRedux.maison === true){
+          for(let i=0; i<allViager.length; i++){
+            if(allViager[i].typeBien === "Maison"){
+              allBiensVar.push(allViager[i])
+            }
+          }
+        }
+
+        if(filtersFromRedux.loft === true){
+          for(let i=0; i<allViager.length; i++){
+            if(allViager[i].typeBien === "Loft"){
+              allBiensVar.push(allViager[i])
+            }
+          }
+        }
+        setAllBiensState(allBiensVar)
+
+
+        var biensFilteredEndroit = []
+        var biensFilteredEndroitEtPrix = [];
+
+
+
+        if(filtersFromRedux.endroit){
+          for(let i=0; i<allBiensVar.length; i++){
+            if(allBiensVar[i].ville === filtersFromRedux.endroit.label){
+              biensFilteredEndroit.push(allBiensVar[i])
+            }
+          }
+          setAllBiensState(biensFilteredEndroit)
+        }
+
+        if(filtersFromRedux.prixMin || filtersFromRedux.prixMax){
+          console.log("condition passes!")
+          var tableauABloucler = biensFilteredEndroit
+          if(biensFilteredEndroit.length === 0){
+            tableauABloucler = allBiensVar
+          }
+          for(let i=0; i<tableauABloucler.length; i++){
+            if(tableauABloucler[i].prixBien <=  filtersFromRedux.prixMax){
+              biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+            }
+          }
+          setAllBiensState(biensFilteredEndroitEtPrix)
+        }
+
+        // filter par coordones de la map et type de bien: 
+
+        var biensFilteredMap = []
+        var biensFilteredMapAndPrix = []
+        if(boundsFromRedux.length != 0){
+
+          for(let i=0; i<allBiensVar.length; i++){
+            var bienLat = allBiensVar[i].latitude;
+            var bienLgn = allBiensVar[i].longitude
+            var bienCords = [bienLat, bienLgn]
+            var includesInPolygon = inside(bienCords, boundsFromRedux)
+            if(includesInPolygon === true){
+                console.log("condition passed")
+                biensFilteredMap.push(allBiensVar[i])
+                
+              }
+            }
+            setAllBiensState(biensFilteredMap)
+
+            // filter par coordones, type de bien et budget:
+
+            if(filtersFromRedux.prixMin || filtersFromRedux.prixMax){
+
+              if(filtersFromRedux.prixMin != "" && filtersFromRedux.prixMax != ""){
+                for(let i=0; i<biensFilteredMap.length; i++){
+                  if(biensFilteredMap[i].prixBien >=  filtersFromRedux.prixMin && biensFilteredMap[i].prixBien <=  filtersFromRedux.prixMax){
+                    biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                  }
+                }
+                setAllBiensState(biensFilteredMapAndPrix)
+              }
+  
+              if(filtersFromRedux.prixMin === ""){
+                for(let i=0; i<biensFilteredMap.length; i++){
+                  if(biensFilteredMap[i].prixBien <=  filtersFromRedux.prixMax){
+                    biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                  }
+                }
+                setAllBiensState(biensFilteredMapAndPrix)
+              }
+              if(filtersFromRedux.prixMax === ""){
+                for(let i=0; i<biensFilteredMap.length; i++){
+                  if(biensFilteredMap[i].prixBien >=  filtersFromRedux.prixMin){
+                    biensFilteredMapAndPrix.push(biensFilteredMap[i])
+                  }
+                }
+                setAllBiensState(biensFilteredMapAndPrix)
+              }
+  
+            }
+
+        }
+
+
+
+        if(filtersFromRedux.noBiensSelected === true){
+          setAllBiensState(allViager)
+
+          if(filtersFromRedux.endroit){
+            console.log("allVente2", allViager)
+            for(let i=0; i<allViager.length; i++){
+              if(allViager[i].ville === filtersFromRedux.endroit.label){
+                biensFilteredEndroit.push(allViager[i])
+              }
+            }
+            setAllBiensState(biensFilteredEndroit)
+          }
+
+          if(filtersFromRedux.prixMin || filtersFromRedux.prixMax){
+            var tableauABloucler = biensFilteredEndroit
+            if(biensFilteredEndroit.length === 0){
+              console.log("condition passes!")
+              tableauABloucler = allViager
+            }
+            for(let i=0; i<tableauABloucler.length; i++){
+              if(tableauABloucler[i].prixBien <=  filtersFromRedux.prixMax){
+                biensFilteredEndroitEtPrix.push(tableauABloucler[i])
+              }
+            }
+            setAllBiensState(biensFilteredEndroitEtPrix)
+          }
+        }
+
+      }
+
+      setTimeout(() => {
+        setLoaded(true)
+      }, 900);
 
        
     },[]);
+
+
+
+
+
 
 
 
@@ -122,53 +831,22 @@ function Resultats() {
   }
 
 
+  if(loaded === false){
+    pasDeBiens =  <Spinner style={{marginTop: 30, marginBottom: 30}} color="light" />
 
-var heartIcon =  <FaRegHeart type='button' onClick={()=> setHeart(!heart)} style={{color:'#206A37', width: 40, height: 40}}/>
-  
-if(heart === true){
-  heartIcon = <FaHeart type='button' onClick={()=> setHeart(!heart)} style={{color:'#206A37', width: 40, height: 40}}/>
-}
+  }
 
+  if(loaded === true && allBiensState.length === 0){
+    console.log("allBiensState.length :", allBiensState.length)
+    pasDeBiens = 
+    <span style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+      <span style={{display: "flex", justifyContent: "center", alignItems: "center", color: "white", marginTop: 30, marginBottom: 30, }}>
+        Il n'y a pas des biens correspondant à votre recherche
+      </span>
+      <Button style={{backgroundColor: "#206A37"}}><Link to="/recherche" style={{color: "white"}}>Revenir à la page Recherche</Link></Button>
+    </span>
 
-
-  var favRows =     
-  
-
-  <Row style={firstRow}>
-
-    <Col xs='12' lg='3' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', justifySelf: 'center', alignSelf: 'center', height:'100%'}}>
-      <Link to='/bien' style={{display:'flex', justifySelf: 'center', alignSelf: 'center', justifyContent: 'center', alignItems: 'center'}}><img src={photo} style={{width: '200px', height: '200px', display:'flex', justifySelf: 'center', alignSelf: 'center', justifyContent: 'center', alignItems: 'center'}} fluid /></Link>
-    </Col>
-
-    
-    <Col xs='12' lg='2' style={{display:'flex', alignItems:'center', justifyContent: 'center', flexDirection: 'column'}}>
-      <Link to='/bien' style={{color: '#206A37'}}>
-        <Row>Maison</Row>
-        <Row><strong>7 p - 4 ch -  300m²</strong></Row>
-      </Link>
-    </Col>
-
-
-    <Col xs='12' lg='4'>
-      <span style={{fontSize: 'calc(0.5em + 0.4vw)'}}>Lorem ipsum molestie adipiscing fringilla  lacinia condimentum amet phasellus. nec cras non imperdiet proin augue curae ultrices aliquam, tempus hendrerit sociosqu laoreet potenti aliquet sit taciti nullam,sociosqu laoreet potenti...</span>
-    </Col>
-
-    <Col xs='12' lg='2' style={{display: 'flex',alignItems:'center', flexDirection: 'column', height: '100%', justifyContent:'center'}}>
-      <Row style={{marginTop:'15px', marginBottom:'45px'}}><Badge style={{backgroundColor: '#206A37', fontSize:'calc(0.5em + 0.5vw)'}}>4 000 000 €</Badge></Row>
-      <Row style={{marginBottom:'15px', marginTop:'45px', display: 'flex', alignSelf: 'flex-end', marginRight: '1px'}}>{heartIcon}</Row>
-    </Col>
-
-  </Row>
-
-
-
-
-var allRows = [];
-
-for (let i=0; i<3; i++){
-
-  allRows.push(favRows)
-}
+  }
 
 
 
@@ -182,84 +860,61 @@ for (let i=0; i<3; i++){
 
       <Container style={BackgroundImage}>
 
-        <Row style={navBarRow}>
+        <NavBar pageName="R E S U L T A T S" />
 
-          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-            <Link to='/'>
-              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
+        <Row style={{width: "100%", marginBottom: 30, display: "flex", justifyContent: "flex-start", marginLeft: 5}}>
+            <Link to="/recherche">
+              <Button style={{color: "#206A37", backgroundColor: "white"}}>
+                <BiArrowBack style={{marginRight: 5}}/>
+                Retour 
+              </Button>
             </Link>
-          </Col>
-
-          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                  R E S U L T A T S
-              </span>
-          </Col>
-          
-          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                {userBoard}
-              </Popover>
-          </Col>
-
         </Row>
 
-        <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255, 0.8)',height: 'auto',marginTop: '15px', padding: '5px'}}>
-
-          <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-
-            <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-              <Button color="success" style={{marginBottom: '3px'}}><FontAwesomeIcon icon={faBell} style={{color: 'white', marginRight: '2px'}}/>Activer l'alerte mail</Button>
-            </Row>
-
-          </Col>
-
-          <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: '#206A37'}}>
-            <ButtonGroup style={{display: 'flex', flexDirection: 'column'}}>
-              <Button color="success" style={{marginBottom: '3px'}} onClick={() => setOptionSelected('Acheter')} active={OptionSelected === 'Acheter'}>Acheter</Button>
-              <Button color="success"  onClick={() => setOptionSelected('Louer')} active={OptionSelected === 'Louer'}>Louer</Button>
-            </ButtonGroup>
-          </Col>
-
-          <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-              <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#206A37'}}>Type de bien :</Row>
-              <Row style={{display: 'flex',flexDirection: 'column'}}>
-                <ButtonGroup style={{display: 'flex', flexDirection: 'column'}}>
-                  <Button color="success" style={{marginBottom: '3px'}} onClick={() => setTypeSelected('Appartement')} active={TypeSelected === 'Appartement'}>Appartement</Button>
-                  <Button color="success" onClick={() => setTypeSelected('Maison')} active={TypeSelected === 'Maison'}>Maison</Button>
-                </ButtonGroup>
-              </Row>
-          </Col>
-
-          <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-              <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#206A37'}}>A quelle endroit ?</Row>
-              <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                <Input placeholder='Ville ? Quartier ?'/>
-              </Row>
-          </Col>
-
-          <Col xs='12' lg='2'  style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', marginBottom: '3px'}}>
-              <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', color: '#206A37'}}>Votre Budget ?</Row>
-              <Row style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'row'}}>
-                <Input style={{width:'40%'}} placeholder='Min'/>
-                <Input style={{width:'40%'}} placeholder='Max'/>
-              </Row>
-          </Col>
-          
-          <Col xs='12' lg='2' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-            <ButtonGroup style={{display: 'flex', flexDirection: 'column'}}>
-              <Button color="success" style={{marginBottom: '3px'}}>Confirmer</Button>
-              <Button color="success">Plus de filtres</Button>
-            </ButtonGroup>
-          </Col>
-            
-          
-
-        </Row>
 
         <Row style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-          {allRows}
+          {pasDeBiens}
+            {
+                allBiensState.map(function(bien, i){
+  
+                    var bienImage = bien.photos[0]
+                    var caption100 = bien.description.substring(0,200) + " ...";
+                  
+            
+                    return(
+                    <Link to='/bien' style={firstRow} key={i} onClick={()=>props.onBienClick(bien)}>
+
+                      <Col xs='12' lg='3' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', justifySelf: 'center', alignSelf: 'center', height:'100%'}}>
+                          <img src={decodeURIComponent(bienImage)} style={{width: '200px', height: '200px', display:'flex', justifySelf: 'center', alignSelf: 'center', justifyContent: 'center', alignItems: 'center'}} fluid />
+                      </Col>
+            
+                      
+                      <Col xs='12' lg='9' style={{display:'flex', alignItems:'center', justifyContent: 'center', flexDirection: 'column'}}>
+            
+                          <Row style={{width: "100%", marginBottom: 10, color: "#206A37"}}>
+                              <Col xs="9">
+                                <Row>{bien.typeBien}</Row>
+                                <Row><strong> {bien.nbPieces} p -  ch - {bien.surfaceTotal} m² </strong></Row>
+                              </Col>
+                              <Col xs="3">
+                                <Badge style={{backgroundColor: '#206A37', fontSize:'calc(0.5em + 0.5vw)'}}>{numberWithSpaces(bien.prixBien)} €</Badge>
+                              </Col>
+                          </Row>
+            
+                          <Row style={{width: "100%", display: "flex", flexDirection: "column", marginBottom: 10, color: "#206A37"}}>
+                            <span>{bien.ville}</span>
+                            <span>{bien.codePostal}</span>
+                          </Row>
+            
+                          <Row style={{width: "100%"}}>
+                              <span style={{fontSize: 'calc(0.5em + 0.4vw)', color: "#a6a6a6"}}>{caption100}</span>
+                          </Row>
+                      </Col>
+
+                    </Link>
+                    )
+                  })
+            }
         </Row>
 
       </Container>
@@ -269,19 +924,38 @@ for (let i=0; i<3; i++){
   );
 }
 
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onBienClick: function(info) {
+      dispatch( {type: "sendBienInfo", whatInfo: info} )
+    }
+  }
+}
+
+
+function mapStateToProps(state) {
+  return {
+    filtersToDisplay: state.filters,
+    typeTransactionToDisplay: state.typedeTransaction,
+    boundsToDisplay: state.latAndLng
+  }
+}
+
 var BackgroundImage = {
   display: 'flex',
   flexDirection: 'column',
   minHeight: '100vh',
   height:'auto',
-  backgroundColor: 'rgba(189, 224, 193)',
+  backgroundImage: 'linear-gradient(to right bottom, #176b2b, #419068, #74b4a0, #b1d7d1, #f4fafa)',
   backgroundPosition: 'center',
-  backgroundRepeat: 'repeat-y',
+  backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
   maxWidth: '100%',
+
 }
 
-var navBarRow ={
+var navBarRow = {
   backgroundColor: 'white',
   height: 'auto',
   diplay: 'flex',
@@ -299,16 +973,21 @@ var firstRow = {
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: 'rgba(255,255,255, 0.8)',
-  width: '90%',
+  backgroundColor: 'rgba(255,255,255, 0.9)',
+  width: "60%",
   justifySelf: 'center',
   alignSelf: 'center',
   marginTop: 'calc(0.5em + 0.5vw)',
   marginBottom: 'calc(0.5em + 0.5vw)',
   borderRadius: '10px',
-  border: 0
+  border: 0,
+  paddingBottom: 5, 
+  paddingTop: 5,
 }
 
 
 
-export default Resultats;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Resultats)

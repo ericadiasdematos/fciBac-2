@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Popover, Input, PopoverBody, Button, Badge, ButtonGroup } from 'reactstrap';
+import { Container, Row, Col, Popover, Input, PopoverBody, Button, Spinner, ButtonGroup } from 'reactstrap';
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
 import user from './images/user.png'
@@ -9,6 +9,7 @@ import PictureCarousel from './carosel'
 import { FaRegHeart } from 'react-icons/fa';
 import { FaMap } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa';
+import { BiArrowBack } from 'react-icons/bi';
 import { Table } from 'reactstrap';
 import energy from './images/energieExample.gif'
 import emailjs from 'emailjs-com';
@@ -16,11 +17,19 @@ import Footer from './Footer'
 import Car from './car'
 import { motion } from 'framer-motion'
 import { FaUserCircle } from 'react-icons/fa';
+import { GiConfirmed } from 'react-icons/gi';
+import {connect} from "react-redux"
+import NavBar from "./NavBar"
 
 
 
 
-function PageBien() {
+
+function PageBien(props) {
+
+  function numberWithSpaces(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -46,6 +55,9 @@ function PageBien() {
   const [prenomClient, setPrenomClient] = useState('')
   const [telClient, setTelClient] = useState('')
   const [messageResult, setMessageResult] = useState('')
+  const [bienFromRedux, setBienFromRedux] = useState(props.bienToDisplay)
+  const [sendClicked, setSendClicked] = useState(false)
+  const [bienIncludedInFavoris, setBienIncludedInFavoris] = useState(false)
   // const [bienAVendreClient, setBienAVendreClient] = useState('')
 
   var handleLogout = () => {
@@ -77,7 +89,18 @@ function PageBien() {
 
       }
 
+      console.log("bienFromRedux :", bienFromRedux)
 
+      var checkIfBienIsFavorite = await fetch('/checkIfBienIsInWishlist', {
+        method: 'POST',
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          idFromFront: bienFromRedux._id,
+          userTokenFromFront: userFoundFromToken,
+        })
+      })
+        .then(response => response.json()
+          .then(json => setBienIncludedInFavoris(json.includesBien)))
        
     },[]);
 
@@ -107,6 +130,7 @@ function PageBien() {
   }
 
   const sendEmail=()=> {
+    setSendClicked(true)
       
     emailjs.send('service_k47enb9', 'template_3zyynoq', {raison_message: 'Interresé par bien', nom_client: nomClient, premon_client: prenomClient, tel_client: telClient, bien_interrese: '1234', bien_a_vendre: bienAVendre}, 'user_TImKxpycj1WcmG7hCooDa')
       .then((result) => {
@@ -135,36 +159,119 @@ function PageBien() {
                 </PopoverBody>
   }
 
+
+  async function AddToFavoris(){
+    setHeart(true)
+
+    var rawData = await fetch('/addBienToFavoris', {
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        userTokenFromFront: userFoundFromToken,
+        bienIdFromFront: bienFromRedux._id
+      })
+
+});
+  }
+
+
+  var sauvegarderButton = 
+  <Button onClick={()=>AddToFavoris()} style={{backgroundColor: "#206A37"}}>
+    <FaHeart style={{color:'white', width: 20, height: 20, marginRight: 5}}/>
+    Sauvegarder sur favoris
+  </Button>
+
+  if(bienIncludedInFavoris === true){
+    sauvegarderButton = 
+    <Button style={{backgroundColor: "#206A37"}}>
+      <GiConfirmed style={{color:'white', width: 20, height: 20, marginRight: 5}} />
+      <span>Ce bien est sauvegardé sur vos favoris</span>
+    </Button>
+  }
+
+  if(heart === true){
+    sauvegarderButton = 
+  <Button style={{backgroundColor: "#206A37"}}>
+    <GiConfirmed style={{color:'white', width: 20, height: 20, marginRight: 5}} />
+    <span>Ce bien est sauvegardé sur vos favoris</span>
+  </Button>
+
+  }
+
   var infoShown;
+  var jardin;
+  var balcon;
+  var terrasse;
+  var piscine;
+
+  if(bienFromRedux.terrasseBoolean === "Oui"){
+    terrasse = <li>Terrasse : {bienFromRedux.terrasseBoolean}</li>
+  }
+  if(bienFromRedux.jardinBoolean === "Oui"){
+    jardin = <li>Jardin : {bienFromRedux.jardinBoolean}</li>
+    
+  }
+  if(bienFromRedux.piscineBoolean === "Oui"){
+    piscine = <li>Piscine : {bienFromRedux.piscineBoolean}</li>
+  }
+  if(bienFromRedux.balconBoolean === "Oui"){
+    balcon = <li>Balcon : {bienFromRedux.balconBoolean}</li>
+  }
+
+  function handleBienAvendre(answer){
+    setBienAVendre(answer)
+  }
+
+  var styleOui;
+  var styleNon;
+  if(bienAVendre === "Oui"){
+    styleOui = {
+      textDecoration: "underline",
+    }
+    styleNon = {
+      textDecoration: "none",
+    }
+  }
+  if(bienAVendre === "Non"){
+    styleNon = {
+      textDecoration: "underline",
+    }
+    styleOui = {
+      textDecoration: "none",
+    }
+  }
 
   if(buttonClicked === 'Général'){
 
     infoShown = 
-      <span>
+      <Col xs="12">
         <Row style={{width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
           <Row style={{display: 'flex', justifySelf: 'center', alignSelf: 'flex-start', marginLeft: '5px', fontSize: 25, color: '#206A37'}}><strong>Général :</strong></Row>
           <Row style={{display: 'flex', width: '100%', justifyContent: 'space-between', alignItems: 'center'}}>
             <Col xs='6'>
               <ul>
-                <li>Surface de 154m</li>
-                <li>5 pieces</li>
-                <li>3 etages</li>
+                <li>Surface de {bienFromRedux.surfaceTotal} m²</li>
+                <li>{bienFromRedux.nbPieces} pieces</li>
+                <li>{bienFromRedux.nbChambres} chambres</li>
+                <li>{bienFromRedux.etages} etage(s)</li>
+                <li>Année de construction: {bienFromRedux.anneeDeConstruction}</li>
               </ul>
             </Col>
             <Col xs='6'>
               <ul>
-                <li>Année de construction: 2001</li>
-                <li>Jardin de 50m</li>
-                <li>Piscine</li>
+                {jardin}
+                {piscine}
+                {terrasse}
+                {balcon}
               </ul>
             </Col>
           </Row>
         </Row>
         <Row style={{width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
           <Row style={{display: 'flex', justifySelf: 'center', alignSelf: 'flex-start', marginLeft: '5px', fontSize: 25, color: '#206A37'}}><strong>Description :</strong></Row>
-          <Row style={{display: 'flex', width: '98%', textAlign: 'start'}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fermentum sit ornare varius libero, nec, id massa tellus turpis. Euismod pellentesque aenean vulputate nibh tristique nunc cursus cursus massa. Eget nam habitasse donec blandit consectetur. Pellentesque risus lectus neque, in vitae facilisis morbi in placerat. Ut feugiat amet luctus cras dui. Ornare pulvinar porta nulla erat aliquam iaculis lorem tortor libero. Pretium risus adipiscing risus libero et est lectus tellus. Viverra aliquam blandit dignissim molestie velit diam ut sit enim. Libero mauris, ullamcorper facilisis nunc. Nec lacus tristique augue erat at lectus. Amet diam mauris eget pellentesque eget vel. Adipiscing proin lacus, lacus ut at consequat diam. Ac pharetra quis quisque turpis libero at. Ac in proin donec vel at laoreet arcu molestie egestas. Mollis leo in integer donec tortor. Est ipsum mauris urna enim. Donec nunc, lorem nisl condimentum lacus netus tempus. Nibh blandit pharetra venenatis viverra eleifend nisl pharetra. Tempus massa nisl in felis vitae nunc fames vitae.</Row>
+          <Row style={{display: 'flex', width: '98%', textAlign: 'start'}}>{bienFromRedux.description}</Row>
         </Row>
-      </span>
+      </Col>
     
   }
 
@@ -176,41 +283,76 @@ function PageBien() {
             <tbody>
               <tr>
                 <th scope="row">VILLE :</th>
-                <td>Issy Les Moulineaux</td>
+                <td>{bienFromRedux.ville}</td>
               </tr>
               <tr>
-                <th scope="row">VILLE :</th>
-                <td>Issy Les Moulineaux</td>
+                <th scope="row">CODE POSTAL :</th>
+                <td>{bienFromRedux.codePostal}</td>
               </tr>
               <tr>
-                <th scope="row">VILLE :</th>
-                <td>Issy Les Moulineaux</td>
+                <th scope="row">PAYS :</th>
+                <td>{bienFromRedux.pays}</td>
               </tr>
             </tbody>
           </Table>
         </Row>
-        <Row style={{width: '100%'}}>
-          <Button style={{width: '100%', backgroundColor: '#206A37', color: 'white'}}><FaMap style={{color:'white', width: 20, height: 20, marginRight: '2px'}}/>Voir quartier sur la map</Button>
-        </Row>
-        
       </Col>
   }
 
   if(buttonClicked === 'Energie'){
 
     infoShown =
-    <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <img src={energy} />
-    </Col>
+    <span style={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+      <Col xs='6' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Table striped style={{border: '2px solid white'}}>
+          <tbody>
+            <tr>
+              <th scope="row">Indice d'émission de gaz à effet de serre</th>
+              <td>{bienFromRedux.gazEffetSerre}</td>
+            </tr>
+            <tr>
+              <th scope="row">Diagnostic de performance énergétique :</th>
+              <td>{bienFromRedux.valeurGazSerre}</td>
+            </tr>
+            <tr>
+              <th scope="row">Valeur conso annuelle énergie :</th>
+              <td>{bienFromRedux.valeurConsoAnnuelle}</td>
+            </tr>
+          </tbody>
+        </Table>
+      </Col>
+    </span>
 
   }
 
   if(buttonClicked === 'Coproriete'){
 
     infoShown = 
-    <Col>
-      <Row style={{fontSize: 25, color: '#206A37'}}><strong>À propos de la copropriété :</strong></Row>
-      <Row>La copropriété inclut 225 lots pour un montant annuel de la quote-part du budget prévisionnel des dépenses courantes de 8 858 €.</Row>
+    <Col xs="8">
+        <Table striped style={{border: '2px solid white'}}>
+          <tbody>
+            <tr>
+              <th scope="row">Bien en copropriété :</th>
+              <td>{bienFromRedux.copro}</td>
+            </tr>
+            <tr>
+              <th scope="row">Nb Lots Copropriété :</th>
+              <td>{bienFromRedux.nbLots}</td>
+            </tr>
+            <tr>
+              <th scope="row">Dont lots d'habitation :</th>
+              <td>{bienFromRedux.nbLotsHabitation}</td>
+            </tr>
+            <tr>
+              <th scope="row">Charges annuelles :</th>
+              <td>{bienFromRedux.chargesAnuelles} €</td>
+            </tr>
+            <tr>
+              <th scope="row">Procédures diligentées c/ syndicat de copropriété :</th>
+              <td>{bienFromRedux.proceduresCopro}</td>
+            </tr>
+          </tbody>
+        </Table>
     </Col>
 
   }
@@ -237,13 +379,19 @@ function PageBien() {
             <Row>Avez-vous un bien à vendre?</Row>
             <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
               <ButtonGroup style={{width: '100%'}}>
-                <Button color="success" onClick={() => setBienAVendre('Oui')} active={bienAVendre === 1}>Oui</Button>
-                <Button color="success" onClick={() => setBienAVendre('Non')} active={bienAVendre === 2}>Non</Button>
+                <Button color="success" onClick={() => handleBienAvendre("Oui")} active={bienAVendre === 1} style={styleOui} >Oui</Button>
+                <Button color="success" onClick={() => handleBienAvendre('Non')} active={bienAVendre === 2} style={styleNon} >Non</Button>
                </ButtonGroup>
             </Row>
           </Row>
-          <Row ><Button color="success" style={{color: 'white', width: '100%'}} onClick={sendEmail}>Contacter l’agence</Button></Row>
+          <Row>
+            <Button color="success" style={{color: 'white', width: '100%'}} onClick={sendEmail}>Contacter l’agence</Button>
+          </Row>
     </Col>
+  }
+
+  if(sendClicked === true){
+    infoShown = <Spinner color="success"  style={{marginBottom: 10}}/>
   }
 
   if(messageResult === 'OK'){
@@ -251,11 +399,6 @@ function PageBien() {
     infoShown = <span style={{fontSize: 25, color: '#206A37', textAlign: 'center', padding: 10}}>Votre demande a été envoyé! Nous vous répondrons dans les plus brefs délais.</span>
   }
 
- var heartIcon =  <FaRegHeart type='button' onClick={()=> setHeart(!heart)} style={{color:'white', width: 40, height: 40}}/>
-  
-  if(heart === true){
-    heartIcon = <FaHeart type='button' onClick={()=> setHeart(!heart)} style={{color:'white', width: 40, height: 40}}/>
-  }
 
 
   return (
@@ -267,34 +410,22 @@ function PageBien() {
 
       <Container style={BackgroundImage}>
 
-        <Row style={navBarRow}>
+        <NavBar pageName="&nbsp;" />
 
-          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-            <Link to='/'>
-              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-            </Link>
-          </Col>
-
-          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                  &nbsp; 
-              </span>
-          </Col>
-          
-          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                {userBoard}
-              </Popover>
-          </Col>
-
-        </Row>
 
         <Row style={descRow}>
 
+          <Row style={{width: "100%", marginBottom: 30, display: "flex", justifyContent: "flex-start"}}>
+            <Link to="/resultats">
+              <Button style={{color: "#206A37", backgroundColor: "white"}}>
+                <BiArrowBack style={{marginRight: 5}}/>
+                Revenir aux Resultats
+              </Button>
+            </Link>
+          </Row>
+
           <Col xs='12' lg='6' style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', alignSelf: 'center', justifySelf: 'center'}}>
             <PictureCarousel/>
-            {/* <Car/> */}
           </Col>
 
         </Row>
@@ -302,13 +433,15 @@ function PageBien() {
         <Row style={descRow2}>
           <Col xs='12' lg='6'>
             <Row style={{marginLeft: '3px', fontSize: 25}}><strong>Maison</strong></Row>
-            <Row style={{marginLeft: '3px'}}>7 p - 4 ch -  300m²</Row>
-            <Row style={{marginLeft: '3px'}}>Quartier Pasteur Montparnasse, Paris 15ème</Row>
+            <Row style={{marginLeft: '3px'}}>{bienFromRedux.nbPieces} p - {bienFromRedux.nbChambres} ch  -  {bienFromRedux.surfaceTotal} m²</Row>
+            <Row style={{marginLeft: '3px'}}>{bienFromRedux.ville} - {bienFromRedux.codePostal}</Row>
           </Col>
 
           <Col xs='12' lg='6' style={{display: 'flex', justifyContent: 'center', alignItems: 'flex-end', flexDirection: 'column'}}>
-            <Row style={{marginRight: '3px', fontSize: 25}}>4 000 000 €</Row>
-            <Row style={{marginRight: '3px'}}>{heartIcon}</Row>
+            <Row style={{marginRight: '3px', fontSize: 25}}>{numberWithSpaces(bienFromRedux.prixBien)} €</Row>
+            <Row style={{marginRight: '3px'}}>
+              {sauvegarderButton}
+            </Row>
           </Col>
         </Row>
 
@@ -342,6 +475,13 @@ function PageBien() {
   );
 }
 
+function mapStateToProps(state) {
+  return {
+    bienToDisplay: state.bienSelected
+  }
+}
+
+
 var styleInput = {
   border: '2px solid #206A37',
   margin: 3
@@ -359,7 +499,7 @@ var BackgroundImage = {
   flexDirection: 'column',
   minHeight: '100vh',
   height:'auto',
-  backgroundColor: 'rgba(189, 224, 193)',
+  backgroundImage: 'linear-gradient(to right bottom, #176b2b, #419068, #74b4a0, #b1d7d1, #f4fafa)',
   backgroundPosition: 'center',
   backgroundRepeat: 'repeat-y',
   backgroundSize: 'cover',
@@ -382,11 +522,11 @@ var navBarRow ={
 
 var descRow = {
   display: 'flex',
+  flexDirection: "column",
   justifySelf: 'center',
   alignSelf: 'center',
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: 'calc(1em + 3vw)',
   marginBottom: 'calc(1em + 0.5vw)',
   width: '100%'
 }
@@ -429,9 +569,13 @@ var descRow4 = {
   width: '80%',
   border: '2px solid #206A37',
   borderRadius: 10,
-  padding: '15px'
+  padding: '15px',
+  backgroundColor: 'rgba(255,255,255, 0.8)'
 }
 
 
 
-export default PageBien;
+export default connect(
+  mapStateToProps,
+  null
+)(PageBien);

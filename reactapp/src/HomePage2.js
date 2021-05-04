@@ -12,11 +12,7 @@ import Footer from './Footer'
 import Car from './car'
 import { FaUserCircle } from 'react-icons/fa';
 import { motion } from 'framer-motion'
-
-
-
-
-
+import NavBar from "./NavBar"
 
 
 
@@ -45,6 +41,8 @@ function HomePage(props) {
 
         
     useEffect(async() => {
+
+        // console.log(Instagram)
 
         console.log('localstotage',userFoundFromToken);
 
@@ -100,7 +98,15 @@ function HomePage(props) {
                         <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>Se connecter</span>
                         <Input type="email" placeholder="Email" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setEmail(e.target.value)}></Input>
                         <Input type="password" placeholder="Password" style={{marginBottom: '1vh', width:'auto'}} onChange={(e) => setPassword(e.target.value)}></Input>
-                        <span style={{padding: '1vh', color: '#206A37', fontWeight: 'bold'}}>{logInMessage}</span>
+                        <span style={{padding: '1vh', color: 'red', fontWeight: 'bold', display: "flex", flexDirection: "column"}}>
+                            {
+                                logInMessage.map(function(error){
+                                    return(
+                                        <span>{error}</span>
+                                    )
+                                })
+                            }
+                        </span>
                         <Button style={{width: '28vh', marginBottom: '1vh', backgroundColor: '#206A37'}} onClick={()=>handleSignIn()}>Confirmer</Button>
                         <Button style={{width: '28vh', backgroundColor: '#206A37'}}><Link to='/creationdecompte' style={{color: 'white'}}>Créer un compte</Link></Button>
                     </PopoverBody>
@@ -134,7 +140,10 @@ const [popoverOpen, setPopoverOpen] = useState(false);
 
 const toggle = () => setPopoverOpen(!popoverOpen);
 
-
+function onClickTransaction(type){
+    props.onTypeClick(type)
+    props.onBoundsValider([])
+}
 
 
     return(
@@ -147,40 +156,8 @@ const toggle = () => setPopoverOpen(!popoverOpen);
 
     <Container style={BackgroundImage1}>
             
-        <Row style={navBarRow}>
 
-            <Col xs='7' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <div style={{width: '100%', height: '100%'}}>
-                    <img src={logo} style={{width: 'inherit', height: 'inherit'}}/>
-                </div>
-            </Col>
-            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
-                    <Link to='/quisommesnous' style={{color: '#206A37'}} onMouseOver={changeWeight} onMouseOut={changeBackWeight}>QUI SOMMES NOUS</Link>
-                </span>
-            </Col>
-            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
-                    <Link to='/nosagences' style={{color: '#206A37'}} onMouseOver={changeWeight} onMouseOut={changeBackWeight}>NOS AGENCES</Link>
-                </span>
-            </Col>
-            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
-                    <Link to='/outils' style={{color: '#206A37'}} onMouseOver={changeWeight} onMouseOut={changeBackWeight}>OUTILS</Link>
-                </span>
-            </Col>
-            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center'}}>
-                <span style={{color: '#206A37', fontSize: 'calc(1em + 0.5vw)'}}>
-                    <Link to='/contact' style={{color: '#206A37'}} onMouseOver={changeWeight} onMouseOut={changeBackWeight}>CONTACT</Link>
-                </span>
-            </Col>
-            <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', fontSize: '1vw'}}>
-                <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-                <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                    {userBoard}
-                </Popover>
-            </Col>
-        </Row>
+        <NavBar/>
         
 
         <Row style={nameWhiteBlock}>
@@ -213,14 +190,14 @@ const toggle = () => setPopoverOpen(!popoverOpen);
                     </span>
                     <span style={littlewhiteboxes}>
                         <span>
-                            <Link to='/recherche' onMouseOver={changeWeight} onMouseOut={changeBackWeight} style={{color: '#206A37'}}>Louer un bien</Link>
+                            <Link to='/recherche' onMouseOver={changeWeight} onMouseOut={changeBackWeight} style={{color: '#206A37'}} onClick={ () => onClickTransaction("Louer") }>Louer un bien</Link>
                         </span>
                     </span>
                 </Col>
                 <Col  xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
                     <span style={littlewhiteboxes}>
                         <span>
-                            <Link to='/recherche' onMouseOver={changeWeight} onMouseOut={changeBackWeight} style={{color: '#206A37'}}>Acheter</Link>
+                            <Link to='/recherche' onMouseOver={changeWeight} onMouseOut={changeBackWeight} style={{color: '#206A37'}} onClick={ () => onClickTransaction("Acheter") }>Acheter</Link>
                         </span>
                     </span>
                     <span style={littlewhiteboxes}>
@@ -235,7 +212,7 @@ const toggle = () => setPopoverOpen(!popoverOpen);
                     </span>
                     <span style={littlewhiteboxes}>
                         <span>
-                            <Link to='/recherche' onMouseOver={changeWeight} onMouseOut={changeBackWeight} style={{color: '#206A37'}}>Viager</Link>
+                            <Link to='/recherche' onMouseOver={changeWeight} onMouseOut={changeBackWeight} style={{color: '#206A37'}} onClick={ () => onClickTransaction("Viager") }>Viager</Link>
                         </span>
                     </span>
                 </Col>
@@ -291,9 +268,16 @@ function mapDispatchToProps(dispatch) {
     return {
         onContactClick: function(reason) {
             dispatch( {type: 'addReason', whatReason: reason})
+        },
+        onTypeClick : function(type) {
+            dispatch( {type: "addType", whatType: type})
+        },
+        onBoundsValider: function(bounds) {
+          dispatch( {type: "setLatAndLng", whatBounds: bounds} )
         }
     }
 }
+
 
 var iconsStyle = {
     margin: 7

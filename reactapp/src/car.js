@@ -1,19 +1,14 @@
-import React, { Component, useState, View, useEffect } from 'react';
-import Carousel from '@brainhubeu/react-carousel';
+import React, { useState, useEffect } from 'react';
 import '@brainhubeu/react-carousel/lib/style.css';
-import { Col, Container, Row, Modal,  ModalHeader, ModalBody, Button, ModalFooter} from 'reactstrap';
-import imageOne from './images/ActualitéesFonds.png'
-import imageTwo from './images/HomePageFond.png'
-import imageThree from './images/NosAgencesFonds.png'
+import { Col, Row, Modal,  ModalHeader, ModalBody, Button, ModalFooter, Image} from 'reactstrap';
 import "react-image-gallery/styles/css/image-gallery.css"
-import ImageGallery from 'react-image-gallery';
 import photo2 from './images/ActualitéesFonds.png'
 import { RiCloseCircleLine } from 'react-icons/ri';
 
 
 
 
-function Carrosel(props) {
+function InstagramFeed(props) {
 
     function changeWeight(e) {
         e.target.style.fontWeight = 'bolder';
@@ -31,7 +26,6 @@ function Carrosel(props) {
     const [modal, setModal] = useState(false);
     const [allPostsCaptions, setAllPostsCaptions] = useState()
     const [postsInReturnn, setPostsInReturn] = useState()
-    const [modalData, setModalData] = useState({})
     const toggle2 = () => setModal(!modal);
     const [mediaPostData, setMediaPostData] = useState()
     const [textPostData, setTextPostData] = useState()
@@ -111,14 +105,13 @@ function Carrosel(props) {
 
 
             
-        var rawData = await fetch('https://graph.instagram.com/me/media?fields=id,caption,media_url,media_type,timestamp,thumbnail_url&access_token=IGQVJVSlVHV1Q2cGVVemdrYUwzOU1SejdxM254a2NzUF9LZATd6aEFFTEcydjB3ODQtTGxzZAFBXbno5M2JMekJNTGlkdEQyQnpZAQnp5X3VlTU5kcTlld0NweTlKd1RXRGJzbEt3OFd3'); 
-      
+        var rawData = await fetch('https://graph.instagram.com/me/media?fields=id,caption,media_url,media_type,timestamp,thumbnail_url&access_token=IGQVJYUTh4dVJaaS10SU9BZAnhjZADc0YlhoSHlWdnZA0bEM0aWJHWFc4aDhrS3djdkpUQ201SHJYUmhRazRBMUt6WWFSWUJrQTdmTzExNmp5RVA4aWVEV0FSTVlyVmQ2dHBEd1VWWmNGLV9NbEJFNDdnRAZDZD'); 
         var data = await rawData.json()
 
-        var realData = data.data;
+        var realData = data.data
 
         realData.map(function(i) {
-            return  InstaPostData.push({caption: i.caption, thumbnailUrl: i.thumbnail_url, imgUrl: `${i.media_url}`, type: i.media_type, date: i.timestamp})
+            return  InstaPostData.push({caption: i.caption, thumbnailUrl: i.thumbnail_url, imgUrl: `${i.media_url}`, type: i.media_type, date: i.timestamp, id: i.id})
         })
 
         setAllPostsCaptions(InstaPostData)
@@ -132,9 +125,9 @@ function Carrosel(props) {
         var tempoPosts = InstaPostData.map(function(i) {
             if(i.type === 'IMAGE'){
                 return(
-                    <Row onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)}  style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', margin: '20px 0 20px 0', borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd'}}>
+                    <Row key={i.id} onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)}  style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', margin: '20px 0 20px 0', borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd', cursor: "pointer"}}>
                         <Col xs='10' lg='3' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                            <img  src={i.imgUrl} style={{width: 'inherit', height: 'inherit'}} fluid />
+                            <img  src={i.imgUrl} style={{width: 'inherit', height: 'inherit'}} fluid="true" />
                         </Col>
                         <Col xs='10' lg='8'  style={{display: 'flex', justifySelf: 'center', alignSelf: 'center', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                             <span style={{textAlign: 'left', fontSize: 'calc(0.5em + 0.4vw)'}}>{i.caption}</span>
@@ -145,7 +138,7 @@ function Carrosel(props) {
         }
         if(i.type === 'VIDEO'){
             return(
-                <Row onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)} style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', margin: '20px 0 20px 0', borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd'}}>
+                <Row key={i.id} onMouseOver={changeWeight} onMouseOut={changeBackWeight} onClick={()=>handleClickModal(i)} style={{justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', backgroundColor: 'rgba(255,255,255, 0.7)', width: '100%', margin: '20px 0 20px 0', borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd', cursor: "pointer"}}>
                     <Col xs='10' lg='3' style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <img src={i.thumbnailUrl} style={{width: 'inherit', height: 'inherit'}}/>
                     </Col>
@@ -189,55 +182,5 @@ function Carrosel(props) {
   
 }
 
-var BackgroundImage2 = {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-    height:'auto',
-    backgroundImage: `url(${photo2})`,
-    backgroundPosition: 'center',
-    backgroundRepeat: 'repeat-y',
-    backgroundSize: 'cover',
-    maxWidth: '100%',
-}
+export default InstagramFeed
 
-var navBarRow ={
-    backgroundColor: 'white',
-    height: 'auto',
-    diplay: 'flex',
-    flexDirection: 'row',
-    justifySelf: 'flex-start',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '1vw',
-    opacity: '90%'
-}
-
-export default Carrosel
-
-
-
-// const images = [
-//     {
-//       original: "https://i.imgur.com/b3xdn1x.jpg",
-//       thumbnail: "https://i.imgur.com/b3xdn1x.jpg",
-//     },
-//     {
-//       original: 'https://static.dezeen.com/uploads/2020/02/house-in-the-landscape-niko-arcjitect-architecture-residential-russia-houses-khurtin_dezeen_2364_hero-852x479.jpg',
-//       thumbnail: 'https://static.dezeen.com/uploads/2020/02/house-in-the-landscape-niko-arcjitect-architecture-residential-russia-houses-khurtin_dezeen_2364_hero-852x479.jpg'
-//     },
-//     {
-//       original: 'https://www.rocketmortgage.com/resources-cmsassets/RocketMortgage.com/Article_Images/Large_Images/TypesOfHomes/types-of-homes-hero.jpg',
-//       thumbnail: 'https://www.rocketmortgage.com/resources-cmsassets/RocketMortgage.com/Article_Images/Large_Images/TypesOfHomes/types-of-homes-hero.jpg'
-//     }
-//   ]
-
-{/* <ImageGallery items={images} /> */}
-
-
-
-{/*  */}
-
-{/* <Modal isOpen={modal} toggle={toggle} className={className}>
-                <img src={imageOne} onClick={toggle} style={{width: '150vh', display: 'flex', justifySelf: 'center', alignSelf: 'center'}}/>
-            </Modal> */}

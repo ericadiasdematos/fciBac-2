@@ -1,10 +1,9 @@
-import React ,{useState, useRef, useCallback, useEffect } from 'react';
+import React ,{useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Popover, Input, PopoverBody, Button  } from 'reactstrap';
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
-import user from './images/user.png'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {GoogleMap, useLoadScript, Data, DrawingManager  } from '@react-google-maps/api'
 import mapStyles from './mapSyles';
@@ -15,6 +14,9 @@ import { motion } from 'framer-motion'
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import MapIconsPhoto from './images/mapIcons.png'
 import { FaUserCircle } from 'react-icons/fa';
+import {connect} from "react-redux"
+import NavBar from "./NavBar"
+
 
 
 
@@ -69,6 +71,7 @@ function Map(props) {
   const [doneButton, setDoneButton] = useState(false)
   const [refresh, setRefresh] = useState(false)
   const [modal, setModal] = useState(true);
+  const [polygonBounds, setPolygonBounds] = useState([])
 
   var handleLogout = () => {
     localStorage.removeItem('usersToken')
@@ -177,22 +180,53 @@ var handleSignIn = async () => {
     var polygonBounds = polygon.getPath();
     var bounds = [];
     for (var i = 0; i < polygonBounds.length; i++) {
-      var point = {
-        lat: polygonBounds.getAt(i).lat(),
-        lng: polygonBounds.getAt(i).lng()
-      };
+      var point = [
+        polygonBounds.getAt(i).lat(),
+        polygonBounds.getAt(i).lng()
+      ]
+      
       bounds.push(point);
     }
     console.log('THIS ARE THE POLYGON COORDINATES: ', bounds);
     setDoneButton(true)
+    setPolygonBounds(bounds)
 
+    var point = [48.8484099, 2.2923966]
+
+    function inside(point, vs) {
+
+      var x = point[0], y = point[1];
+      
+      var inside = false;
+      for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+          var xi = vs[i][0], yi = vs[i][1];
+          var xj = vs[j][0], yj = vs[j][1];
+          
+          var intersect = ((yi > y) != (yj > y))
+              && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+          if (intersect) inside = !inside;
+      }
+      
+      return console.log("is inside : ", inside);
+  }; inside(point, bounds)
+
+  }
+
+  function validerMap(){
+    props.onBoundsValider(polygonBounds)
+    // window.location.replace('/resultats')
   }
 
   var buttonValider;
   var buttonRecommencer;
 
   if(doneButton === true){
-    buttonValider = <Button onClick={()=> window.location.replace('/recherche')} style={{backgroundColor: '#206A37', width: '50%'}}>Valider cette zone</Button>
+    buttonValider = 
+    <Button onClick={()=> validerMap()} style={{backgroundColor: '#206A37', width: '50%'}}>
+      <Link to="/recherche" style={{color: "white"}}>
+        Valider cette zone
+      </Link>
+    </Button>
     buttonRecommencer = <Button style={{backgroundColor: '#206A37', width: '50%'}} onClick={()=>window.location.reload()}>Recommencer</Button>
   }
 
@@ -213,28 +247,9 @@ var handleSignIn = async () => {
     exit={{opacity: 0 }}
   >
     <Container style={BackgroundImage}>
-      <Row style={navBarRow}>
 
-      <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-        <Link to='/'>
-          <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-        </Link>
-      </Col>
+      <NavBar pageName="M A P" />
 
-      <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-          <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)'}}>
-              R E C H E R C H E
-          </span>
-      </Col>
-
-      <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-        <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-          <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-            {userBoard}
-          </Popover>
-      </Col>
-
-      </Row>
       <Row style={{padding: 30}}>
         <Search panTo={panTo}/>
         
@@ -268,7 +283,7 @@ var handleSignIn = async () => {
         <Modal isOpen={modal} toggle={toggle1} className={className}>
           <ModalHeader toggle={toggle1}></ModalHeader>
           <ModalBody style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-            <span>Pour commencer à dessiner cliquez sur le button droite à gauche en haut de la map.</span>
+            <span>Pour dessiner votre zone de recherche cliquez sur le button de droite en haut à gauche.</span>
             <img src={MapIconsPhoto}/>
           </ModalBody>
           <ModalFooter>
@@ -285,6 +300,14 @@ var handleSignIn = async () => {
   </motion.div>
   );
 
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onBoundsValider: function(bounds) {
+      dispatch( {type: "setLatAndLng", whatBounds: bounds} )
+    }
+  }
 }
 
 function Search({ panTo }){
@@ -374,4 +397,7 @@ var drawStyle = {
 
 
 
-export default Map;
+export default connect(
+  null,
+  mapDispatchToProps
+)(Map);

@@ -7,15 +7,19 @@
     "heroku-postbuild": "cd reactapp && npm install && npm run build"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "cookie-parser": "~1.4.4",
     "crypto-js": "^4.0.0",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "htmlparser2": "^6.0.0",
     "http-errors": "~1.6.3",
     "mongoose": "^5.11.10",
     "morgan": "~1.9.1",
     "react-radio-buttons": "^1.2.2",
-    "uid2": "0.0.3"
+    "react-xml-parser": "^1.1.8",
+    "uid2": "0.0.3",
+    "xml2js": "^0.4.23"
   }
 }

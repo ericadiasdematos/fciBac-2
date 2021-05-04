@@ -1,28 +1,32 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Popover, Input, PopoverBody, Button,  } from 'reactstrap';
-import photo from './images/PageQuiSommesNous.png'
+import { Container, Row, Col, Popover, Input, PopoverBody, Button, Label  } from 'reactstrap';
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
-import user from './images/user.png'
-import Footer from './Footer'
-import {AnimatePresence, motion} from 'framer-motion'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { motion } from 'framer-motion'
 import { FaUserCircle } from 'react-icons/fa';
-import NavBar from "./NavBar"
+import messagesPhoto from './images/messages.png'
+import adminPhoto from './images/admins.png'
+import biensPhoto from './images/biens.jpg'
+import postsPhoto from './images/posts.png'
+import NavBarAdmin from "./NavBarAdmin"
 
 
 
 
-function QuiSommesNous() {
+
+
+function AdminHomePage() {
 
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const toggle = () => setPopoverOpen(!popoverOpen);
 
   const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
+  const [password, setPassword] = useState('')
 
-    const [logInMessage, setLogInMessage] = useState([])
+  const [logInMessage, setLogInMessage] = useState([])
 
   const [logInAccepted, setLogInAccepted] = useState(false)
 
@@ -107,54 +111,57 @@ function QuiSommesNous() {
                 </PopoverBody>
   }
 
-  
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{opacity: 0 }}
-    >
+
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{opacity: 0 }}
+>
+
       <Container style={BackgroundImage}>
 
-        <NavBar pageName="Q U I &nbsp; S O M M E S &nbsp; N O U S" />
+        <NavBarAdmin pageName="PAGE ADMISNISTRATEUR" />
 
+        <Row style={firstRow}>
 
-        <Row style={descRow}>
+            <Col xs='12' lg='2' style={styleCol}>
+                <Link to="/adminGererBiens" style={styleLink}>
+                  <Row style={{width: 'inherit'}}>
+                      <img style={{width: 'inherit', borderRadius:'6px 6px 0px 0px'}} src={biensPhoto}/>
+                  </Row>
+                  <Row style={styleRow}>
+                      <span style={{fontSize: 12, fontWeight: 'bold'}}>Gérer les biens</span>
+                  </Row>
+                </Link>
+            </Col>
+            <Col xs='12' lg='2' style={styleCol}>
+                <Link to="/adminGererMessages" style={styleLink}>
+                  <Row style={{width: 'inherit'}}>
+                      <img style={{width: 'inherit', borderRadius:'6px 6px 0px 0px'}} src={messagesPhoto}/>
+                  </Row>
+                  <Row style={styleRow}>
+                      <span style={{fontSize: 12, fontWeight: 'bold'}}>Gérer les messages</span>
+                  </Row>
+                </Link>
+            </Col>
+            <Col xs='12' lg='2' style={styleCol}>
+              <Link to="/adminGererAdmin" style={styleLink}>
+                <Row style={{width: 'inherit'}}>
+                    <img style={{width: 'inherit', borderRadius:'6px 6px 0px 0px'}} src={adminPhoto}/>
+                </Row>
+                <Row style={styleRow}>
+                    <span style={{fontSize: 12, fontWeight: 'bold'}}>Gérer les administrateurs</span>
+                </Row>
+              </Link>
+            </Col>
 
-          <Col xs='11' lg='6' style={col1}>
-            <h2 style={titleStyle}>Agence Immobiliere FCI</h2>
-            <span style={span1Style}>F.C.I  Françoise Combes Immobilier est une histoire de famille depuis plus de 25 ans.
-                  Notre réputation depuis 1995 est l’assurance de la réussite de vos projets immobiliers qu’il soit personnel ou d’investissements. 
-                  Tout d’abord implantés à Houdan 78, nous avons élargi notre cercle d’action à Paris et petite couronne, 78, 28,27. 
-                  Les membres de notre équipe commerciale sont chez F.C.I depuis de nombreuses années. Cette stabilité est rassurante.
-                  Nous avons développé le Syndic d’Immeuble et la gestion locative dans la même perspective.
-                  Notre réussite est la preuve de notre professionnalisme et sérieux. 3 axes dirigent notre travail :
-                  
-                  
-            </span>
-            <span style={span2Style}>
-              <ul>
-                <li>Efficacité</li>
-                <li>Rapidité</li>
-                <li>Savoir-faire</li>
-              </ul>
-            </span>
-            <span style={span3Style}>
-              Ces trois points permettent un bon suivi de votre dossier et un véritable accompagnement.
-              Pour la transaction immobilière nos estimations sont justes, suivants des critères précis, nos visites sont toujours ciblées et qualifiées.
-              Pour le syndic notre disponibilité et notre professionnalisme encadrent le quotidien de votre copropriété. 
-              Pour la gestion locative, oubliez-le suivi qui vous cause des soucis. Nous prenons tout en charge.
-            </span>
-
-          </Col>
 
         </Row>
 
       </Container>
-      <Footer/>
-      
-    </motion.div>
+
+</motion.div>
   );
 }
 
@@ -162,83 +169,79 @@ var BackgroundImage = {
   display: 'flex',
   flexDirection: 'column',
   height:'100vh',
-  backgroundImage: `url(${photo})`,
+  backgroundColor: 'rgba(189, 224, 193)',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
   maxWidth: '100%',
 }
 
-var navBarRow ={
+ var navBarRow = {
   backgroundColor: 'white',
+  border: '2px solid #206A37',
   height: 'auto',
-  diplay: 'flex',
+  display: 'flex',
   flexDirection: 'row',
   justifySelf: 'flex-start',
   alignItems: 'center',
   justifyContent: 'center',
   padding: '1vw',
-  opacity: '90%'
+  opacity: '90%',
 }
 
-var descRow = {
+var firstRow = {
   display: 'flex',
-  flexDirection: 'column',
-  justifySelf: 'center',
-  alignSelf: 'center',
+  flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
+  width: '70%',
+  justifySelf: 'center',
+  alignSelf: 'center',
+  marginTop: '150px',
+  borderRadius: '10px',
+  border: 0,
 }
 
-var col1 = {
-  display: 'flex', 
-  justifySelf: 'center', 
-  alignSelf: 'center', 
-  flexDirection: 'column', 
-  backgroundColor: 'rgba(255,255,255, 0.9)', 
-  justifyContent: 'center', 
-  alignItems: 'center',
-  borderRadius: 10,
+var styleCol = {
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    border: '4px solid #206A37', 
+    borderRadius: 10, 
+    padding: 0, 
+    boxShadow: '0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)',
+    marginRight: '10px',
+    backgroundColor: 'rgba(255,255,255, 0.7)',
+
 }
 
-var titleStyle = {
-  display: 'flex', 
-  justifySelf: 'center', 
-  alignSelf: 'center', 
-  padding: '2vh', 
-  color: '#206A37', 
-  paddingTop: '4vh', 
-  fontSize: 'calc(1em + 2vw)', 
-  textAlign: 'center'
+
+ var styleRow = {
+    backgroundColor: '#206A37', 
+    color: 'white', 
+    width: '100%', 
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    marginTop: '30px', 
+    marginBottom: '30px', 
+    paddingTop: '10px', 
+    paddingBottom: '10px', 
+    fontSize: 20, 
+    boxShadow: '0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)'
 }
 
-var span1Style = {
-  display: 'flex', 
-  justifySelf: 'center', 
-  alignSelf: 'center', 
-  padding: '2vh', 
-  textAlign: 'justify', 
-  fontSize: 'calc(0.4em + 0.5vw)'
+var styleLink = {
+  width: "100%", 
+  display: "flex", 
+  flexDirection: "column", 
+  justifyContent: "center", 
+  alignItems: "center", 
+  color: "white"
 }
 
-var span2Style = {
-  display: 'flex', 
-  justifySelf: 'center', 
-  alignSelf: 'center', 
-  padding: '1vh', 
-  textAlign: 'justify', 
-  fontSize: 'calc(0.4em + 0.5vw)'
-}
 
-var span3Style = {
-  display: 'flex', 
-  justifySelf: 'center', 
-  alignSelf: 'center', 
-  paddingRight: '2vh', 
-  paddingLeft: '2vh', 
-  paddingBottom: '2vh', 
-  textAlign: 'justify', 
-  fontSize: 'calc(0.4em + 0.5vw)'
-}
 
-export default QuiSommesNous;
+
+export default AdminHomePage;

@@ -11,6 +11,8 @@ import {faEquals} from '@fortawesome/free-solid-svg-icons'
 import Footer from './Footer'
 import { motion } from 'framer-motion'
 import { FaUserCircle } from 'react-icons/fa';
+import NavBar from "./NavBar"
+
 
 
 
@@ -417,32 +419,13 @@ var handleSignIn = async () => {
 >
 
       <Container style={BackgroundImage}>
-        <Row style={navBarRow}>
 
-          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-            <Link to='/'>
-              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-            </Link>
-          </Col>
+        <NavBar pageName="O U T I L S" />
 
-          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-              <span style={{color: '#206A37', fontSize: 'calc(1em + 1.5vw)'}}>
-                <span>O U T I L S</span>   
-              </span>
-          </Col>
-
-          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-          <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                {userBoard}
-              </Popover>
-          </Col>
-
-        </Row>
 
         <Row style={styleBigWhiteBox}>
           <Row style={{fontSize: 'calc(1em + 0.7vw)', color: '#206A37'}}>Outils de financement</Row>
-          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px', margin: 2}} />
           <Row style={{fontSize: 'calc(0.7em + 0.3vw)', color: '#206A37', width: '100%', justifySelf: 'center', alignSelf: 'center', justifyContent: 'center', alignItems: 'center', textAlign: 'center', marginBottom: '2vh', marginTop: '2vh'}}>Effectuez vos comptes facilement grâce à nos différentes calculettes financières.</Row>
           <Row style={{width: '80%'}}><Button style={buttonStyle} onClick={ ()=>handleMontantEmpruntButtonClick() }>Calculer le montant de votre emprunt</Button></Row>
             {montantEmprunt}
@@ -487,7 +470,7 @@ var navBarRow ={
 }
 
 var styleBigWhiteBox = {
-  backgroundColor: 'rgba(255,255,255, 0.7)',
+  backgroundColor: 'rgba(255,255,255, 0.9)',
   borderRadius: 10,
   display: 'flex',
   flexDirection: 'column',

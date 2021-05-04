@@ -8,6 +8,7 @@ import user from './images/user.png'
 import Footer from './Footer'
 import { motion } from 'framer-motion'
 import { FaUserCircle } from 'react-icons/fa';
+import NavBar from "./NavBar"
 
 
 function CreationDeCompte() {
@@ -126,8 +127,12 @@ useEffect(async() => {
     var data = await rawData.json();
     console.log(data.errors);
 
+    
     if(data.result == true){
       setUserCreated('Votre compte à été créé!')
+      setLogInAccepted(true)
+      setUsersName(data.usersName)
+      localStorage.setItem('usersToken', data.token)
     }else{
       setTableauErreurs(data.errors)
 
@@ -148,28 +153,9 @@ useEffect(async() => {
 
       <Container style={BackgroundImage}>
 
-        <Row style={navBarRow}>
 
-          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-            <Link to='/'>
-              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-            </Link>
-          </Col>
+        <NavBar pageName="C R É E R &nbsp; U N E &nbsp; C O M P T E" />
 
-          <Col xs='7' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)', textAlign: 'center'}}>
-                  C R É E R &nbsp; U N E &nbsp; C O M P T E
-              </span>
-          </Col>
-          
-          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                {userBoard}
-              </Popover>
-          </Col>
-
-        </Row>
 
         <Row style={descRow}>
 
@@ -240,17 +226,7 @@ var BackgroundImage = {
     maxWidth: '100%',
   }
   
-  var navBarRow ={
-    backgroundColor: 'white',
-    height: 'auto',
-    diplay: 'flex',
-    flexDirection: 'row',
-    justifySelf: 'flex-start',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '1vw',
-    opacity: '90%'
-  }
+
   
   var descRow = {
     width: '70%',
@@ -261,7 +237,7 @@ var BackgroundImage = {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 'calc(1em + 5vw)',
-    backgroundColor: 'rgba(255,255,255, 0.7)',
+    backgroundColor: 'rgba(255,255,255, 0.8)',
     borderRadius: 10,
     paddingTop: 'calc(1em + 1vw)',
     paddingBottom: 'calc(1em + 1vw)'

@@ -14,6 +14,8 @@ import emailjs from 'emailjs-com';
 import Footer from './Footer'
 import { motion } from 'framer-motion'
 import { FaUserCircle } from 'react-icons/fa';
+import NavBar from "./NavBar"
+
 
 
 
@@ -145,7 +147,7 @@ var handleSignIn = async () => {
           </Col>
         </Row>
         
-        <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+        <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px', margin: 2}} />
 
         <Row style={raisonStyle}>
           <Col xs='12' style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
@@ -204,28 +206,8 @@ if(messageResult === 'OK'){
 
       <Container style={BackgroundImage}>
 
-        <Row style={navBarRow}>
+        <NavBar pageName="C O N T A C T" />
 
-          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-            <Link to='/'>
-              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-            </Link>
-          </Col>
-
-          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)'}}>
-                  C O N T A C T
-              </span>
-          </Col>
-
-          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                {userBoard}
-              </Popover>
-          </Col>
-
-        </Row>
 
         <Row style={firstRow}>
           {infoShown}
@@ -235,7 +217,7 @@ if(messageResult === 'OK'){
 
       <Footer/>
 
-    </motion.div>
+</motion.div>
   );
 }
 

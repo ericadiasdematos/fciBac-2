@@ -12,6 +12,8 @@ import agenceSyndic from './images/AgenceSyndic.jpg'
 import Footer from './Footer'
 import { motion } from 'framer-motion'
 import { FaUserCircle } from 'react-icons/fa';
+import NavBar from "./NavBar"
+
 
 
 
@@ -121,28 +123,9 @@ function NosAgences() {
     exit={{opacity: 0 }}
 >
       <Container style={BackgroundImage}>
-        <Row style={navBarRow}>
 
-          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-            <Link to='/'>
-              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-            </Link>
-          </Col>
+        <NavBar pageName="N O S &nbsp; A G E N C E S" />
 
-          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-              <span style={{color: '#206A37', fontSize: 'calc(1em + 1.5vw)'}}>
-                <span>N O S &nbsp; A G E N C E S </span>   
-              </span>
-          </Col>
-
-          <Col xs='2' lg='1' style={{display: 'flex', justifyContent:'flex-end', paddingRight: '5vh'}}>
-            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-                {userBoard}
-              </Popover>
-          </Col>
-
-        </Row>
 
         <Row style={agenceRow}>
           <Col xs='12' lg='2' style={{display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection: 'column', marginTop: '1%', marginBottom: '1%'}}>
@@ -158,7 +141,6 @@ function NosAgences() {
               <span>53 avenue Mozart</span>
               <span>75016 PARIS</span>
             </span>
-            <Button style={{marginTop: '0.5em', backgroundColor: '#206A37', width: 'auto', fontSize: '0.8em',}}>VOIR LES ANNOUNCES</Button>
           </Col>
         </Row>
 
@@ -176,7 +158,6 @@ function NosAgences() {
               <span>17 Grande rue</span>
               <span>78550 HOUDAN</span>
             </span>
-            <Button style={{marginTop: '0.5em', backgroundColor: '#206A37', width: 'auto', fontSize: '0.8em',}}>VOIR LES ANNOUNCES</Button>
           </Col>
         </Row>
 
@@ -194,7 +175,6 @@ function NosAgences() {
               <span>2 place de la mairie</span>
               <span>78580 MAULE</span>
             </span>
-            <Button style={{marginTop: '0.5em', backgroundColor: '#206A37', width: 'auto', fontSize: '0.8em',}}>VOIR LES ANNOUNCES</Button>
           </Col>
         </Row>
 
@@ -212,7 +192,6 @@ function NosAgences() {
               <span>53 avenue Mozart</span>
               <span>75016 PARIS</span>
             </span>
-            <Button style={{marginTop: '0.5em', backgroundColor: '#206A37', width: 'auto', fontSize: '0.8em',}}><Link to='/syndic' style={{color: 'white'}}>VOIR SERVICES</Link></Button>
           </Col>
         </Row>
 
@@ -267,7 +246,7 @@ var contactInfo = {
 }
 
 var agenceRow = {
-  backgroundColor: 'rgba(255,255,255, 0.7)',  
+  backgroundColor: 'rgba(255,255,255, 0.9)',  
   borderRadius: 10, 
   width: '85%', 
   justifySelf: 'center', 

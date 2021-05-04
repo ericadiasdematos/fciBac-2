@@ -6,8 +6,6 @@ import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
 import user from './images/user.png'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown'
 import { Divider } from 'antd';
 import {connect} from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -23,6 +21,8 @@ import Terrain from './images/terrainIcon.png'
 import Footer from './Footer'
 import { motion } from 'framer-motion'
 import { FaUserCircle } from 'react-icons/fa';
+import NavBar from "./NavBar"
+
 
 
 
@@ -153,7 +153,7 @@ function Recherche() {
 
           <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
               <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)'}}>
-                  R E C H E R C H E &nbsp; A V A N C É
+                  R E C H E R C H E
               </span>
           </Col>
 
@@ -165,6 +165,8 @@ function Recherche() {
           </Col>
 
         </Row>
+        {/* <NavBar pageName="R E C H E R C H E" /> */}
+
 
         <Row style={firstRow}>
 
@@ -175,7 +177,7 @@ function Recherche() {
             </Col>
           </Row>
           
-          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px', margin: 0}} />
 
 
           <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '15px', marginBottom: '15px'}}>
@@ -249,7 +251,7 @@ function Recherche() {
             </Col>
           </Row>
           
-          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px', margin: 0}} />
 
           <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '15px', marginBottom: '15px'}}>
             
@@ -274,7 +276,7 @@ function Recherche() {
             </Col>
           </Row>
           
-          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px', margin: 0}} />
 
           <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '15px', marginBottom: '15px'}}>
             
@@ -292,7 +294,7 @@ function Recherche() {
 
         <Row style={{display: 'flex',flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center',width: '60%'}}>
 
-          <Col xs='12' lg='6' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',backgroundColor: 'rgba(255,255,255, 0.7)',justifySelf: 'center',alignSelf: 'center',marginTop: 'calc(1em + 1vw)',borderRadius: '10px',border: 0}}>
+          <Col xs='12' lg='6' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',backgroundColor: 'rgba(255,255,255, 0.9)',justifySelf: 'center',alignSelf: 'center',marginTop: 'calc(1em + 1vw)',borderRadius: '10px', padding: 0}}>
 
             <Row>
               <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
@@ -300,7 +302,7 @@ function Recherche() {
               </Col>
             </Row>
             
-            <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+            <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px', margin: 0}} />
 
             <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '15px', marginBottom: '15px'}}>
             
@@ -315,7 +317,7 @@ function Recherche() {
 
           </Col>
 
-          <Col xs='12' lg='6' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',backgroundColor: 'rgba(255,255,255, 0.7)',justifySelf: 'center',alignSelf: 'center',marginTop: 'calc(1em + 1vw)',borderRadius: '10px',border: 0}}>
+          <Col xs='12' lg='6' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',backgroundColor: 'rgba(255,255,255, 0.9)',justifySelf: 'center',alignSelf: 'center',marginTop: 'calc(1em + 1vw)',borderRadius: '10px', padding: 0}}>
 
             <Row>
               <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
@@ -323,7 +325,7 @@ function Recherche() {
               </Col>
             </Row>
             
-            <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+            <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px', margin: 0}} />
 
             <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '15px', marginBottom: '15px'}}>
             
@@ -343,7 +345,7 @@ function Recherche() {
         
         <Row style={{display: 'flex',flexDirection: 'row',justifyContent: 'space-between',alignItems: 'center', width: '60%'}}>
 
-          <Col xs='12' lg='6' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',backgroundColor: 'rgba(255,255,255, 0.7)',justifySelf: 'center',alignSelf: 'center',marginTop: 'calc(1em + 1vw)',borderRadius: '10px',border: 0}}>
+          <Col xs='12' lg='6' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',backgroundColor: 'rgba(255,255,255, 0.9)',justifySelf: 'center',alignSelf: 'center',marginTop: 'calc(1em + 1vw)',borderRadius: '10px', padding: 0}}>
 
             <Row>
               <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
@@ -351,7 +353,7 @@ function Recherche() {
               </Col>
             </Row>
             
-            <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+            <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px', margin: 0}} />
 
             <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', marginTop: '15px', marginBottom: '15px'}}>
             
@@ -390,7 +392,7 @@ function Recherche() {
 
           </Col>
 
-          <Col xs='12' lg='6' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',backgroundColor: 'rgba(255,255,255, 0.7)',width: '60%',justifySelf: 'center',alignSelf: 'center',marginTop: 'calc(1em + 1vw)',borderRadius: '10px',border: 0}}>
+          <Col xs='12' lg='6' style={{display: 'flex',flexDirection: 'column',justifyContent: 'center',alignItems: 'center',backgroundColor: 'rgba(255,255,255, 0.9)',width: '60%',justifySelf: 'center',alignSelf: 'center',marginTop: 'calc(1em + 1vw)',borderRadius: '10px', padding: 0}}>
 
             <Row>
               <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
@@ -398,7 +400,7 @@ function Recherche() {
               </Col>
             </Row>
             
-            <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+            <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px', margin: 0}} />
 
             <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '15px', marginBottom: '15px'}}>
             
@@ -446,7 +448,7 @@ function Recherche() {
             </Col>
           </Row>
           
-          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
+          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px', margin: 0}} />
 
           <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
             
@@ -485,303 +487,6 @@ function Recherche() {
           
         </Row>
 
-
-        <Row style={firstRow}>
-
-          <Row>
-            <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
-              <span style={spanContactezNous}>Commoditées :</span>
-            </Col>
-          </Row>
-
-          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
-
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Parking Ouvert
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Parket
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Box
-                </Label>
-              </Col>
-            
-          </Row>
-
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Alarme
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Placard
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Accès handicapé
-                </Label>
-              </Col>
-            
-          </Row>
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Dernier étage
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Garage
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                &nbsp;
-              </Col>
-            
-          </Row>
-
-
-        </Row>
-
-
-        <Row style={firstRow}>
-
-          <Row>
-            <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
-              <span style={spanContactezNous}>Chauffage :</span>
-            </Col>
-          </Row>
-
-          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
-
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Individuel
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Central
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Gaz
-                </Label>
-              </Col>
-            
-          </Row>
-
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Eletrique
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Sol
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                &nbsp;
-              </Col>
-            
-          </Row>
-
-        </Row>
-
-        <Row style={firstRow}>
-
-          <Row>
-            <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
-              <span style={spanContactezNous}>Cuisine :</span>
-            </Col>
-          </Row>
-
-          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
-
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Cuisine séparée
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Cuisine équipée
-                </Label>
-              </Col>
-            
-          </Row>
-
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Coin cuisine
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Cuisine Americaine
-                </Label>
-              </Col>
-            
-          </Row>
-
-
-        </Row>
-
-        <Row style={firstRow}>
-
-          <Row>
-            <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
-              <span style={spanContactezNous}>Autres piéces :</span>
-            </Col>
-          </Row>
-
-          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
-
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Toilettes Séparées
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Salle d’eau (douche)
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Sejour
-                </Label>
-              </Col>
-            
-          </Row>
-
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Entrée Séparée
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Salle de bain (beignoire)
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Salle à manger
-                </Label>
-              </Col>
-            
-          </Row>
-
-
-        </Row>
-
-        <Row style={firstRow}>
-
-          <Row>
-            <Col xs='12' lg='4' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', paddingTop: '10px', paddingBottom: '10px' }}>
-              <span style={spanContactezNous}>Affichage des announces :</span>
-            </Col>
-          </Row>
-
-          <Divider style={{width: '100%', backgroundColor: '#206A37', height: '0.7px'}} />
-
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Announce avec photos
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Dont le prix à evolué
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Exclusivité
-                </Label>
-              </Col>
-            
-          </Row>
-
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%', marginTop: '5px', marginBottom: '5px'}}>
-            
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Announce avec visite virtuelle
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                <Label check style={radioButtonsStyle}>
-                  <Input type="checkbox" name="Appartement" />
-                  Announces avec vidéo commenté
-                </Label>
-              </Col>
-              <Col xs='12' lg='4' style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', width: '100%'}}>
-                &nbsp;
-              </Col>
-            
-          </Row>
-
-
-        </Row>
-
         <Row style={lastRow}>
           <Link to='/resultats' type='button' style={{color: '#206A37', fontSize: 'calc(1em + 0.6vw)', padding: '5px'}}>Valider</Link>
         </Row>
@@ -804,6 +509,7 @@ var BackgroundImage = {
     backgroundRepeat: 'repeat-y',
     backgroundSize: 'cover',
     maxWidth: '100%',
+    padding: 0
 }
 
  var navBarRow = {
@@ -816,6 +522,7 @@ var BackgroundImage = {
   justifyContent: 'center',
   padding: '1vw',
   opacity: '90%',
+  width: "100%"
 }
 
 var firstRow = {
@@ -823,7 +530,7 @@ var firstRow = {
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: 'rgba(255,255,255, 0.8)',
+  backgroundColor: 'rgba(255,255,255, 0.9)',
   width: '60%',
   justifySelf: 'center',
   alignSelf: 'center',

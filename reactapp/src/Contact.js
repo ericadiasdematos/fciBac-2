@@ -4,9 +4,8 @@ import { Container, Row, Col, Popover, Input, PopoverBody, Button, Spinner   } f
 import photo from './images/PageContacts.png'
 import logo from './images/logo.png'
 import { Link } from 'react-router-dom';
-import user from './images/user.png'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import 'antd/dist/antd.css';
 import Dropdown from 'react-bootstrap/Dropdown'
 import { Divider } from 'antd';
 import emailjs from 'emailjs-com';
@@ -14,6 +13,8 @@ import Footer from './Footer'
 import { FaRegUserCircle } from 'react-icons/fa';
 import { FaUserCircle } from 'react-icons/fa';
 import { motion } from 'framer-motion'
+import NavBar from "./NavBar"
+
 
 
 
@@ -192,7 +193,7 @@ var infoShown =
 
 if(okayClicked === true){
 
-  infoShown = <Spinner color="success" />
+  infoShown = <Spinner color="success"  style={{marginBottom: 10}}/>
 }
 
 if( messageResult === 'OK'){
@@ -212,40 +213,16 @@ if( messageResult === 'OK'){
 >
       <Container style={BackgroundImage}>
 
-        <Row style={navBarRow}>
+        <NavBar pageName="C O N T A C T" />
 
-          <Col xs='2' lg='1' style={{paddingLeft: '0.6vh'}}>
-            <Link to='/'>
-              <img src={logo} alt='logo' style={{width: 'calc(1em + 9vw)'}}/>
-            </Link>
-          </Col>
-
-          <Col xs='8' lg='10' style={{display: 'flex', justifyContent: 'center'}}>
-              <span style={{color: '#206A37', fontSize: 'calc(1em + 2vw)'}}>
-                  C O N T A C T 
-              </span>
-          </Col>
-
-          <Col xs='1' lg='1' style={{display: 'flex', justifyContent:'flex-end'}}>
-            <Button style={{backgroundColor: 'white', border: 'white', borderRadius: 100}}><FaUserCircle id="Popover1" size='2x' style={{width: '40px', color: '#206A37'}}/></Button>
-              <Popover placement="bottom" isOpen={popoverOpen} target="Popover1" toggle={toggle} >
-              {userBoard}
-              </Popover>
-          </Col>
-
-        </Row>
 
         <Row style={firstRow}>
 
-          <Row>
-            <Col xs='12' id='contactezNous' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center'}}>
-              <span style={spanContactezNous}>CONTACTEZ NOUS</span>
-            </Col>
+          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', marginBottom: '10px'}}>
+            <span style={spanContactezNous}>CONTACTEZ NOUS</span>
+            <Divider style={{width: '100%', backgroundColor: '#206A37', margin: 2}} />
           </Row>
 
-          <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', marginBottom: '10px'}}>
-            <Divider style={{width: '100%', backgroundColor: '#206A37', height: '1px'}} />
-          </Row>
 
             
           <Row style={{display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', width: '100%', flexDirection: 'row'}}>
@@ -273,34 +250,24 @@ if( messageResult === 'OK'){
           
         </Row>
 
-        <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '75%', justifySelf: 'center', alignSelf: 'center', flexDirection: 'row' }}>
-          <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center', flexDirection: 'row' }}>
-            <Divider  style={{width: '48%', backgroundColor: 'white', height: '2px'}}/> 
-            <span style={{color: 'white', fontSize: 'calc(1em + 0.2vw)', marginLeft: '7px', marginRight: '7px'}}>OU</span>
-            <Divider  style={{width: '48%', backgroundColor: 'white', height: '2px'}}/> 
-          </Col>
-        </Row>
-
         <Row style={firstRow}>
 
-          <Row>
-            <Col xs='12' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', justifySelf: 'center', alignSelf: 'center'}}>
-              <span style={spanContactezNous}>LAISSEZ NOUS UNE MESSAGE</span>
-            </Col>
-          </Row>
-
           <Row style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', marginBottom: '10px'}}>
-            <Divider style={{width: '100%', backgroundColor: '#206A37', height: '1px'}} />
+            <span style={spanContactezNous}>LAISSEZ NOUS UNE MESSAGE</span>
+            <Divider style={{width: '100%', backgroundColor: '#206A37', margin: 2}} />
           </Row>
 
           {infoShown}
             
         </Row>
 
+        
+
       </Container>
 
-      <Footer/>
-    </motion.div>
+    <Footer/>
+  </motion.div>
+
   );
 }
 
@@ -315,6 +282,7 @@ var BackgroundImage = {
   backgroundRepeat: 'repeat-y',
   backgroundSize: 'cover',
   maxWidth: '100%',
+  
 }
 
  var navBarRow = {
@@ -333,7 +301,7 @@ var firstRow = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: 'rgba(255,255,255, 0.7)',
+  backgroundColor: 'rgba(255,255,255, 0.8)',
   width: 'auto',
   padding: '5px',
   width: '80%',
@@ -341,7 +309,8 @@ var firstRow = {
   alignSelf: 'center',
   margin: '5px',
   borderRadius: '10px',
-  marginTop: 15
+  marginTop: 15,
+  marginBottom: 50
 
 }
 
